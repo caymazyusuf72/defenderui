@@ -286,11 +286,13 @@
                 Style="{StaticResource HeroCardStyle}"
                 Visibility="{x:Bind ViewModel.IsScanning, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"
                 AutomationProperties.Name="Scan progress">
-                <StackPanel Spacing="20">
+                <Grid>
+                    <StackPanel Spacing="20">
                     <!-- Scanning status header -->
                     <StackPanel HorizontalAlignment="Center" Spacing="8">
                         <StackPanel Orientation="Horizontal" Spacing="12" HorizontalAlignment="Center">
                             <ProgressRing
+                                x:Name="ScanProgressRing"
                                 IsActive="{x:Bind ViewModel.IsScanning, Mode=OneWay}"
                                 Width="24"
                                 Height="24" />
@@ -301,8 +303,10 @@
                     </StackPanel>
 
                     <!-- Progress bar -->
-                    <StackPanel Spacing="8">
+                    <Grid>
+                        <StackPanel Spacing="8">
                         <ProgressBar
+                            x:Name="ScanProgressBar"
                             Value="{x:Bind ViewModel.ScanProgress, Mode=OneWay}"
                             Maximum="100"
                             Height="12"
@@ -317,7 +321,18 @@
                             <Run Text="{x:Bind ViewModel.ScanProgress, Mode=OneWay}" />
                             <Run Text="%" />
                         </TextBlock>
-                    </StackPanel>
+                        </StackPanel>
+
+                        <!-- Shimmer overlay on the progress bar (host panel) -->
+                        <Border
+                            x:Name="ProgressShimmerHostBorder"
+                            Height="12"
+                            VerticalAlignment="Top"
+                            CornerRadius="4"
+                            IsHitTestVisible="False">
+                            <Grid x:Name="ProgressShimmerHost" />
+                        </Border>
+                    </Grid>
 
                     <!-- Statistics row -->
                     <Grid ColumnSpacing="16">
@@ -452,7 +467,13 @@
                             </StackPanel>
                         </Button>
                     </StackPanel>
-                </StackPanel>
+                    </StackPanel>
+
+                    <!-- Scan line sweep overlay across the whole progress card -->
+                    <Grid
+                        x:Name="ScanLineOverlay"
+                        IsHitTestVisible="False" />
+                </Grid>
             </Border>
 
             <!-- ════════════════════════════════════════════════════ -->

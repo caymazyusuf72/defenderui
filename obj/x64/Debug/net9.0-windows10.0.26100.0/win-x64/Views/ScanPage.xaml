@@ -43,14 +43,14 @@
                 Spacing="16"
                                                                                                                                                         >
 
-                <TextBlock x:ConnectionId='39'
+                <TextBlock x:ConnectionId='42'
                     x:Name="ScanTypeHeader"
                     Text="Select Scan Type"
                     Style="{StaticResource SubtitleStyle}"
                     AutomationProperties.HeadingLevel="Level2"
                                                                                                                                                                  />
 
-                <Grid x:ConnectionId='40'
+                <Grid x:ConnectionId='43'
                     ColumnSpacing="16"
                                                                                                                                                                 >
                     <Grid.ColumnDefinitions>
@@ -61,7 +61,7 @@
                     </Grid.ColumnDefinitions>
 
                     <!-- Quick Scan Card -->
-                    <Button x:ConnectionId='42'
+                    <Button x:ConnectionId='45'
                         Grid.Column="0"
                         HorizontalAlignment="Stretch"
                         HorizontalContentAlignment="Stretch"
@@ -73,7 +73,7 @@
                                                   
                         Tag="Quick"
                         AutomationProperties.Name="Quick Scan">
-                        <Border x:ConnectionId='49'
+                        <Border x:ConnectionId='52'
                             x:Name="QuickScanCard"
                             Background="{StaticResource CardBackgroundBrush}"
                             BorderBrush="{StaticResource AccentBrush}"
@@ -109,7 +109,7 @@
                     </Button>
 
                     <!-- Full Scan Card -->
-                    <Button x:ConnectionId='43'
+                    <Button x:ConnectionId='46'
                         Grid.Column="1"
                         HorizontalAlignment="Stretch"
                         HorizontalContentAlignment="Stretch"
@@ -121,7 +121,7 @@
                                                   
                         Tag="Full"
                         AutomationProperties.Name="Full Scan">
-                        <Border x:ConnectionId='48'
+                        <Border x:ConnectionId='51'
                             x:Name="FullScanCard"
                             Background="{StaticResource CardBackgroundBrush}"
                             BorderBrush="{StaticResource BorderBrush}"
@@ -157,7 +157,7 @@
                     </Button>
 
                     <!-- Custom Scan Card -->
-                    <Button x:ConnectionId='44'
+                    <Button x:ConnectionId='47'
                         Grid.Column="2"
                         HorizontalAlignment="Stretch"
                         HorizontalContentAlignment="Stretch"
@@ -169,7 +169,7 @@
                                                   
                         Tag="Custom"
                         AutomationProperties.Name="Custom Scan">
-                        <Border x:ConnectionId='47'
+                        <Border x:ConnectionId='50'
                             x:Name="CustomScanCard"
                             Background="{StaticResource CardBackgroundBrush}"
                             BorderBrush="{StaticResource BorderBrush}"
@@ -205,7 +205,7 @@
                     </Button>
 
                     <!-- USB Scan Card -->
-                    <Button x:ConnectionId='45'
+                    <Button x:ConnectionId='48'
                         Grid.Column="3"
                         HorizontalAlignment="Stretch"
                         HorizontalContentAlignment="Stretch"
@@ -217,7 +217,7 @@
                                                   
                         Tag="USB"
                         AutomationProperties.Name="USB Scan">
-                        <Border x:ConnectionId='46'
+                        <Border x:ConnectionId='49'
                             x:Name="UsbScanCard"
                             Background="{StaticResource CardBackgroundBrush}"
                             BorderBrush="{StaticResource BorderBrush}"
@@ -256,7 +256,7 @@
                 <!-- ════════════════════════════════════════════════════ -->
                 <!-- Section C - Start Scan Button                       -->
                 <!-- ════════════════════════════════════════════════════ -->
-                <Button x:ConnectionId='41'
+                <Button x:ConnectionId='44'
                     x:Name="StartScanButton"
                     Style="{StaticResource PrimaryButtonStyle}"
                     HorizontalAlignment="Stretch"
@@ -286,23 +286,27 @@
                 Style="{StaticResource HeroCardStyle}"
                                                                                                                              
                 AutomationProperties.Name="Scan progress">
-                <StackPanel Spacing="20">
+                <Grid>
+                    <StackPanel Spacing="20">
                     <!-- Scanning status header -->
                     <StackPanel HorizontalAlignment="Center" Spacing="8">
                         <StackPanel Orientation="Horizontal" Spacing="12" HorizontalAlignment="Center">
-                            <ProgressRing x:ConnectionId='37'
+                            <ProgressRing x:ConnectionId='40'
+                                x:Name="ScanProgressRing"
                                                                                      
                                 Width="24"
                                 Height="24" />
-                            <TextBlock x:ConnectionId='38'
+                            <TextBlock x:ConnectionId='41'
                                                                                      
                                 Style="{StaticResource SubtitleStyle}" />
                         </StackPanel>
                     </StackPanel>
 
                     <!-- Progress bar -->
-                    <StackPanel Spacing="8">
-                        <ProgressBar x:ConnectionId='35'
+                    <Grid>
+                        <StackPanel Spacing="8">
+                        <ProgressBar x:ConnectionId='38'
+                            x:Name="ScanProgressBar"
                                                                                 
                             Maximum="100"
                             Height="12"
@@ -314,10 +318,21 @@
                             Style="{StaticResource BodyStyle}"
                             Foreground="{StaticResource AccentBrush}"
                             FontWeight="SemiBold">
-                            <Run x:ConnectionId='36'                                                     />
+                            <Run x:ConnectionId='39'                                                     />
                             <Run Text="%" />
                         </TextBlock>
-                    </StackPanel>
+                        </StackPanel>
+
+                        <!-- Shimmer overlay on the progress bar (host panel) -->
+                        <Border x:ConnectionId='36'
+                            x:Name="ProgressShimmerHostBorder"
+                            Height="12"
+                            VerticalAlignment="Top"
+                            CornerRadius="4"
+                            IsHitTestVisible="False">
+                            <Grid x:ConnectionId='37' x:Name="ProgressShimmerHost" />
+                        </Border>
+                    </Grid>
 
                     <!-- Statistics row -->
                     <Grid ColumnSpacing="16">
@@ -335,7 +350,7 @@
                                     Text="Files Scanned"
                                     Style="{StaticResource CaptionStyle}"
                                     HorizontalAlignment="Center" />
-                                <TextBlock x:ConnectionId='34'
+                                <TextBlock x:ConnectionId='35'
                                                                                                 
                                     Style="{StaticResource DisplayNumberStyle}"
                                     Foreground="{StaticResource AccentBrush}"
@@ -351,7 +366,7 @@
                                     Text="Threats Found"
                                     Style="{StaticResource CaptionStyle}"
                                     HorizontalAlignment="Center" />
-                                <TextBlock x:ConnectionId='33'
+                                <TextBlock x:ConnectionId='34'
                                                                                        
                                     Style="{StaticResource DisplayNumberStyle}"
                                     Foreground="{StaticResource DangerBrush}"
@@ -367,7 +382,7 @@
                                     Text="Elapsed"
                                     Style="{StaticResource CaptionStyle}"
                                     HorizontalAlignment="Center" />
-                                <TextBlock x:ConnectionId='32'
+                                <TextBlock x:ConnectionId='33'
                                                                                                
                                     Style="{StaticResource DisplayNumberStyle}"
                                     HorizontalAlignment="Center"
@@ -382,7 +397,7 @@
                                     Text="Remaining"
                                     Style="{StaticResource CaptionStyle}"
                                     HorizontalAlignment="Center" />
-                                <TextBlock x:ConnectionId='31'
+                                <TextBlock x:ConnectionId='32'
                                                                                                  
                                     Style="{StaticResource DisplayNumberStyle}"
                                     HorizontalAlignment="Center"
@@ -396,7 +411,7 @@
                         <TextBlock
                             Text="Current file:"
                             Style="{StaticResource CaptionStyle}" />
-                        <TextBlock x:ConnectionId='30'
+                        <TextBlock x:ConnectionId='31'
                                                                               
                             Style="{StaticResource BodyStyle}"
                             Foreground="{StaticResource TextSecondaryBrush}"
@@ -409,7 +424,7 @@
                     <!-- Control buttons -->
                     <StackPanel Orientation="Horizontal" Spacing="12" HorizontalAlignment="Center">
                         <!-- Pause button (visible when running) -->
-                        <Button x:ConnectionId='27'
+                        <Button x:ConnectionId='28'
                             Style="{StaticResource SecondaryButtonStyle}"
                                                                          
                                                                                                                                                                   
@@ -424,7 +439,7 @@
                         </Button>
 
                         <!-- Resume button (visible when paused) -->
-                        <Button x:ConnectionId='28'
+                        <Button x:ConnectionId='29'
                             Style="{StaticResource PrimaryButtonStyle}"
                                                                           
                                                                                                                                        
@@ -439,7 +454,7 @@
                         </Button>
 
                         <!-- Stop button -->
-                        <Button x:ConnectionId='29'
+                        <Button x:ConnectionId='30'
                             Style="{StaticResource DangerButtonStyle}"
                                                                         
                             AutomationProperties.Name="Stop scan">
@@ -452,7 +467,13 @@
                             </StackPanel>
                         </Button>
                     </StackPanel>
-                </StackPanel>
+                    </StackPanel>
+
+                    <!-- Scan line sweep overlay across the whole progress card -->
+                    <Grid x:ConnectionId='27'
+                        x:Name="ScanLineOverlay"
+                        IsHitTestVisible="False" />
+                </Grid>
             </Border>
 
             <!-- ════════════════════════════════════════════════════ -->

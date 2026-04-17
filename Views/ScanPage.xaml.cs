@@ -102,12 +102,38 @@ public sealed partial class ScanPage : Page
 
             case nameof(ViewModel.IsScanning):
                 var progressBar = F<FrameworkElement>("ScanProgressBar");
+                var shimmerHost = F<Panel>("ProgressShimmerHost");
+                var scanLineOverlay = F<Panel>("ScanLineOverlay");
+                var progressRing = F<FrameworkElement>("ScanProgressRing");
                 if (ViewModel.IsScanning && !_wasScanning)
                 {
                     _lastThreatsFound = 0;
                     if (progressBar is not null)
                     {
                         AnimationHelper.AnimateProgressShimmer(progressBar, durationMs: 1400);
+                    }
+                    if (shimmerHost is not null)
+                    {
+                        AnimationHelper.StartShimmerSweep(shimmerHost, durationMs: 1800);
+                    }
+                    if (scanLineOverlay is not null)
+                    {
+                        AnimationHelper.StartScanLinePass(
+                            scanLineOverlay,
+                            color: Color.FromArgb(180, 88, 166, 255),
+                            passDurationMs: 1400,
+                            passIntervalMs: 2500);
+                    }
+                    if (progressRing is not null)
+                    {
+                        AnimationHelper.StartGlowPulse(
+                            progressRing,
+                            Color.FromArgb(255, 88, 166, 255),
+                            durationMs: 1800,
+                            minBlur: 8f,
+                            maxBlur: 20f,
+                            minOpacity: 0.3f,
+                            maxOpacity: 0.8f);
                     }
                 }
                 else if (!ViewModel.IsScanning && _wasScanning)
@@ -116,6 +142,18 @@ public sealed partial class ScanPage : Page
                     {
                         AnimationHelper.StopAnimation(progressBar, "Opacity");
                         progressBar.Opacity = 1.0;
+                    }
+                    if (shimmerHost is not null)
+                    {
+                        AnimationHelper.StopShimmerSweep(shimmerHost);
+                    }
+                    if (scanLineOverlay is not null)
+                    {
+                        AnimationHelper.StopScanLinePass(scanLineOverlay);
+                    }
+                    if (progressRing is not null)
+                    {
+                        AnimationHelper.StopGlowPulse(progressRing);
                     }
                 }
                 _wasScanning = ViewModel.IsScanning;
