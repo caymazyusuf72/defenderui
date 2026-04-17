@@ -226,7 +226,7 @@ namespace DefenderUI.DefenderUI_XamlTypeInfo
         
         private void InitTypeTables()
         {
-            _typeNameTable = new string[54];
+            _typeNameTable = new string[73];
             _typeNameTable[0] = "Microsoft.UI.Xaml.Controls.XamlControlsResources";
             _typeNameTable[1] = "Microsoft.UI.Xaml.ResourceDictionary";
             _typeNameTable[2] = "Object";
@@ -272,17 +272,36 @@ namespace DefenderUI.DefenderUI_XamlTypeInfo
             _typeNameTable[42] = "Microsoft.UI.Xaml.Controls.UserControl";
             _typeNameTable[43] = "DefenderUI.ViewModels.DashboardViewModel";
             _typeNameTable[44] = "CommunityToolkit.Mvvm.ComponentModel.ObservableObject";
-            _typeNameTable[45] = "DefenderUI.Views.ProtectionPage";
-            _typeNameTable[46] = "DefenderUI.Views.QuarantinePage";
-            _typeNameTable[47] = "DefenderUI.Views.ReportsPage";
-            _typeNameTable[48] = "DefenderUI.Views.ScanPage";
-            _typeNameTable[49] = "DefenderUI.Views.SettingsPage";
-            _typeNameTable[50] = "DefenderUI.Views.UpdatePage";
-            _typeNameTable[51] = "Microsoft.UI.Xaml.Controls.TreeViewNode";
-            _typeNameTable[52] = "System.Collections.Generic.IList`1<Microsoft.UI.Xaml.Controls.TreeViewNode>";
-            _typeNameTable[53] = "Int32";
+            _typeNameTable[45] = "DefenderUI.Helpers.BoolToVisibilityConverter";
+            _typeNameTable[46] = "DefenderUI.Views.ProtectionPage";
+            _typeNameTable[47] = "DefenderUI.ViewModels.ProtectionViewModel";
+            _typeNameTable[48] = "Microsoft.UI.Xaml.Controls.ItemsRepeater";
+            _typeNameTable[49] = "Microsoft.UI.Xaml.FrameworkElement";
+            _typeNameTable[50] = "Microsoft.UI.Xaml.Controls.Layout";
+            _typeNameTable[51] = "Microsoft.UI.Xaml.Media.Brush";
+            _typeNameTable[52] = "Microsoft.UI.Xaml.Controls.ItemCollectionTransitionProvider";
+            _typeNameTable[53] = "Microsoft.UI.Xaml.Controls.ItemsSourceView";
+            _typeNameTable[54] = "Microsoft.UI.Xaml.Controls.StackLayout";
+            _typeNameTable[55] = "Microsoft.UI.Xaml.Controls.VirtualizingLayout";
+            _typeNameTable[56] = "Microsoft.UI.Xaml.Controls.Orientation";
+            _typeNameTable[57] = "Microsoft.UI.Xaml.Controls.IndexBasedLayoutOrientation";
+            _typeNameTable[58] = "DefenderUI.Views.QuarantinePage";
+            _typeNameTable[59] = "DefenderUI.ViewModels.QuarantineViewModel";
+            _typeNameTable[60] = "DefenderUI.Views.ReportsPage";
+            _typeNameTable[61] = "DefenderUI.ViewModels.ReportsViewModel";
+            _typeNameTable[62] = "Microsoft.UI.Xaml.Controls.ProgressRing";
+            _typeNameTable[63] = "Microsoft.UI.Xaml.Controls.ProgressRingTemplateSettings";
+            _typeNameTable[64] = "DefenderUI.Views.ScanPage";
+            _typeNameTable[65] = "DefenderUI.ViewModels.ScanViewModel";
+            _typeNameTable[66] = "DefenderUI.Views.SettingsPage";
+            _typeNameTable[67] = "DefenderUI.ViewModels.SettingsViewModel";
+            _typeNameTable[68] = "DefenderUI.Views.UpdatePage";
+            _typeNameTable[69] = "DefenderUI.ViewModels.UpdateViewModel";
+            _typeNameTable[70] = "Microsoft.UI.Xaml.Controls.TreeViewNode";
+            _typeNameTable[71] = "System.Collections.Generic.IList`1<Microsoft.UI.Xaml.Controls.TreeViewNode>";
+            _typeNameTable[72] = "Int32";
 
-            _typeTable = new global::System.Type[54];
+            _typeTable = new global::System.Type[73];
             _typeTable[0] = typeof(global::Microsoft.UI.Xaml.Controls.XamlControlsResources);
             _typeTable[1] = typeof(global::Microsoft.UI.Xaml.ResourceDictionary);
             _typeTable[2] = typeof(global::System.Object);
@@ -328,15 +347,34 @@ namespace DefenderUI.DefenderUI_XamlTypeInfo
             _typeTable[42] = typeof(global::Microsoft.UI.Xaml.Controls.UserControl);
             _typeTable[43] = typeof(global::DefenderUI.ViewModels.DashboardViewModel);
             _typeTable[44] = typeof(global::CommunityToolkit.Mvvm.ComponentModel.ObservableObject);
-            _typeTable[45] = typeof(global::DefenderUI.Views.ProtectionPage);
-            _typeTable[46] = typeof(global::DefenderUI.Views.QuarantinePage);
-            _typeTable[47] = typeof(global::DefenderUI.Views.ReportsPage);
-            _typeTable[48] = typeof(global::DefenderUI.Views.ScanPage);
-            _typeTable[49] = typeof(global::DefenderUI.Views.SettingsPage);
-            _typeTable[50] = typeof(global::DefenderUI.Views.UpdatePage);
-            _typeTable[51] = typeof(global::Microsoft.UI.Xaml.Controls.TreeViewNode);
-            _typeTable[52] = typeof(global::System.Collections.Generic.IList<global::Microsoft.UI.Xaml.Controls.TreeViewNode>);
-            _typeTable[53] = typeof(global::System.Int32);
+            _typeTable[45] = typeof(global::DefenderUI.Helpers.BoolToVisibilityConverter);
+            _typeTable[46] = typeof(global::DefenderUI.Views.ProtectionPage);
+            _typeTable[47] = typeof(global::DefenderUI.ViewModels.ProtectionViewModel);
+            _typeTable[48] = typeof(global::Microsoft.UI.Xaml.Controls.ItemsRepeater);
+            _typeTable[49] = typeof(global::Microsoft.UI.Xaml.FrameworkElement);
+            _typeTable[50] = typeof(global::Microsoft.UI.Xaml.Controls.Layout);
+            _typeTable[51] = typeof(global::Microsoft.UI.Xaml.Media.Brush);
+            _typeTable[52] = typeof(global::Microsoft.UI.Xaml.Controls.ItemCollectionTransitionProvider);
+            _typeTable[53] = typeof(global::Microsoft.UI.Xaml.Controls.ItemsSourceView);
+            _typeTable[54] = typeof(global::Microsoft.UI.Xaml.Controls.StackLayout);
+            _typeTable[55] = typeof(global::Microsoft.UI.Xaml.Controls.VirtualizingLayout);
+            _typeTable[56] = typeof(global::Microsoft.UI.Xaml.Controls.Orientation);
+            _typeTable[57] = typeof(global::Microsoft.UI.Xaml.Controls.IndexBasedLayoutOrientation);
+            _typeTable[58] = typeof(global::DefenderUI.Views.QuarantinePage);
+            _typeTable[59] = typeof(global::DefenderUI.ViewModels.QuarantineViewModel);
+            _typeTable[60] = typeof(global::DefenderUI.Views.ReportsPage);
+            _typeTable[61] = typeof(global::DefenderUI.ViewModels.ReportsViewModel);
+            _typeTable[62] = typeof(global::Microsoft.UI.Xaml.Controls.ProgressRing);
+            _typeTable[63] = typeof(global::Microsoft.UI.Xaml.Controls.ProgressRingTemplateSettings);
+            _typeTable[64] = typeof(global::DefenderUI.Views.ScanPage);
+            _typeTable[65] = typeof(global::DefenderUI.ViewModels.ScanViewModel);
+            _typeTable[66] = typeof(global::DefenderUI.Views.SettingsPage);
+            _typeTable[67] = typeof(global::DefenderUI.ViewModels.SettingsViewModel);
+            _typeTable[68] = typeof(global::DefenderUI.Views.UpdatePage);
+            _typeTable[69] = typeof(global::DefenderUI.ViewModels.UpdateViewModel);
+            _typeTable[70] = typeof(global::Microsoft.UI.Xaml.Controls.TreeViewNode);
+            _typeTable[71] = typeof(global::System.Collections.Generic.IList<global::Microsoft.UI.Xaml.Controls.TreeViewNode>);
+            _typeTable[72] = typeof(global::System.Int32);
         }
 
         private int LookupTypeIndexByName(string typeName)
@@ -380,13 +418,19 @@ namespace DefenderUI.DefenderUI_XamlTypeInfo
         private object Activate_33_MainWindow() { return new global::DefenderUI.MainWindow(); }
         private object Activate_37_ProgressBar() { return new global::Microsoft.UI.Xaml.Controls.ProgressBar(); }
         private object Activate_40_DashboardPage() { return new global::DefenderUI.Views.DashboardPage(); }
-        private object Activate_45_ProtectionPage() { return new global::DefenderUI.Views.ProtectionPage(); }
-        private object Activate_46_QuarantinePage() { return new global::DefenderUI.Views.QuarantinePage(); }
-        private object Activate_47_ReportsPage() { return new global::DefenderUI.Views.ReportsPage(); }
-        private object Activate_48_ScanPage() { return new global::DefenderUI.Views.ScanPage(); }
-        private object Activate_49_SettingsPage() { return new global::DefenderUI.Views.SettingsPage(); }
-        private object Activate_50_UpdatePage() { return new global::DefenderUI.Views.UpdatePage(); }
-        private object Activate_51_TreeViewNode() { return new global::Microsoft.UI.Xaml.Controls.TreeViewNode(); }
+        private object Activate_45_BoolToVisibilityConverter() { return new global::DefenderUI.Helpers.BoolToVisibilityConverter(); }
+        private object Activate_46_ProtectionPage() { return new global::DefenderUI.Views.ProtectionPage(); }
+        private object Activate_48_ItemsRepeater() { return new global::Microsoft.UI.Xaml.Controls.ItemsRepeater(); }
+        private object Activate_52_ItemCollectionTransitionProvider() { return new global::Microsoft.UI.Xaml.Controls.ItemCollectionTransitionProvider(); }
+        private object Activate_54_StackLayout() { return new global::Microsoft.UI.Xaml.Controls.StackLayout(); }
+        private object Activate_55_VirtualizingLayout() { return new global::Microsoft.UI.Xaml.Controls.VirtualizingLayout(); }
+        private object Activate_58_QuarantinePage() { return new global::DefenderUI.Views.QuarantinePage(); }
+        private object Activate_60_ReportsPage() { return new global::DefenderUI.Views.ReportsPage(); }
+        private object Activate_62_ProgressRing() { return new global::Microsoft.UI.Xaml.Controls.ProgressRing(); }
+        private object Activate_64_ScanPage() { return new global::DefenderUI.Views.ScanPage(); }
+        private object Activate_66_SettingsPage() { return new global::DefenderUI.Views.SettingsPage(); }
+        private object Activate_68_UpdatePage() { return new global::DefenderUI.Views.UpdatePage(); }
+        private object Activate_70_TreeViewNode() { return new global::Microsoft.UI.Xaml.Controls.TreeViewNode(); }
         private void StaticInitializer_0_XamlControlsResources() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.XamlControlsResources).TypeHandle);
         private void StaticInitializer_4_MicaBackdrop() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Media.MicaBackdrop).TypeHandle);
         private void StaticInitializer_6_MicaKind() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Composition.SystemBackdrops.MicaKind).TypeHandle);
@@ -412,14 +456,30 @@ namespace DefenderUI.DefenderUI_XamlTypeInfo
         private void StaticInitializer_40_DashboardPage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::DefenderUI.Views.DashboardPage).TypeHandle);
         private void StaticInitializer_43_DashboardViewModel() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::DefenderUI.ViewModels.DashboardViewModel).TypeHandle);
         private void StaticInitializer_44_ObservableObject() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::CommunityToolkit.Mvvm.ComponentModel.ObservableObject).TypeHandle);
-        private void StaticInitializer_45_ProtectionPage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::DefenderUI.Views.ProtectionPage).TypeHandle);
-        private void StaticInitializer_46_QuarantinePage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::DefenderUI.Views.QuarantinePage).TypeHandle);
-        private void StaticInitializer_47_ReportsPage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::DefenderUI.Views.ReportsPage).TypeHandle);
-        private void StaticInitializer_48_ScanPage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::DefenderUI.Views.ScanPage).TypeHandle);
-        private void StaticInitializer_49_SettingsPage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::DefenderUI.Views.SettingsPage).TypeHandle);
-        private void StaticInitializer_50_UpdatePage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::DefenderUI.Views.UpdatePage).TypeHandle);
-        private void StaticInitializer_51_TreeViewNode() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.TreeViewNode).TypeHandle);
-        private void StaticInitializer_52_IList() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::System.Collections.Generic.IList<global::Microsoft.UI.Xaml.Controls.TreeViewNode>).TypeHandle);
+        private void StaticInitializer_45_BoolToVisibilityConverter() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::DefenderUI.Helpers.BoolToVisibilityConverter).TypeHandle);
+        private void StaticInitializer_46_ProtectionPage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::DefenderUI.Views.ProtectionPage).TypeHandle);
+        private void StaticInitializer_47_ProtectionViewModel() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::DefenderUI.ViewModels.ProtectionViewModel).TypeHandle);
+        private void StaticInitializer_48_ItemsRepeater() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.ItemsRepeater).TypeHandle);
+        private void StaticInitializer_50_Layout() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.Layout).TypeHandle);
+        private void StaticInitializer_52_ItemCollectionTransitionProvider() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.ItemCollectionTransitionProvider).TypeHandle);
+        private void StaticInitializer_53_ItemsSourceView() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.ItemsSourceView).TypeHandle);
+        private void StaticInitializer_54_StackLayout() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.StackLayout).TypeHandle);
+        private void StaticInitializer_55_VirtualizingLayout() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.VirtualizingLayout).TypeHandle);
+        private void StaticInitializer_57_IndexBasedLayoutOrientation() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.IndexBasedLayoutOrientation).TypeHandle);
+        private void StaticInitializer_58_QuarantinePage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::DefenderUI.Views.QuarantinePage).TypeHandle);
+        private void StaticInitializer_59_QuarantineViewModel() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::DefenderUI.ViewModels.QuarantineViewModel).TypeHandle);
+        private void StaticInitializer_60_ReportsPage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::DefenderUI.Views.ReportsPage).TypeHandle);
+        private void StaticInitializer_61_ReportsViewModel() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::DefenderUI.ViewModels.ReportsViewModel).TypeHandle);
+        private void StaticInitializer_62_ProgressRing() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.ProgressRing).TypeHandle);
+        private void StaticInitializer_63_ProgressRingTemplateSettings() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.ProgressRingTemplateSettings).TypeHandle);
+        private void StaticInitializer_64_ScanPage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::DefenderUI.Views.ScanPage).TypeHandle);
+        private void StaticInitializer_65_ScanViewModel() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::DefenderUI.ViewModels.ScanViewModel).TypeHandle);
+        private void StaticInitializer_66_SettingsPage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::DefenderUI.Views.SettingsPage).TypeHandle);
+        private void StaticInitializer_67_SettingsViewModel() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::DefenderUI.ViewModels.SettingsViewModel).TypeHandle);
+        private void StaticInitializer_68_UpdatePage() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::DefenderUI.Views.UpdatePage).TypeHandle);
+        private void StaticInitializer_69_UpdateViewModel() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::DefenderUI.ViewModels.UpdateViewModel).TypeHandle);
+        private void StaticInitializer_70_TreeViewNode() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::Microsoft.UI.Xaml.Controls.TreeViewNode).TypeHandle);
+        private void StaticInitializer_71_IList() => global::System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(typeof(global::System.Collections.Generic.IList<global::Microsoft.UI.Xaml.Controls.TreeViewNode>).TypeHandle);
         private void MapAdd_0_XamlControlsResources(object instance, object key, object item)
         {
             var collection = (global::System.Collections.Generic.IDictionary<global::System.Object, global::System.Object>)instance;
@@ -433,7 +493,7 @@ namespace DefenderUI.DefenderUI_XamlTypeInfo
             var newItem = (global::System.Object)item;
             collection.Add(newItem);
         }
-        private void VectorAdd_52_IList(object instance, object item)
+        private void VectorAdd_71_IList(object instance, object item)
         {
             var collection = (global::System.Collections.Generic.ICollection<global::Microsoft.UI.Xaml.Controls.TreeViewNode>)instance;
             var newItem = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)item;
@@ -776,58 +836,214 @@ namespace DefenderUI.DefenderUI_XamlTypeInfo
                 xamlType = userType;
                 break;
 
-            case 45:   //  DefenderUI.Views.ProtectionPage
-                userType = new global::DefenderUI.DefenderUI_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Page"));
-                userType.Activator = Activate_45_ProtectionPage;
-                userType.StaticInitializer = StaticInitializer_45_ProtectionPage;
+            case 45:   //  DefenderUI.Helpers.BoolToVisibilityConverter
+                userType = new global::DefenderUI.DefenderUI_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
+                userType.Activator = Activate_45_BoolToVisibilityConverter;
+                userType.StaticInitializer = StaticInitializer_45_BoolToVisibilityConverter;
                 userType.SetIsLocalType();
                 xamlType = userType;
                 break;
 
-            case 46:   //  DefenderUI.Views.QuarantinePage
+            case 46:   //  DefenderUI.Views.ProtectionPage
                 userType = new global::DefenderUI.DefenderUI_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Page"));
-                userType.Activator = Activate_46_QuarantinePage;
-                userType.StaticInitializer = StaticInitializer_46_QuarantinePage;
+                userType.Activator = Activate_46_ProtectionPage;
+                userType.StaticInitializer = StaticInitializer_46_ProtectionPage;
+                userType.AddMemberName("ViewModel");
                 userType.SetIsLocalType();
                 xamlType = userType;
                 break;
 
-            case 47:   //  DefenderUI.Views.ReportsPage
-                userType = new global::DefenderUI.DefenderUI_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Page"));
-                userType.Activator = Activate_47_ReportsPage;
-                userType.StaticInitializer = StaticInitializer_47_ReportsPage;
+            case 47:   //  DefenderUI.ViewModels.ProtectionViewModel
+                userType = new global::DefenderUI.DefenderUI_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("CommunityToolkit.Mvvm.ComponentModel.ObservableObject"));
+                userType.StaticInitializer = StaticInitializer_47_ProtectionViewModel;
+                userType.SetIsReturnTypeStub();
                 userType.SetIsLocalType();
                 xamlType = userType;
                 break;
 
-            case 48:   //  DefenderUI.Views.ScanPage
-                userType = new global::DefenderUI.DefenderUI_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Page"));
-                userType.Activator = Activate_48_ScanPage;
-                userType.StaticInitializer = StaticInitializer_48_ScanPage;
-                userType.SetIsLocalType();
+            case 48:   //  Microsoft.UI.Xaml.Controls.ItemsRepeater
+                userType = new global::DefenderUI.DefenderUI_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.FrameworkElement"));
+                userType.Activator = Activate_48_ItemsRepeater;
+                userType.StaticInitializer = StaticInitializer_48_ItemsRepeater;
+                userType.SetContentPropertyName("Microsoft.UI.Xaml.Controls.ItemsRepeater.ItemTemplate");
+                userType.AddMemberName("ItemTemplate");
+                userType.AddMemberName("ItemsSource");
+                userType.AddMemberName("Layout");
+                userType.AddMemberName("Background");
+                userType.AddMemberName("HorizontalCacheLength");
+                userType.AddMemberName("ItemTransitionProvider");
+                userType.AddMemberName("ItemsSourceView");
+                userType.AddMemberName("VerticalCacheLength");
                 xamlType = userType;
                 break;
 
-            case 49:   //  DefenderUI.Views.SettingsPage
-                userType = new global::DefenderUI.DefenderUI_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Page"));
-                userType.Activator = Activate_49_SettingsPage;
-                userType.StaticInitializer = StaticInitializer_49_SettingsPage;
-                userType.SetIsLocalType();
-                xamlType = userType;
+            case 49:   //  Microsoft.UI.Xaml.FrameworkElement
+                xamlType = new global::DefenderUI.DefenderUI_XamlTypeInfo.XamlSystemBaseType(typeName, type);
                 break;
 
-            case 50:   //  DefenderUI.Views.UpdatePage
-                userType = new global::DefenderUI.DefenderUI_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Page"));
-                userType.Activator = Activate_50_UpdatePage;
-                userType.StaticInitializer = StaticInitializer_50_UpdatePage;
-                userType.SetIsLocalType();
-                xamlType = userType;
-                break;
-
-            case 51:   //  Microsoft.UI.Xaml.Controls.TreeViewNode
+            case 50:   //  Microsoft.UI.Xaml.Controls.Layout
                 userType = new global::DefenderUI.DefenderUI_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.DependencyObject"));
-                userType.Activator = Activate_51_TreeViewNode;
-                userType.StaticInitializer = StaticInitializer_51_TreeViewNode;
+                userType.StaticInitializer = StaticInitializer_50_Layout;
+                userType.AddMemberName("IndexBasedLayoutOrientation");
+                xamlType = userType;
+                break;
+
+            case 51:   //  Microsoft.UI.Xaml.Media.Brush
+                xamlType = new global::DefenderUI.DefenderUI_XamlTypeInfo.XamlSystemBaseType(typeName, type);
+                break;
+
+            case 52:   //  Microsoft.UI.Xaml.Controls.ItemCollectionTransitionProvider
+                userType = new global::DefenderUI.DefenderUI_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
+                userType.StaticInitializer = StaticInitializer_52_ItemCollectionTransitionProvider;
+                userType.SetIsReturnTypeStub();
+                xamlType = userType;
+                break;
+
+            case 53:   //  Microsoft.UI.Xaml.Controls.ItemsSourceView
+                userType = new global::DefenderUI.DefenderUI_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
+                userType.StaticInitializer = StaticInitializer_53_ItemsSourceView;
+                userType.SetIsReturnTypeStub();
+                xamlType = userType;
+                break;
+
+            case 54:   //  Microsoft.UI.Xaml.Controls.StackLayout
+                userType = new global::DefenderUI.DefenderUI_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.VirtualizingLayout"));
+                userType.Activator = Activate_54_StackLayout;
+                userType.StaticInitializer = StaticInitializer_54_StackLayout;
+                userType.AddMemberName("Spacing");
+                userType.AddMemberName("Orientation");
+                xamlType = userType;
+                break;
+
+            case 55:   //  Microsoft.UI.Xaml.Controls.VirtualizingLayout
+                userType = new global::DefenderUI.DefenderUI_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Layout"));
+                userType.Activator = Activate_55_VirtualizingLayout;
+                userType.StaticInitializer = StaticInitializer_55_VirtualizingLayout;
+                xamlType = userType;
+                break;
+
+            case 56:   //  Microsoft.UI.Xaml.Controls.Orientation
+                xamlType = new global::DefenderUI.DefenderUI_XamlTypeInfo.XamlSystemBaseType(typeName, type);
+                break;
+
+            case 57:   //  Microsoft.UI.Xaml.Controls.IndexBasedLayoutOrientation
+                userType = new global::DefenderUI.DefenderUI_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("System.Enum"));
+                userType.StaticInitializer = StaticInitializer_57_IndexBasedLayoutOrientation;
+                userType.AddEnumValue("None", global::Microsoft.UI.Xaml.Controls.IndexBasedLayoutOrientation.None);
+                userType.AddEnumValue("TopToBottom", global::Microsoft.UI.Xaml.Controls.IndexBasedLayoutOrientation.TopToBottom);
+                userType.AddEnumValue("LeftToRight", global::Microsoft.UI.Xaml.Controls.IndexBasedLayoutOrientation.LeftToRight);
+                xamlType = userType;
+                break;
+
+            case 58:   //  DefenderUI.Views.QuarantinePage
+                userType = new global::DefenderUI.DefenderUI_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Page"));
+                userType.Activator = Activate_58_QuarantinePage;
+                userType.StaticInitializer = StaticInitializer_58_QuarantinePage;
+                userType.AddMemberName("ViewModel");
+                userType.SetIsLocalType();
+                xamlType = userType;
+                break;
+
+            case 59:   //  DefenderUI.ViewModels.QuarantineViewModel
+                userType = new global::DefenderUI.DefenderUI_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("CommunityToolkit.Mvvm.ComponentModel.ObservableObject"));
+                userType.StaticInitializer = StaticInitializer_59_QuarantineViewModel;
+                userType.SetIsReturnTypeStub();
+                userType.SetIsLocalType();
+                xamlType = userType;
+                break;
+
+            case 60:   //  DefenderUI.Views.ReportsPage
+                userType = new global::DefenderUI.DefenderUI_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Page"));
+                userType.Activator = Activate_60_ReportsPage;
+                userType.StaticInitializer = StaticInitializer_60_ReportsPage;
+                userType.AddMemberName("ViewModel");
+                userType.SetIsLocalType();
+                xamlType = userType;
+                break;
+
+            case 61:   //  DefenderUI.ViewModels.ReportsViewModel
+                userType = new global::DefenderUI.DefenderUI_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("CommunityToolkit.Mvvm.ComponentModel.ObservableObject"));
+                userType.StaticInitializer = StaticInitializer_61_ReportsViewModel;
+                userType.SetIsReturnTypeStub();
+                userType.SetIsLocalType();
+                xamlType = userType;
+                break;
+
+            case 62:   //  Microsoft.UI.Xaml.Controls.ProgressRing
+                userType = new global::DefenderUI.DefenderUI_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Control"));
+                userType.Activator = Activate_62_ProgressRing;
+                userType.StaticInitializer = StaticInitializer_62_ProgressRing;
+                userType.AddMemberName("IsActive");
+                userType.AddMemberName("IsIndeterminate");
+                userType.AddMemberName("Maximum");
+                userType.AddMemberName("Minimum");
+                userType.AddMemberName("TemplateSettings");
+                userType.AddMemberName("Value");
+                xamlType = userType;
+                break;
+
+            case 63:   //  Microsoft.UI.Xaml.Controls.ProgressRingTemplateSettings
+                userType = new global::DefenderUI.DefenderUI_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.DependencyObject"));
+                userType.StaticInitializer = StaticInitializer_63_ProgressRingTemplateSettings;
+                userType.SetIsReturnTypeStub();
+                xamlType = userType;
+                break;
+
+            case 64:   //  DefenderUI.Views.ScanPage
+                userType = new global::DefenderUI.DefenderUI_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Page"));
+                userType.Activator = Activate_64_ScanPage;
+                userType.StaticInitializer = StaticInitializer_64_ScanPage;
+                userType.AddMemberName("ViewModel");
+                userType.SetIsLocalType();
+                xamlType = userType;
+                break;
+
+            case 65:   //  DefenderUI.ViewModels.ScanViewModel
+                userType = new global::DefenderUI.DefenderUI_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("CommunityToolkit.Mvvm.ComponentModel.ObservableObject"));
+                userType.StaticInitializer = StaticInitializer_65_ScanViewModel;
+                userType.SetIsReturnTypeStub();
+                userType.SetIsLocalType();
+                xamlType = userType;
+                break;
+
+            case 66:   //  DefenderUI.Views.SettingsPage
+                userType = new global::DefenderUI.DefenderUI_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Page"));
+                userType.Activator = Activate_66_SettingsPage;
+                userType.StaticInitializer = StaticInitializer_66_SettingsPage;
+                userType.AddMemberName("ViewModel");
+                userType.SetIsLocalType();
+                xamlType = userType;
+                break;
+
+            case 67:   //  DefenderUI.ViewModels.SettingsViewModel
+                userType = new global::DefenderUI.DefenderUI_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("CommunityToolkit.Mvvm.ComponentModel.ObservableObject"));
+                userType.StaticInitializer = StaticInitializer_67_SettingsViewModel;
+                userType.SetIsReturnTypeStub();
+                userType.SetIsLocalType();
+                xamlType = userType;
+                break;
+
+            case 68:   //  DefenderUI.Views.UpdatePage
+                userType = new global::DefenderUI.DefenderUI_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Page"));
+                userType.Activator = Activate_68_UpdatePage;
+                userType.StaticInitializer = StaticInitializer_68_UpdatePage;
+                userType.AddMemberName("ViewModel");
+                userType.SetIsLocalType();
+                xamlType = userType;
+                break;
+
+            case 69:   //  DefenderUI.ViewModels.UpdateViewModel
+                userType = new global::DefenderUI.DefenderUI_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("CommunityToolkit.Mvvm.ComponentModel.ObservableObject"));
+                userType.StaticInitializer = StaticInitializer_69_UpdateViewModel;
+                userType.SetIsReturnTypeStub();
+                userType.SetIsLocalType();
+                xamlType = userType;
+                break;
+
+            case 70:   //  Microsoft.UI.Xaml.Controls.TreeViewNode
+                userType = new global::DefenderUI.DefenderUI_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Microsoft.UI.Xaml.DependencyObject"));
+                userType.Activator = Activate_70_TreeViewNode;
+                userType.StaticInitializer = StaticInitializer_70_TreeViewNode;
                 userType.AddMemberName("Children");
                 userType.AddMemberName("Content");
                 userType.AddMemberName("Depth");
@@ -839,15 +1055,15 @@ namespace DefenderUI.DefenderUI_XamlTypeInfo
                 xamlType = userType;
                 break;
 
-            case 52:   //  System.Collections.Generic.IList`1<Microsoft.UI.Xaml.Controls.TreeViewNode>
+            case 71:   //  System.Collections.Generic.IList`1<Microsoft.UI.Xaml.Controls.TreeViewNode>
                 userType = new global::DefenderUI.DefenderUI_XamlTypeInfo.XamlUserType(this, typeName, type, null);
-                userType.StaticInitializer = StaticInitializer_52_IList;
-                userType.CollectionAdd = VectorAdd_52_IList;
+                userType.StaticInitializer = StaticInitializer_71_IList;
+                userType.CollectionAdd = VectorAdd_71_IList;
                 userType.SetIsReturnTypeStub();
                 xamlType = userType;
                 break;
 
-            case 53:   //  Int32
+            case 72:   //  Int32
                 xamlType = new global::DefenderUI.DefenderUI_XamlTypeInfo.XamlSystemBaseType(typeName, type);
                 break;
             }
@@ -1456,52 +1672,237 @@ namespace DefenderUI.DefenderUI_XamlTypeInfo
             var that = (global::DefenderUI.Views.DashboardPage)instance;
             return that.ViewModel;
         }
-        private object get_58_TreeViewNode_Children(object instance)
+        private object get_58_ProtectionPage_ViewModel(object instance)
+        {
+            var that = (global::DefenderUI.Views.ProtectionPage)instance;
+            return that.ViewModel;
+        }
+        private object get_59_ItemsRepeater_ItemTemplate(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ItemsRepeater)instance;
+            return that.ItemTemplate;
+        }
+        private void set_59_ItemsRepeater_ItemTemplate(object instance, object Value)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ItemsRepeater)instance;
+            that.ItemTemplate = (global::System.Object)Value;
+        }
+        private object get_60_ItemsRepeater_ItemsSource(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ItemsRepeater)instance;
+            return that.ItemsSource;
+        }
+        private void set_60_ItemsRepeater_ItemsSource(object instance, object Value)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ItemsRepeater)instance;
+            that.ItemsSource = (global::System.Object)Value;
+        }
+        private object get_61_ItemsRepeater_Layout(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ItemsRepeater)instance;
+            return that.Layout;
+        }
+        private void set_61_ItemsRepeater_Layout(object instance, object Value)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ItemsRepeater)instance;
+            that.Layout = (global::Microsoft.UI.Xaml.Controls.Layout)Value;
+        }
+        private object get_62_ItemsRepeater_Background(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ItemsRepeater)instance;
+            return that.Background;
+        }
+        private void set_62_ItemsRepeater_Background(object instance, object Value)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ItemsRepeater)instance;
+            that.Background = (global::Microsoft.UI.Xaml.Media.Brush)Value;
+        }
+        private object get_63_ItemsRepeater_HorizontalCacheLength(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ItemsRepeater)instance;
+            return that.HorizontalCacheLength;
+        }
+        private void set_63_ItemsRepeater_HorizontalCacheLength(object instance, object Value)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ItemsRepeater)instance;
+            that.HorizontalCacheLength = (global::System.Double)Value;
+        }
+        private object get_64_ItemsRepeater_ItemTransitionProvider(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ItemsRepeater)instance;
+            return that.ItemTransitionProvider;
+        }
+        private void set_64_ItemsRepeater_ItemTransitionProvider(object instance, object Value)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ItemsRepeater)instance;
+            that.ItemTransitionProvider = (global::Microsoft.UI.Xaml.Controls.ItemCollectionTransitionProvider)Value;
+        }
+        private object get_65_ItemsRepeater_ItemsSourceView(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ItemsRepeater)instance;
+            return that.ItemsSourceView;
+        }
+        private object get_66_ItemsRepeater_VerticalCacheLength(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ItemsRepeater)instance;
+            return that.VerticalCacheLength;
+        }
+        private void set_66_ItemsRepeater_VerticalCacheLength(object instance, object Value)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ItemsRepeater)instance;
+            that.VerticalCacheLength = (global::System.Double)Value;
+        }
+        private object get_67_StackLayout_Spacing(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.StackLayout)instance;
+            return that.Spacing;
+        }
+        private void set_67_StackLayout_Spacing(object instance, object Value)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.StackLayout)instance;
+            that.Spacing = (global::System.Double)Value;
+        }
+        private object get_68_StackLayout_Orientation(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.StackLayout)instance;
+            return that.Orientation;
+        }
+        private void set_68_StackLayout_Orientation(object instance, object Value)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.StackLayout)instance;
+            that.Orientation = (global::Microsoft.UI.Xaml.Controls.Orientation)Value;
+        }
+        private object get_69_Layout_IndexBasedLayoutOrientation(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.Layout)instance;
+            return that.IndexBasedLayoutOrientation;
+        }
+        private object get_70_QuarantinePage_ViewModel(object instance)
+        {
+            var that = (global::DefenderUI.Views.QuarantinePage)instance;
+            return that.ViewModel;
+        }
+        private object get_71_ReportsPage_ViewModel(object instance)
+        {
+            var that = (global::DefenderUI.Views.ReportsPage)instance;
+            return that.ViewModel;
+        }
+        private object get_72_ProgressRing_IsActive(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ProgressRing)instance;
+            return that.IsActive;
+        }
+        private void set_72_ProgressRing_IsActive(object instance, object Value)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ProgressRing)instance;
+            that.IsActive = (global::System.Boolean)Value;
+        }
+        private object get_73_ProgressRing_IsIndeterminate(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ProgressRing)instance;
+            return that.IsIndeterminate;
+        }
+        private void set_73_ProgressRing_IsIndeterminate(object instance, object Value)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ProgressRing)instance;
+            that.IsIndeterminate = (global::System.Boolean)Value;
+        }
+        private object get_74_ProgressRing_Maximum(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ProgressRing)instance;
+            return that.Maximum;
+        }
+        private void set_74_ProgressRing_Maximum(object instance, object Value)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ProgressRing)instance;
+            that.Maximum = (global::System.Double)Value;
+        }
+        private object get_75_ProgressRing_Minimum(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ProgressRing)instance;
+            return that.Minimum;
+        }
+        private void set_75_ProgressRing_Minimum(object instance, object Value)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ProgressRing)instance;
+            that.Minimum = (global::System.Double)Value;
+        }
+        private object get_76_ProgressRing_TemplateSettings(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ProgressRing)instance;
+            return that.TemplateSettings;
+        }
+        private object get_77_ProgressRing_Value(object instance)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ProgressRing)instance;
+            return that.Value;
+        }
+        private void set_77_ProgressRing_Value(object instance, object Value)
+        {
+            var that = (global::Microsoft.UI.Xaml.Controls.ProgressRing)instance;
+            that.Value = (global::System.Double)Value;
+        }
+        private object get_78_ScanPage_ViewModel(object instance)
+        {
+            var that = (global::DefenderUI.Views.ScanPage)instance;
+            return that.ViewModel;
+        }
+        private object get_79_SettingsPage_ViewModel(object instance)
+        {
+            var that = (global::DefenderUI.Views.SettingsPage)instance;
+            return that.ViewModel;
+        }
+        private object get_80_UpdatePage_ViewModel(object instance)
+        {
+            var that = (global::DefenderUI.Views.UpdatePage)instance;
+            return that.ViewModel;
+        }
+        private object get_81_TreeViewNode_Children(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             return that.Children;
         }
-        private object get_59_TreeViewNode_Content(object instance)
+        private object get_82_TreeViewNode_Content(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             return that.Content;
         }
-        private void set_59_TreeViewNode_Content(object instance, object Value)
+        private void set_82_TreeViewNode_Content(object instance, object Value)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             that.Content = (global::System.Object)Value;
         }
-        private object get_60_TreeViewNode_Depth(object instance)
+        private object get_83_TreeViewNode_Depth(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             return that.Depth;
         }
-        private object get_61_TreeViewNode_HasChildren(object instance)
+        private object get_84_TreeViewNode_HasChildren(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             return that.HasChildren;
         }
-        private object get_62_TreeViewNode_HasUnrealizedChildren(object instance)
+        private object get_85_TreeViewNode_HasUnrealizedChildren(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             return that.HasUnrealizedChildren;
         }
-        private void set_62_TreeViewNode_HasUnrealizedChildren(object instance, object Value)
+        private void set_85_TreeViewNode_HasUnrealizedChildren(object instance, object Value)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             that.HasUnrealizedChildren = (global::System.Boolean)Value;
         }
-        private object get_63_TreeViewNode_IsExpanded(object instance)
+        private object get_86_TreeViewNode_IsExpanded(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             return that.IsExpanded;
         }
-        private void set_63_TreeViewNode_IsExpanded(object instance, object Value)
+        private void set_86_TreeViewNode_IsExpanded(object instance, object Value)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             that.IsExpanded = (global::System.Boolean)Value;
         }
-        private object get_64_TreeViewNode_Parent(object instance)
+        private object get_87_TreeViewNode_Parent(object instance)
         {
             var that = (global::Microsoft.UI.Xaml.Controls.TreeViewNode)instance;
             return that.Parent;
@@ -1914,50 +2315,202 @@ namespace DefenderUI.DefenderUI_XamlTypeInfo
                 xamlMember.Getter = get_57_DashboardPage_ViewModel;
                 xamlMember.SetIsReadOnly();
                 break;
+            case "DefenderUI.Views.ProtectionPage.ViewModel":
+                userType = (global::DefenderUI.DefenderUI_XamlTypeInfo.XamlUserType)GetXamlTypeByName("DefenderUI.Views.ProtectionPage");
+                xamlMember = new global::DefenderUI.DefenderUI_XamlTypeInfo.XamlMember(this, "ViewModel", "DefenderUI.ViewModels.ProtectionViewModel");
+                xamlMember.Getter = get_58_ProtectionPage_ViewModel;
+                xamlMember.SetIsReadOnly();
+                break;
+            case "Microsoft.UI.Xaml.Controls.ItemsRepeater.ItemTemplate":
+                userType = (global::DefenderUI.DefenderUI_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.ItemsRepeater");
+                xamlMember = new global::DefenderUI.DefenderUI_XamlTypeInfo.XamlMember(this, "ItemTemplate", "Object");
+                xamlMember.SetIsDependencyProperty();
+                xamlMember.Getter = get_59_ItemsRepeater_ItemTemplate;
+                xamlMember.Setter = set_59_ItemsRepeater_ItemTemplate;
+                break;
+            case "Microsoft.UI.Xaml.Controls.ItemsRepeater.ItemsSource":
+                userType = (global::DefenderUI.DefenderUI_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.ItemsRepeater");
+                xamlMember = new global::DefenderUI.DefenderUI_XamlTypeInfo.XamlMember(this, "ItemsSource", "Object");
+                xamlMember.SetIsDependencyProperty();
+                xamlMember.Getter = get_60_ItemsRepeater_ItemsSource;
+                xamlMember.Setter = set_60_ItemsRepeater_ItemsSource;
+                break;
+            case "Microsoft.UI.Xaml.Controls.ItemsRepeater.Layout":
+                userType = (global::DefenderUI.DefenderUI_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.ItemsRepeater");
+                xamlMember = new global::DefenderUI.DefenderUI_XamlTypeInfo.XamlMember(this, "Layout", "Microsoft.UI.Xaml.Controls.Layout");
+                xamlMember.SetIsDependencyProperty();
+                xamlMember.Getter = get_61_ItemsRepeater_Layout;
+                xamlMember.Setter = set_61_ItemsRepeater_Layout;
+                break;
+            case "Microsoft.UI.Xaml.Controls.ItemsRepeater.Background":
+                userType = (global::DefenderUI.DefenderUI_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.ItemsRepeater");
+                xamlMember = new global::DefenderUI.DefenderUI_XamlTypeInfo.XamlMember(this, "Background", "Microsoft.UI.Xaml.Media.Brush");
+                xamlMember.SetIsDependencyProperty();
+                xamlMember.Getter = get_62_ItemsRepeater_Background;
+                xamlMember.Setter = set_62_ItemsRepeater_Background;
+                break;
+            case "Microsoft.UI.Xaml.Controls.ItemsRepeater.HorizontalCacheLength":
+                userType = (global::DefenderUI.DefenderUI_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.ItemsRepeater");
+                xamlMember = new global::DefenderUI.DefenderUI_XamlTypeInfo.XamlMember(this, "HorizontalCacheLength", "Double");
+                xamlMember.SetIsDependencyProperty();
+                xamlMember.Getter = get_63_ItemsRepeater_HorizontalCacheLength;
+                xamlMember.Setter = set_63_ItemsRepeater_HorizontalCacheLength;
+                break;
+            case "Microsoft.UI.Xaml.Controls.ItemsRepeater.ItemTransitionProvider":
+                userType = (global::DefenderUI.DefenderUI_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.ItemsRepeater");
+                xamlMember = new global::DefenderUI.DefenderUI_XamlTypeInfo.XamlMember(this, "ItemTransitionProvider", "Microsoft.UI.Xaml.Controls.ItemCollectionTransitionProvider");
+                xamlMember.SetIsDependencyProperty();
+                xamlMember.Getter = get_64_ItemsRepeater_ItemTransitionProvider;
+                xamlMember.Setter = set_64_ItemsRepeater_ItemTransitionProvider;
+                break;
+            case "Microsoft.UI.Xaml.Controls.ItemsRepeater.ItemsSourceView":
+                userType = (global::DefenderUI.DefenderUI_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.ItemsRepeater");
+                xamlMember = new global::DefenderUI.DefenderUI_XamlTypeInfo.XamlMember(this, "ItemsSourceView", "Microsoft.UI.Xaml.Controls.ItemsSourceView");
+                xamlMember.Getter = get_65_ItemsRepeater_ItemsSourceView;
+                xamlMember.SetIsReadOnly();
+                break;
+            case "Microsoft.UI.Xaml.Controls.ItemsRepeater.VerticalCacheLength":
+                userType = (global::DefenderUI.DefenderUI_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.ItemsRepeater");
+                xamlMember = new global::DefenderUI.DefenderUI_XamlTypeInfo.XamlMember(this, "VerticalCacheLength", "Double");
+                xamlMember.SetIsDependencyProperty();
+                xamlMember.Getter = get_66_ItemsRepeater_VerticalCacheLength;
+                xamlMember.Setter = set_66_ItemsRepeater_VerticalCacheLength;
+                break;
+            case "Microsoft.UI.Xaml.Controls.StackLayout.Spacing":
+                userType = (global::DefenderUI.DefenderUI_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.StackLayout");
+                xamlMember = new global::DefenderUI.DefenderUI_XamlTypeInfo.XamlMember(this, "Spacing", "Double");
+                xamlMember.SetIsDependencyProperty();
+                xamlMember.Getter = get_67_StackLayout_Spacing;
+                xamlMember.Setter = set_67_StackLayout_Spacing;
+                break;
+            case "Microsoft.UI.Xaml.Controls.StackLayout.Orientation":
+                userType = (global::DefenderUI.DefenderUI_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.StackLayout");
+                xamlMember = new global::DefenderUI.DefenderUI_XamlTypeInfo.XamlMember(this, "Orientation", "Microsoft.UI.Xaml.Controls.Orientation");
+                xamlMember.SetIsDependencyProperty();
+                xamlMember.Getter = get_68_StackLayout_Orientation;
+                xamlMember.Setter = set_68_StackLayout_Orientation;
+                break;
+            case "Microsoft.UI.Xaml.Controls.Layout.IndexBasedLayoutOrientation":
+                userType = (global::DefenderUI.DefenderUI_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.Layout");
+                xamlMember = new global::DefenderUI.DefenderUI_XamlTypeInfo.XamlMember(this, "IndexBasedLayoutOrientation", "Microsoft.UI.Xaml.Controls.IndexBasedLayoutOrientation");
+                xamlMember.Getter = get_69_Layout_IndexBasedLayoutOrientation;
+                xamlMember.SetIsReadOnly();
+                break;
+            case "DefenderUI.Views.QuarantinePage.ViewModel":
+                userType = (global::DefenderUI.DefenderUI_XamlTypeInfo.XamlUserType)GetXamlTypeByName("DefenderUI.Views.QuarantinePage");
+                xamlMember = new global::DefenderUI.DefenderUI_XamlTypeInfo.XamlMember(this, "ViewModel", "DefenderUI.ViewModels.QuarantineViewModel");
+                xamlMember.Getter = get_70_QuarantinePage_ViewModel;
+                xamlMember.SetIsReadOnly();
+                break;
+            case "DefenderUI.Views.ReportsPage.ViewModel":
+                userType = (global::DefenderUI.DefenderUI_XamlTypeInfo.XamlUserType)GetXamlTypeByName("DefenderUI.Views.ReportsPage");
+                xamlMember = new global::DefenderUI.DefenderUI_XamlTypeInfo.XamlMember(this, "ViewModel", "DefenderUI.ViewModels.ReportsViewModel");
+                xamlMember.Getter = get_71_ReportsPage_ViewModel;
+                xamlMember.SetIsReadOnly();
+                break;
+            case "Microsoft.UI.Xaml.Controls.ProgressRing.IsActive":
+                userType = (global::DefenderUI.DefenderUI_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.ProgressRing");
+                xamlMember = new global::DefenderUI.DefenderUI_XamlTypeInfo.XamlMember(this, "IsActive", "Boolean");
+                xamlMember.SetIsDependencyProperty();
+                xamlMember.Getter = get_72_ProgressRing_IsActive;
+                xamlMember.Setter = set_72_ProgressRing_IsActive;
+                break;
+            case "Microsoft.UI.Xaml.Controls.ProgressRing.IsIndeterminate":
+                userType = (global::DefenderUI.DefenderUI_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.ProgressRing");
+                xamlMember = new global::DefenderUI.DefenderUI_XamlTypeInfo.XamlMember(this, "IsIndeterminate", "Boolean");
+                xamlMember.SetIsDependencyProperty();
+                xamlMember.Getter = get_73_ProgressRing_IsIndeterminate;
+                xamlMember.Setter = set_73_ProgressRing_IsIndeterminate;
+                break;
+            case "Microsoft.UI.Xaml.Controls.ProgressRing.Maximum":
+                userType = (global::DefenderUI.DefenderUI_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.ProgressRing");
+                xamlMember = new global::DefenderUI.DefenderUI_XamlTypeInfo.XamlMember(this, "Maximum", "Double");
+                xamlMember.SetIsDependencyProperty();
+                xamlMember.Getter = get_74_ProgressRing_Maximum;
+                xamlMember.Setter = set_74_ProgressRing_Maximum;
+                break;
+            case "Microsoft.UI.Xaml.Controls.ProgressRing.Minimum":
+                userType = (global::DefenderUI.DefenderUI_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.ProgressRing");
+                xamlMember = new global::DefenderUI.DefenderUI_XamlTypeInfo.XamlMember(this, "Minimum", "Double");
+                xamlMember.SetIsDependencyProperty();
+                xamlMember.Getter = get_75_ProgressRing_Minimum;
+                xamlMember.Setter = set_75_ProgressRing_Minimum;
+                break;
+            case "Microsoft.UI.Xaml.Controls.ProgressRing.TemplateSettings":
+                userType = (global::DefenderUI.DefenderUI_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.ProgressRing");
+                xamlMember = new global::DefenderUI.DefenderUI_XamlTypeInfo.XamlMember(this, "TemplateSettings", "Microsoft.UI.Xaml.Controls.ProgressRingTemplateSettings");
+                xamlMember.Getter = get_76_ProgressRing_TemplateSettings;
+                xamlMember.SetIsReadOnly();
+                break;
+            case "Microsoft.UI.Xaml.Controls.ProgressRing.Value":
+                userType = (global::DefenderUI.DefenderUI_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.ProgressRing");
+                xamlMember = new global::DefenderUI.DefenderUI_XamlTypeInfo.XamlMember(this, "Value", "Double");
+                xamlMember.SetIsDependencyProperty();
+                xamlMember.Getter = get_77_ProgressRing_Value;
+                xamlMember.Setter = set_77_ProgressRing_Value;
+                break;
+            case "DefenderUI.Views.ScanPage.ViewModel":
+                userType = (global::DefenderUI.DefenderUI_XamlTypeInfo.XamlUserType)GetXamlTypeByName("DefenderUI.Views.ScanPage");
+                xamlMember = new global::DefenderUI.DefenderUI_XamlTypeInfo.XamlMember(this, "ViewModel", "DefenderUI.ViewModels.ScanViewModel");
+                xamlMember.Getter = get_78_ScanPage_ViewModel;
+                xamlMember.SetIsReadOnly();
+                break;
+            case "DefenderUI.Views.SettingsPage.ViewModel":
+                userType = (global::DefenderUI.DefenderUI_XamlTypeInfo.XamlUserType)GetXamlTypeByName("DefenderUI.Views.SettingsPage");
+                xamlMember = new global::DefenderUI.DefenderUI_XamlTypeInfo.XamlMember(this, "ViewModel", "DefenderUI.ViewModels.SettingsViewModel");
+                xamlMember.Getter = get_79_SettingsPage_ViewModel;
+                xamlMember.SetIsReadOnly();
+                break;
+            case "DefenderUI.Views.UpdatePage.ViewModel":
+                userType = (global::DefenderUI.DefenderUI_XamlTypeInfo.XamlUserType)GetXamlTypeByName("DefenderUI.Views.UpdatePage");
+                xamlMember = new global::DefenderUI.DefenderUI_XamlTypeInfo.XamlMember(this, "ViewModel", "DefenderUI.ViewModels.UpdateViewModel");
+                xamlMember.Getter = get_80_UpdatePage_ViewModel;
+                xamlMember.SetIsReadOnly();
+                break;
             case "Microsoft.UI.Xaml.Controls.TreeViewNode.Children":
                 userType = (global::DefenderUI.DefenderUI_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.TreeViewNode");
                 xamlMember = new global::DefenderUI.DefenderUI_XamlTypeInfo.XamlMember(this, "Children", "System.Collections.Generic.IList`1<Microsoft.UI.Xaml.Controls.TreeViewNode>");
-                xamlMember.Getter = get_58_TreeViewNode_Children;
+                xamlMember.Getter = get_81_TreeViewNode_Children;
                 xamlMember.SetIsReadOnly();
                 break;
             case "Microsoft.UI.Xaml.Controls.TreeViewNode.Content":
                 userType = (global::DefenderUI.DefenderUI_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.TreeViewNode");
                 xamlMember = new global::DefenderUI.DefenderUI_XamlTypeInfo.XamlMember(this, "Content", "Object");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_59_TreeViewNode_Content;
-                xamlMember.Setter = set_59_TreeViewNode_Content;
+                xamlMember.Getter = get_82_TreeViewNode_Content;
+                xamlMember.Setter = set_82_TreeViewNode_Content;
                 break;
             case "Microsoft.UI.Xaml.Controls.TreeViewNode.Depth":
                 userType = (global::DefenderUI.DefenderUI_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.TreeViewNode");
                 xamlMember = new global::DefenderUI.DefenderUI_XamlTypeInfo.XamlMember(this, "Depth", "Int32");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_60_TreeViewNode_Depth;
+                xamlMember.Getter = get_83_TreeViewNode_Depth;
                 xamlMember.SetIsReadOnly();
                 break;
             case "Microsoft.UI.Xaml.Controls.TreeViewNode.HasChildren":
                 userType = (global::DefenderUI.DefenderUI_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.TreeViewNode");
                 xamlMember = new global::DefenderUI.DefenderUI_XamlTypeInfo.XamlMember(this, "HasChildren", "Boolean");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_61_TreeViewNode_HasChildren;
+                xamlMember.Getter = get_84_TreeViewNode_HasChildren;
                 xamlMember.SetIsReadOnly();
                 break;
             case "Microsoft.UI.Xaml.Controls.TreeViewNode.HasUnrealizedChildren":
                 userType = (global::DefenderUI.DefenderUI_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.TreeViewNode");
                 xamlMember = new global::DefenderUI.DefenderUI_XamlTypeInfo.XamlMember(this, "HasUnrealizedChildren", "Boolean");
-                xamlMember.Getter = get_62_TreeViewNode_HasUnrealizedChildren;
-                xamlMember.Setter = set_62_TreeViewNode_HasUnrealizedChildren;
+                xamlMember.Getter = get_85_TreeViewNode_HasUnrealizedChildren;
+                xamlMember.Setter = set_85_TreeViewNode_HasUnrealizedChildren;
                 break;
             case "Microsoft.UI.Xaml.Controls.TreeViewNode.IsExpanded":
                 userType = (global::DefenderUI.DefenderUI_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.TreeViewNode");
                 xamlMember = new global::DefenderUI.DefenderUI_XamlTypeInfo.XamlMember(this, "IsExpanded", "Boolean");
                 xamlMember.SetIsDependencyProperty();
-                xamlMember.Getter = get_63_TreeViewNode_IsExpanded;
-                xamlMember.Setter = set_63_TreeViewNode_IsExpanded;
+                xamlMember.Getter = get_86_TreeViewNode_IsExpanded;
+                xamlMember.Setter = set_86_TreeViewNode_IsExpanded;
                 break;
             case "Microsoft.UI.Xaml.Controls.TreeViewNode.Parent":
                 userType = (global::DefenderUI.DefenderUI_XamlTypeInfo.XamlUserType)GetXamlTypeByName("Microsoft.UI.Xaml.Controls.TreeViewNode");
                 xamlMember = new global::DefenderUI.DefenderUI_XamlTypeInfo.XamlMember(this, "Parent", "Microsoft.UI.Xaml.Controls.TreeViewNode");
-                xamlMember.Getter = get_64_TreeViewNode_Parent;
+                xamlMember.Getter = get_87_TreeViewNode_Parent;
                 xamlMember.SetIsReadOnly();
                 break;
             }

@@ -247,4 +247,134 @@ public class MockDataService
             SafeNetwork = false
         };
     }
+
+    public List<ThreatInfo> GetQuarantinedItems()
+    {
+        return
+        [
+            new ThreatInfo
+            {
+                ThreatName = "Trojan.Gen.2",
+                FilePath = @"C:\Users\John\Downloads\setup_crack.exe",
+                DetectionDate = DateTime.Now.AddDays(-1),
+                RiskLevel = RiskLevel.Critical,
+                ActionTaken = "Quarantined",
+                IsQuarantined = true
+            },
+            new ThreatInfo
+            {
+                ThreatName = "PUP.Optional.BrowserHelper",
+                FilePath = @"C:\Program Files\BrowserHelper\helper.dll",
+                DetectionDate = DateTime.Now.AddDays(-2),
+                RiskLevel = RiskLevel.Medium,
+                ActionTaken = "Quarantined",
+                IsQuarantined = true
+            },
+            new ThreatInfo
+            {
+                ThreatName = "Adware.Elex.ShrtCln",
+                FilePath = @"C:\Users\John\AppData\Local\Temp\cleaner.exe",
+                DetectionDate = DateTime.Now.AddDays(-3),
+                RiskLevel = RiskLevel.Low,
+                ActionTaken = "Quarantined",
+                IsQuarantined = true
+            },
+            new ThreatInfo
+            {
+                ThreatName = "Backdoor.Agent.FOX",
+                FilePath = @"C:\Windows\Temp\svchost_update.exe",
+                DetectionDate = DateTime.Now.AddHours(-6),
+                RiskLevel = RiskLevel.Critical,
+                ActionTaken = "Quarantined",
+                IsQuarantined = true
+            },
+            new ThreatInfo
+            {
+                ThreatName = "Ransomware.WannaCry.B",
+                FilePath = @"C:\Users\John\Documents\invoice.pdf.exe",
+                DetectionDate = DateTime.Now.AddDays(-5),
+                RiskLevel = RiskLevel.Critical,
+                ActionTaken = "Quarantined",
+                IsQuarantined = true
+            },
+            new ThreatInfo
+            {
+                ThreatName = "Spyware.Keylogger.AX",
+                FilePath = @"C:\Program Files (x86)\KeyCapture\logger.sys",
+                DetectionDate = DateTime.Now.AddDays(-4),
+                RiskLevel = RiskLevel.High,
+                ActionTaken = "Quarantined",
+                IsQuarantined = true
+            },
+            new ThreatInfo
+            {
+                ThreatName = "PUP.Optional.InstallCore",
+                FilePath = @"C:\Users\John\Downloads\free_software_bundle.exe",
+                DetectionDate = DateTime.Now.AddDays(-7),
+                RiskLevel = RiskLevel.Medium,
+                ActionTaken = "Quarantined",
+                IsQuarantined = true
+            },
+            new ThreatInfo
+            {
+                ThreatName = "Trojan.Downloader.Small",
+                FilePath = @"C:\Users\John\Desktop\game_patch.exe",
+                DetectionDate = DateTime.Now.AddDays(-1),
+                RiskLevel = RiskLevel.High,
+                ActionTaken = "Quarantined",
+                IsQuarantined = true
+            }
+        ];
+    }
+
+    public List<ScanResult> GetScanHistory()
+    {
+        return
+        [
+            new ScanResult
+            {
+                Type = ScanType.Quick,
+                Status = ScanStatus.Completed,
+                StartTime = DateTime.Now.AddDays(-1),
+                EndTime = DateTime.Now.AddDays(-1).AddMinutes(2).AddSeconds(5),
+                Duration = TimeSpan.FromMinutes(2).Add(TimeSpan.FromSeconds(5)),
+                FilesScanned = 12847,
+                ThreatsFound = 0,
+                Progress = 100
+            },
+            new ScanResult
+            {
+                Type = ScanType.Full,
+                Status = ScanStatus.Completed,
+                StartTime = DateTime.Now.AddDays(-3),
+                EndTime = DateTime.Now.AddDays(-3).AddMinutes(45).AddSeconds(12),
+                Duration = TimeSpan.FromMinutes(45).Add(TimeSpan.FromSeconds(12)),
+                FilesScanned = 234591,
+                ThreatsFound = 1,
+                Progress = 100
+            },
+            new ScanResult
+            {
+                Type = ScanType.Quick,
+                Status = ScanStatus.Completed,
+                StartTime = DateTime.Now.AddDays(-4),
+                EndTime = DateTime.Now.AddDays(-4).AddMinutes(1).AddSeconds(58),
+                Duration = TimeSpan.FromMinutes(1).Add(TimeSpan.FromSeconds(58)),
+                FilesScanned = 12503,
+                ThreatsFound = 0,
+                Progress = 100
+            },
+            new ScanResult
+            {
+                Type = ScanType.Custom,
+                Status = ScanStatus.Completed,
+                StartTime = DateTime.Now.AddDays(-6),
+                EndTime = DateTime.Now.AddDays(-6).AddMinutes(12).AddSeconds(30),
+                Duration = TimeSpan.FromMinutes(12).Add(TimeSpan.FromSeconds(30)),
+                FilesScanned = 45220,
+                ThreatsFound = 0,
+                Progress = 100
+            }
+        ];
+    }
 }

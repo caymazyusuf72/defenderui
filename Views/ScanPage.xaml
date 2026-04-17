@@ -4,9 +4,707 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    xmlns:helpers="using:DefenderUI.Helpers"
+    xmlns:models="using:DefenderUI.Models"
+    mc:Ignorable="d"
+    Background="{StaticResource AppBackgroundBrush}">
 
-    <Grid>
-        <TextBlock Text="Scan Page" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center" />
-    </Grid>
+    <Page.Resources>
+        <helpers:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    </Page.Resources>
+
+    <ScrollViewer
+        VerticalScrollBarVisibility="Auto"
+        HorizontalScrollBarVisibility="Disabled">
+
+        <StackPanel
+            Padding="32"
+            Spacing="24">
+
+            <!-- ════════════════════════════════════════════════════ -->
+            <!-- Section A - Page Header                             -->
+            <!-- ════════════════════════════════════════════════════ -->
+            <StackPanel Spacing="4">
+                <TextBlock
+                    Text="Scan"
+                    Style="{StaticResource TitleLargeStyle}"
+                    AutomationProperties.HeadingLevel="Level1" />
+                <TextBlock
+                    Text="Scan your device for threats and vulnerabilities"
+                    Style="{StaticResource BodySecondaryStyle}" />
+            </StackPanel>
+
+            <!-- ════════════════════════════════════════════════════ -->
+            <!-- Section B - Scan Type Selection                     -->
+            <!-- Visible when not scanning and not complete           -->
+            <!-- ════════════════════════════════════════════════════ -->
+            <StackPanel
+                Spacing="16"
+                Visibility="{x:Bind ViewModel.IsScanning, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Invert}">
+
+                <TextBlock
+                    Text="Select Scan Type"
+                    Style="{StaticResource SubtitleStyle}"
+                    AutomationProperties.HeadingLevel="Level2"
+                    Visibility="{x:Bind ViewModel.IsScanComplete, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Invert}" />
+
+                <Grid
+                    ColumnSpacing="16"
+                    Visibility="{x:Bind ViewModel.IsScanComplete, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Invert}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Quick Scan Card -->
+                    <Button
+                        Grid.Column="0"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Stretch"
+                        VerticalContentAlignment="Stretch"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        Padding="0"
+                        CornerRadius="8"
+                        Click="OnScanTypeSelected"
+                        Tag="Quick"
+                        AutomationProperties.Name="Quick Scan">
+                        <Border
+                            x:Name="QuickScanCard"
+                            Background="{StaticResource CardBackgroundBrush}"
+                            BorderBrush="{StaticResource AccentBrush}"
+                            BorderThickness="3"
+                            CornerRadius="8"
+                            Padding="20"
+                            HorizontalAlignment="Stretch">
+                            <StackPanel Spacing="12" HorizontalAlignment="Center">
+                                <FontIcon
+                                    Glyph="&#xE721;"
+                                    FontFamily="Segoe Fluent Icons"
+                                    FontSize="32"
+                                    Foreground="{StaticResource AccentBrush}"
+                                    HorizontalAlignment="Center" />
+                                <TextBlock
+                                    Text="Quick Scan"
+                                    Style="{StaticResource BodyLargeStyle}"
+                                    FontWeight="SemiBold"
+                                    HorizontalAlignment="Center" />
+                                <StackPanel Spacing="4" HorizontalAlignment="Center">
+                                    <TextBlock
+                                        Text="~2 min"
+                                        Style="{StaticResource CaptionStyle}"
+                                        Foreground="{StaticResource AccentBrush}"
+                                        HorizontalAlignment="Center" />
+                                    <TextBlock
+                                        Text="Key areas only"
+                                        Style="{StaticResource CaptionStyle}"
+                                        HorizontalAlignment="Center" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </Button>
+
+                    <!-- Full Scan Card -->
+                    <Button
+                        Grid.Column="1"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Stretch"
+                        VerticalContentAlignment="Stretch"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        Padding="0"
+                        CornerRadius="8"
+                        Click="OnScanTypeSelected"
+                        Tag="Full"
+                        AutomationProperties.Name="Full Scan">
+                        <Border
+                            x:Name="FullScanCard"
+                            Background="{StaticResource CardBackgroundBrush}"
+                            BorderBrush="{StaticResource BorderBrush}"
+                            BorderThickness="1"
+                            CornerRadius="8"
+                            Padding="20"
+                            HorizontalAlignment="Stretch">
+                            <StackPanel Spacing="12" HorizontalAlignment="Center">
+                                <FontIcon
+                                    Glyph="&#xEA18;"
+                                    FontFamily="Segoe Fluent Icons"
+                                    FontSize="32"
+                                    Foreground="{StaticResource SuccessBrush}"
+                                    HorizontalAlignment="Center" />
+                                <TextBlock
+                                    Text="Full Scan"
+                                    Style="{StaticResource BodyLargeStyle}"
+                                    FontWeight="SemiBold"
+                                    HorizontalAlignment="Center" />
+                                <StackPanel Spacing="4" HorizontalAlignment="Center">
+                                    <TextBlock
+                                        Text="~45 min"
+                                        Style="{StaticResource CaptionStyle}"
+                                        Foreground="{StaticResource SuccessBrush}"
+                                        HorizontalAlignment="Center" />
+                                    <TextBlock
+                                        Text="All files and folders"
+                                        Style="{StaticResource CaptionStyle}"
+                                        HorizontalAlignment="Center" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </Button>
+
+                    <!-- Custom Scan Card -->
+                    <Button
+                        Grid.Column="2"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Stretch"
+                        VerticalContentAlignment="Stretch"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        Padding="0"
+                        CornerRadius="8"
+                        Click="OnScanTypeSelected"
+                        Tag="Custom"
+                        AutomationProperties.Name="Custom Scan">
+                        <Border
+                            x:Name="CustomScanCard"
+                            Background="{StaticResource CardBackgroundBrush}"
+                            BorderBrush="{StaticResource BorderBrush}"
+                            BorderThickness="1"
+                            CornerRadius="8"
+                            Padding="20"
+                            HorizontalAlignment="Stretch">
+                            <StackPanel Spacing="12" HorizontalAlignment="Center">
+                                <FontIcon
+                                    Glyph="&#xE8B7;"
+                                    FontFamily="Segoe Fluent Icons"
+                                    FontSize="32"
+                                    Foreground="{StaticResource WarningBrush}"
+                                    HorizontalAlignment="Center" />
+                                <TextBlock
+                                    Text="Custom Scan"
+                                    Style="{StaticResource BodyLargeStyle}"
+                                    FontWeight="SemiBold"
+                                    HorizontalAlignment="Center" />
+                                <StackPanel Spacing="4" HorizontalAlignment="Center">
+                                    <TextBlock
+                                        Text="Variable"
+                                        Style="{StaticResource CaptionStyle}"
+                                        Foreground="{StaticResource WarningBrush}"
+                                        HorizontalAlignment="Center" />
+                                    <TextBlock
+                                        Text="Selected folders"
+                                        Style="{StaticResource CaptionStyle}"
+                                        HorizontalAlignment="Center" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </Button>
+
+                    <!-- USB Scan Card -->
+                    <Button
+                        Grid.Column="3"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Stretch"
+                        VerticalContentAlignment="Stretch"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        Padding="0"
+                        CornerRadius="8"
+                        Click="OnScanTypeSelected"
+                        Tag="USB"
+                        AutomationProperties.Name="USB Scan">
+                        <Border
+                            x:Name="UsbScanCard"
+                            Background="{StaticResource CardBackgroundBrush}"
+                            BorderBrush="{StaticResource BorderBrush}"
+                            BorderThickness="1"
+                            CornerRadius="8"
+                            Padding="20"
+                            HorizontalAlignment="Stretch">
+                            <StackPanel Spacing="12" HorizontalAlignment="Center">
+                                <FontIcon
+                                    Glyph="&#xE88E;"
+                                    FontFamily="Segoe Fluent Icons"
+                                    FontSize="32"
+                                    Foreground="{StaticResource InfoBrush}"
+                                    HorizontalAlignment="Center" />
+                                <TextBlock
+                                    Text="USB Scan"
+                                    Style="{StaticResource BodyLargeStyle}"
+                                    FontWeight="SemiBold"
+                                    HorizontalAlignment="Center" />
+                                <StackPanel Spacing="4" HorizontalAlignment="Center">
+                                    <TextBlock
+                                        Text="~5 min"
+                                        Style="{StaticResource CaptionStyle}"
+                                        Foreground="{StaticResource InfoBrush}"
+                                        HorizontalAlignment="Center" />
+                                    <TextBlock
+                                        Text="USB devices"
+                                        Style="{StaticResource CaptionStyle}"
+                                        HorizontalAlignment="Center" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </Button>
+                </Grid>
+
+                <!-- ════════════════════════════════════════════════════ -->
+                <!-- Section C - Start Scan Button                       -->
+                <!-- ════════════════════════════════════════════════════ -->
+                <Button
+                    Style="{StaticResource PrimaryButtonStyle}"
+                    HorizontalAlignment="Stretch"
+                    Height="48"
+                    Command="{x:Bind ViewModel.StartScanCommand}"
+                    Visibility="{x:Bind ViewModel.IsScanComplete, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Invert}"
+                    AutomationProperties.Name="Start scan">
+                    <StackPanel Orientation="Horizontal" Spacing="10">
+                        <FontIcon
+                            Glyph="&#xE768;"
+                            FontFamily="Segoe Fluent Icons"
+                            FontSize="18" />
+                        <TextBlock
+                            Text="Start Scan"
+                            FontSize="16"
+                            FontWeight="SemiBold" />
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+
+            <!-- ════════════════════════════════════════════════════ -->
+            <!-- Section D - Scan Progress                           -->
+            <!-- Visible when scanning                                -->
+            <!-- ════════════════════════════════════════════════════ -->
+            <Border
+                Style="{StaticResource HeroCardStyle}"
+                Visibility="{x:Bind ViewModel.IsScanning, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"
+                AutomationProperties.Name="Scan progress">
+                <StackPanel Spacing="20">
+                    <!-- Scanning status header -->
+                    <StackPanel HorizontalAlignment="Center" Spacing="8">
+                        <StackPanel Orientation="Horizontal" Spacing="12" HorizontalAlignment="Center">
+                            <ProgressRing
+                                IsActive="{x:Bind ViewModel.IsScanning, Mode=OneWay}"
+                                Width="24"
+                                Height="24" />
+                            <TextBlock
+                                Text="{x:Bind ViewModel.ScanStatusText, Mode=OneWay}"
+                                Style="{StaticResource SubtitleStyle}" />
+                        </StackPanel>
+                    </StackPanel>
+
+                    <!-- Progress bar -->
+                    <StackPanel Spacing="8">
+                        <ProgressBar
+                            Value="{x:Bind ViewModel.ScanProgress, Mode=OneWay}"
+                            Maximum="100"
+                            Height="12"
+                            CornerRadius="4"
+                            Foreground="{StaticResource AccentBrush}"
+                            Background="{StaticResource SurfaceBrush}" />
+                        <TextBlock
+                            HorizontalAlignment="Right"
+                            Style="{StaticResource BodyStyle}"
+                            Foreground="{StaticResource AccentBrush}"
+                            FontWeight="SemiBold">
+                            <Run Text="{x:Bind ViewModel.ScanProgress, Mode=OneWay}" />
+                            <Run Text="%" />
+                        </TextBlock>
+                    </StackPanel>
+
+                    <!-- Statistics row -->
+                    <Grid ColumnSpacing="16">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Files Scanned -->
+                        <Border Grid.Column="0" Style="{StaticResource KpiCardStyle}">
+                            <StackPanel Spacing="4" HorizontalAlignment="Center">
+                                <TextBlock
+                                    Text="Files Scanned"
+                                    Style="{StaticResource CaptionStyle}"
+                                    HorizontalAlignment="Center" />
+                                <TextBlock
+                                    Text="{x:Bind ViewModel.FilesScannedFormatted, Mode=OneWay}"
+                                    Style="{StaticResource DisplayNumberStyle}"
+                                    Foreground="{StaticResource AccentBrush}"
+                                    HorizontalAlignment="Center"
+                                    FontSize="24" />
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Threats Found -->
+                        <Border Grid.Column="1" Style="{StaticResource KpiCardStyle}">
+                            <StackPanel Spacing="4" HorizontalAlignment="Center">
+                                <TextBlock
+                                    Text="Threats Found"
+                                    Style="{StaticResource CaptionStyle}"
+                                    HorizontalAlignment="Center" />
+                                <TextBlock
+                                    Text="{x:Bind ViewModel.ThreatsFound, Mode=OneWay}"
+                                    Style="{StaticResource DisplayNumberStyle}"
+                                    Foreground="{StaticResource DangerBrush}"
+                                    HorizontalAlignment="Center"
+                                    FontSize="24" />
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Elapsed Time -->
+                        <Border Grid.Column="2" Style="{StaticResource KpiCardStyle}">
+                            <StackPanel Spacing="4" HorizontalAlignment="Center">
+                                <TextBlock
+                                    Text="Elapsed"
+                                    Style="{StaticResource CaptionStyle}"
+                                    HorizontalAlignment="Center" />
+                                <TextBlock
+                                    Text="{x:Bind ViewModel.ElapsedTimeFormatted, Mode=OneWay}"
+                                    Style="{StaticResource DisplayNumberStyle}"
+                                    HorizontalAlignment="Center"
+                                    FontSize="24" />
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Remaining Time -->
+                        <Border Grid.Column="3" Style="{StaticResource KpiCardStyle}">
+                            <StackPanel Spacing="4" HorizontalAlignment="Center">
+                                <TextBlock
+                                    Text="Remaining"
+                                    Style="{StaticResource CaptionStyle}"
+                                    HorizontalAlignment="Center" />
+                                <TextBlock
+                                    Text="{x:Bind ViewModel.EstimatedTimeRemaining, Mode=OneWay}"
+                                    Style="{StaticResource DisplayNumberStyle}"
+                                    HorizontalAlignment="Center"
+                                    FontSize="24" />
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+
+                    <!-- Current file -->
+                    <StackPanel Spacing="4">
+                        <TextBlock
+                            Text="Current file:"
+                            Style="{StaticResource CaptionStyle}" />
+                        <TextBlock
+                            Text="{x:Bind ViewModel.CurrentFile, Mode=OneWay}"
+                            Style="{StaticResource BodyStyle}"
+                            Foreground="{StaticResource TextSecondaryBrush}"
+                            TextTrimming="CharacterEllipsis"
+                            MaxLines="1" />
+                    </StackPanel>
+
+                    <Rectangle Height="1" Fill="{StaticResource BorderSubtleBrush}" HorizontalAlignment="Stretch" />
+
+                    <!-- Control buttons -->
+                    <StackPanel Orientation="Horizontal" Spacing="12" HorizontalAlignment="Center">
+                        <!-- Pause button (visible when running) -->
+                        <Button
+                            Style="{StaticResource SecondaryButtonStyle}"
+                            Command="{x:Bind ViewModel.PauseScanCommand}"
+                            Visibility="{x:Bind ViewModel.IsPaused, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Invert}"
+                            AutomationProperties.Name="Pause scan">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <FontIcon
+                                    Glyph="&#xE769;"
+                                    FontFamily="Segoe Fluent Icons"
+                                    FontSize="14" />
+                                <TextBlock Text="Pause" />
+                            </StackPanel>
+                        </Button>
+
+                        <!-- Resume button (visible when paused) -->
+                        <Button
+                            Style="{StaticResource PrimaryButtonStyle}"
+                            Command="{x:Bind ViewModel.ResumeScanCommand}"
+                            Visibility="{x:Bind ViewModel.IsPaused, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"
+                            AutomationProperties.Name="Resume scan">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <FontIcon
+                                    Glyph="&#xE768;"
+                                    FontFamily="Segoe Fluent Icons"
+                                    FontSize="14" />
+                                <TextBlock Text="Resume" />
+                            </StackPanel>
+                        </Button>
+
+                        <!-- Stop button -->
+                        <Button
+                            Style="{StaticResource DangerButtonStyle}"
+                            Command="{x:Bind ViewModel.StopScanCommand}"
+                            AutomationProperties.Name="Stop scan">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <FontIcon
+                                    Glyph="&#xE71A;"
+                                    FontFamily="Segoe Fluent Icons"
+                                    FontSize="14" />
+                                <TextBlock Text="Stop" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- ════════════════════════════════════════════════════ -->
+            <!-- Section E - Detected Threats List                   -->
+            <!-- Visible when threats > 0                             -->
+            <!-- ════════════════════════════════════════════════════ -->
+            <Border
+                Style="{StaticResource DangerAlertCardStyle}"
+                Visibility="{x:Bind ViewModel.HasThreats, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"
+                AutomationProperties.Name="Detected threats">
+                <StackPanel Spacing="12">
+                    <!-- Header -->
+                    <StackPanel Orientation="Horizontal" Spacing="10">
+                        <FontIcon
+                            Glyph="&#xE7BA;"
+                            FontFamily="Segoe Fluent Icons"
+                            FontSize="20"
+                            Foreground="{StaticResource DangerBrush}" />
+                        <TextBlock
+                            Style="{StaticResource BodyLargeStyle}"
+                            FontWeight="SemiBold">
+                            <Run Text="Threats Detected (" />
+                            <Run Text="{x:Bind ViewModel.ThreatsFound, Mode=OneWay}" />
+                            <Run Text=")" />
+                        </TextBlock>
+                    </StackPanel>
+
+                    <Rectangle Height="1" Fill="{StaticResource BorderBrush}" HorizontalAlignment="Stretch" />
+
+                    <!-- Threat items via ItemsRepeater-like manual binding -->
+                    <ItemsControl ItemsSource="{x:Bind ViewModel.DetectedThreats, Mode=OneWay}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="models:ThreatInfo">
+                                <Border
+                                    Background="{StaticResource CardBackgroundBrush}"
+                                    CornerRadius="8"
+                                    Padding="16"
+                                    Margin="0,4">
+                                    <Grid ColumnSpacing="12">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <!-- Risk level indicator -->
+                                        <Ellipse
+                                            Grid.Column="0"
+                                            Width="12"
+                                            Height="12"
+                                            VerticalAlignment="Top"
+                                            Margin="0,4,0,0"
+                                            Fill="{StaticResource DangerBrush}" />
+
+                                        <!-- Threat details -->
+                                        <StackPanel Grid.Column="1" Spacing="4">
+                                            <TextBlock
+                                                Text="{x:Bind ThreatName}"
+                                                Style="{StaticResource BodyStyle}"
+                                                FontWeight="SemiBold" />
+                                            <TextBlock
+                                                Text="{x:Bind FilePath}"
+                                                Style="{StaticResource CaptionStyle}"
+                                                TextTrimming="CharacterEllipsis"
+                                                MaxLines="1" />
+                                        </StackPanel>
+
+                                        <!-- Action taken badge -->
+                                        <Border
+                                            Grid.Column="2"
+                                            CornerRadius="12"
+                                            Padding="12,4"
+                                            VerticalAlignment="Top"
+                                            Background="{StaticResource DangerBackgroundBrush}">
+                                            <TextBlock
+                                                Text="{x:Bind ActionTaken}"
+                                                Style="{StaticResource CaptionStyle}"
+                                                Foreground="{StaticResource DangerBrush}"
+                                                FontWeight="SemiBold" />
+                                        </Border>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </Border>
+
+            <!-- ════════════════════════════════════════════════════ -->
+            <!-- Section F - Scan Complete Card                      -->
+            <!-- Visible when scan is complete                        -->
+            <!-- ════════════════════════════════════════════════════ -->
+            <Border
+                Style="{StaticResource SuccessAlertCardStyle}"
+                Visibility="{x:Bind ViewModel.IsScanComplete, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"
+                AutomationProperties.Name="Scan complete">
+                <StackPanel Spacing="16" HorizontalAlignment="Center" Padding="20">
+                    <!-- Success icon and title -->
+                    <StackPanel Orientation="Horizontal" Spacing="12" HorizontalAlignment="Center">
+                        <FontIcon
+                            Glyph="&#xE73E;"
+                            FontFamily="Segoe Fluent Icons"
+                            FontSize="32"
+                            Foreground="{StaticResource SuccessBrush}" />
+                        <TextBlock
+                            Text="Scan Complete"
+                            Style="{StaticResource TitleStyle}"
+                            Foreground="{StaticResource SuccessBrush}" />
+                    </StackPanel>
+
+                    <TextBlock
+                        Style="{StaticResource BodyStyle}"
+                        HorizontalAlignment="Center"
+                        Foreground="{StaticResource TextSecondaryBrush}">
+                        <Run Text="{x:Bind ViewModel.SelectedScanType, Mode=OneWay}" />
+                        <Run Text=" Scan finished successfully" />
+                    </TextBlock>
+
+                    <!-- Summary stats -->
+                    <StackPanel Spacing="4" HorizontalAlignment="Center">
+                        <TextBlock
+                            Style="{StaticResource BodyStyle}"
+                            HorizontalAlignment="Center">
+                            <Run Text="{x:Bind ViewModel.FilesScannedFormatted, Mode=OneWay}" />
+                            <Run Text=" files scanned in " />
+                            <Run Text="{x:Bind ViewModel.ElapsedTimeFormatted, Mode=OneWay}" />
+                        </TextBlock>
+                        <TextBlock
+                            Text="{x:Bind ViewModel.ScanStatusText, Mode=OneWay}"
+                            Style="{StaticResource BodyStyle}"
+                            HorizontalAlignment="Center"
+                            FontWeight="SemiBold" />
+                    </StackPanel>
+
+                    <!-- Action buttons -->
+                    <StackPanel Orientation="Horizontal" Spacing="12" HorizontalAlignment="Center">
+                        <Button
+                            Style="{StaticResource PrimaryButtonStyle}"
+                            Command="{x:Bind ViewModel.ScanAgainCommand}"
+                            AutomationProperties.Name="Scan again">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <FontIcon
+                                    Glyph="&#xE72C;"
+                                    FontFamily="Segoe Fluent Icons"
+                                    FontSize="14" />
+                                <TextBlock Text="Scan Again" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- ════════════════════════════════════════════════════ -->
+            <!-- Section G - Scan History                            -->
+            <!-- Always visible                                       -->
+            <!-- ════════════════════════════════════════════════════ -->
+            <StackPanel Spacing="12">
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <FontIcon
+                        Glyph="&#xE81C;"
+                        FontFamily="Segoe Fluent Icons"
+                        FontSize="20"
+                        Foreground="{StaticResource AccentBrush}" />
+                    <TextBlock
+                        Text="Scan History"
+                        Style="{StaticResource SubtitleStyle}"
+                        AutomationProperties.HeadingLevel="Level2" />
+                </StackPanel>
+
+                <Border
+                    Style="{StaticResource DashboardCardStyle}"
+                    AutomationProperties.Name="Scan history table">
+                    <StackPanel Spacing="0">
+                        <!-- Table Header -->
+                        <Grid Padding="12,8" Background="{StaticResource SurfaceBrush}" CornerRadius="6,6,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1.2*" />
+                                <ColumnDefinition Width="1.5*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="Type" Style="{StaticResource CaptionStyle}" FontWeight="SemiBold" />
+                            <TextBlock Grid.Column="1" Text="Date" Style="{StaticResource CaptionStyle}" FontWeight="SemiBold" />
+                            <TextBlock Grid.Column="2" Text="Duration" Style="{StaticResource CaptionStyle}" FontWeight="SemiBold" />
+                            <TextBlock Grid.Column="3" Text="Files" Style="{StaticResource CaptionStyle}" FontWeight="SemiBold" />
+                            <TextBlock Grid.Column="4" Text="Threats" Style="{StaticResource CaptionStyle}" FontWeight="SemiBold" />
+                        </Grid>
+
+                        <Rectangle Height="1" Fill="{StaticResource BorderSubtleBrush}" HorizontalAlignment="Stretch" />
+
+                        <!-- History Rows -->
+                        <ItemsControl ItemsSource="{x:Bind ViewModel.ScanHistory, Mode=OneWay}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="models:ScanResult">
+                                    <StackPanel>
+                                        <Grid Padding="12,10">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="1.2*" />
+                                                <ColumnDefinition Width="1.5*" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <!-- Scan Type with icon -->
+                                            <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="8">
+                                                <FontIcon
+                                                    Glyph="&#xE721;"
+                                                    FontFamily="Segoe Fluent Icons"
+                                                    FontSize="12"
+                                                    Foreground="{StaticResource AccentBrush}"
+                                                    VerticalAlignment="Center" />
+                                                <TextBlock
+                                                    Text="{x:Bind Type}"
+                                                    Style="{StaticResource BodyStyle}"
+                                                    VerticalAlignment="Center" />
+                                            </StackPanel>
+
+                                            <!-- Date -->
+                                            <TextBlock
+                                                Grid.Column="1"
+                                                Text="{x:Bind StartTime}"
+                                                Style="{StaticResource CaptionStyle}"
+                                                VerticalAlignment="Center" />
+
+                                            <!-- Duration -->
+                                            <TextBlock
+                                                Grid.Column="2"
+                                                Text="{x:Bind Duration}"
+                                                Style="{StaticResource CaptionStyle}"
+                                                VerticalAlignment="Center" />
+
+                                            <!-- Files -->
+                                            <TextBlock
+                                                Grid.Column="3"
+                                                Text="{x:Bind FilesScanned}"
+                                                Style="{StaticResource CaptionStyle}"
+                                                VerticalAlignment="Center" />
+
+                                            <!-- Threats -->
+                                            <TextBlock
+                                                Grid.Column="4"
+                                                Text="{x:Bind ThreatsFound}"
+                                                Style="{StaticResource BodyStyle}"
+                                                VerticalAlignment="Center" />
+                                        </Grid>
+                                        <Rectangle Height="1" Fill="{StaticResource BorderSubtleBrush}" HorizontalAlignment="Stretch" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+
+        </StackPanel>
+    </ScrollViewer>
 </Page>

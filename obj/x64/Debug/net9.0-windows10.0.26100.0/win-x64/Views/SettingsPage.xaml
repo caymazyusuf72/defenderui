@@ -1,13 +1,777 @@
-﻿<Page
+﻿<Page x:ConnectionId='1'
     x:Class="DefenderUI.Views.SettingsPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    Background="Transparent">
 
-    <Grid>
-        <TextBlock Text="Settings Page" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center" />
-    </Grid>
+    <ScrollViewer
+        VerticalScrollBarVisibility="Auto"
+        HorizontalScrollBarVisibility="Disabled"
+        Padding="32">
+
+        <StackPanel Spacing="16" Margin="0,0,16,32">
+
+            <!-- Page Header -->
+            <StackPanel Spacing="4" Margin="0,0,0,8">
+                <TextBlock
+                    Text="Settings"
+                    Style="{StaticResource TitleLargeStyle}"
+                    AutomationProperties.HeadingLevel="Level1" />
+                <TextBlock
+                    Text="Configure your security preferences"
+                    Style="{StaticResource BodySecondaryStyle}" />
+            </StackPanel>
+
+            <!-- ════════════════════════════════════════════════════════ -->
+            <!-- Category 1: General                                     -->
+            <!-- ════════════════════════════════════════════════════════ -->
+            <Border Style="{StaticResource DashboardCardStyle}">
+                <StackPanel Spacing="0">
+                    <!-- Category Header -->
+                    <StackPanel Orientation="Horizontal" Spacing="10" Margin="0,0,0,16">
+                        <FontIcon Glyph="&#xE713;" FontSize="20" Foreground="{StaticResource AccentBrush}" />
+                        <TextBlock Text="General" Style="{StaticResource SubtitleStyle}" />
+                    </StackPanel>
+
+                    <!-- Start with Windows -->
+                    <Grid ColumnSpacing="16" Padding="0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" Spacing="2" VerticalAlignment="Center">
+                            <TextBlock Text="Start with Windows" Style="{StaticResource BodyStyle}" FontWeight="SemiBold" />
+                            <TextBlock Text="Start DefenderUI when Windows boots" Style="{StaticResource CaptionStyle}" />
+                        </StackPanel>
+                        <ToggleSwitch x:ConnectionId='47'
+                            Grid.Column="1"
+                                                                                   
+                            OnContent="" OffContent=""
+                            AutomationProperties.Name="Start with Windows"
+                            VerticalAlignment="Center" />
+                    </Grid>
+
+                    <Rectangle Height="1" Fill="{StaticResource BorderSubtleBrush}" Margin="0,4" />
+
+                    <!-- Minimize to Tray -->
+                    <Grid ColumnSpacing="16" Padding="0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" Spacing="2" VerticalAlignment="Center">
+                            <TextBlock Text="Minimize to System Tray" Style="{StaticResource BodyStyle}" FontWeight="SemiBold" />
+                            <TextBlock Text="Keep running in background when window is closed" Style="{StaticResource CaptionStyle}" />
+                        </StackPanel>
+                        <ToggleSwitch x:ConnectionId='46'
+                            Grid.Column="1"
+                                                                                 
+                            OnContent="" OffContent=""
+                            AutomationProperties.Name="Minimize to System Tray"
+                            VerticalAlignment="Center" />
+                    </Grid>
+
+                    <Rectangle Height="1" Fill="{StaticResource BorderSubtleBrush}" Margin="0,4" />
+
+                    <!-- Show Notifications -->
+                    <Grid ColumnSpacing="16" Padding="0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" Spacing="2" VerticalAlignment="Center">
+                            <TextBlock Text="Show Notifications" Style="{StaticResource BodyStyle}" FontWeight="SemiBold" />
+                            <TextBlock Text="Display system notifications for important events" Style="{StaticResource CaptionStyle}" />
+                        </StackPanel>
+                        <ToggleSwitch x:ConnectionId='45'
+                            Grid.Column="1"
+                                                                                    
+                            OnContent="" OffContent=""
+                            AutomationProperties.Name="Show Notifications"
+                            VerticalAlignment="Center" />
+                    </Grid>
+
+                    <Rectangle Height="1" Fill="{StaticResource BorderSubtleBrush}" Margin="0,4" />
+
+                    <!-- Language -->
+                    <Grid ColumnSpacing="16" Padding="0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" Spacing="2" VerticalAlignment="Center">
+                            <TextBlock Text="Language" Style="{StaticResource BodyStyle}" FontWeight="SemiBold" />
+                            <TextBlock Text="Choose the application display language" Style="{StaticResource CaptionStyle}" />
+                        </StackPanel>
+                        <ComboBox x:ConnectionId='44'
+                            Grid.Column="1"
+                                                                      
+                                                                                           
+                            MinWidth="150"
+                            AutomationProperties.Name="Language"
+                            VerticalAlignment="Center" />
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- ════════════════════════════════════════════════════════ -->
+            <!-- Category 2: Protection                                  -->
+            <!-- ════════════════════════════════════════════════════════ -->
+            <Border Style="{StaticResource DashboardCardStyle}">
+                <StackPanel Spacing="0">
+                    <StackPanel Orientation="Horizontal" Spacing="10" Margin="0,0,0,16">
+                        <FontIcon Glyph="&#xE72E;" FontSize="20" Foreground="{StaticResource SuccessBrush}" />
+                        <TextBlock Text="Protection" Style="{StaticResource SubtitleStyle}" />
+                    </StackPanel>
+
+                    <!-- Real-time Protection -->
+                    <Grid ColumnSpacing="16" Padding="0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" Spacing="2" VerticalAlignment="Center">
+                            <TextBlock Text="Real-time Protection" Style="{StaticResource BodyStyle}" FontWeight="SemiBold" />
+                            <TextBlock Text="Continuously monitor files and programs" Style="{StaticResource CaptionStyle}" />
+                        </StackPanel>
+                        <ToggleSwitch x:ConnectionId='43'
+                            Grid.Column="1"
+                                                                                     
+                            OnContent="" OffContent=""
+                            AutomationProperties.Name="Real-time Protection"
+                            VerticalAlignment="Center" />
+                    </Grid>
+
+                    <Rectangle Height="1" Fill="{StaticResource BorderSubtleBrush}" Margin="0,4" />
+
+                    <!-- Cloud Protection -->
+                    <Grid ColumnSpacing="16" Padding="0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" Spacing="2" VerticalAlignment="Center">
+                            <TextBlock Text="Cloud-delivered Protection" Style="{StaticResource BodyStyle}" FontWeight="SemiBold" />
+                            <TextBlock Text="Use cloud intelligence for faster detection" Style="{StaticResource CaptionStyle}" />
+                        </StackPanel>
+                        <ToggleSwitch x:ConnectionId='42'
+                            Grid.Column="1"
+                                                                                  
+                            OnContent="" OffContent=""
+                            AutomationProperties.Name="Cloud-delivered Protection"
+                            VerticalAlignment="Center" />
+                    </Grid>
+
+                    <Rectangle Height="1" Fill="{StaticResource BorderSubtleBrush}" Margin="0,4" />
+
+                    <!-- Automatic Sample Submission -->
+                    <Grid ColumnSpacing="16" Padding="0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" Spacing="2" VerticalAlignment="Center">
+                            <TextBlock Text="Automatic Sample Submission" Style="{StaticResource BodyStyle}" FontWeight="SemiBold" />
+                            <TextBlock Text="Send suspicious files to cloud for analysis" Style="{StaticResource CaptionStyle}" />
+                        </StackPanel>
+                        <ToggleSwitch x:ConnectionId='41'
+                            Grid.Column="1"
+                                                                                            
+                            OnContent="" OffContent=""
+                            AutomationProperties.Name="Automatic Sample Submission"
+                            VerticalAlignment="Center" />
+                    </Grid>
+
+                    <Rectangle Height="1" Fill="{StaticResource BorderSubtleBrush}" Margin="0,4" />
+
+                    <!-- Scan Sensitivity -->
+                    <Grid ColumnSpacing="16" Padding="0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" Spacing="2" VerticalAlignment="Center">
+                            <TextBlock Text="Scan Sensitivity" Style="{StaticResource BodyStyle}" FontWeight="SemiBold" />
+                            <TextBlock Text="Low / Balanced / High / Maximum" Style="{StaticResource CaptionStyle}" />
+                        </StackPanel>
+                        <ComboBox x:ConnectionId='40'
+                            Grid.Column="1"
+                                                                              
+                                                                                          
+                            MinWidth="150"
+                            AutomationProperties.Name="Scan Sensitivity"
+                            VerticalAlignment="Center" />
+                    </Grid>
+
+                    <Rectangle Height="1" Fill="{StaticResource BorderSubtleBrush}" Margin="0,4" />
+
+                    <!-- Scan Archives -->
+                    <Grid ColumnSpacing="16" Padding="0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" Spacing="2" VerticalAlignment="Center">
+                            <TextBlock Text="Scan Archives (ZIP, RAR)" Style="{StaticResource BodyStyle}" FontWeight="SemiBold" />
+                            <TextBlock Text="Scan inside compressed files" Style="{StaticResource CaptionStyle}" />
+                        </StackPanel>
+                        <ToggleSwitch x:ConnectionId='39'
+                            Grid.Column="1"
+                                                                               
+                            OnContent="" OffContent=""
+                            AutomationProperties.Name="Scan Archives"
+                            VerticalAlignment="Center" />
+                    </Grid>
+
+                    <Rectangle Height="1" Fill="{StaticResource BorderSubtleBrush}" Margin="0,4" />
+
+                    <!-- Scan Removable Drives -->
+                    <Grid ColumnSpacing="16" Padding="0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" Spacing="2" VerticalAlignment="Center">
+                            <TextBlock Text="Scan Removable Drives" Style="{StaticResource BodyStyle}" FontWeight="SemiBold" />
+                            <TextBlock Text="Automatically scan USB drives when connected" Style="{StaticResource CaptionStyle}" />
+                        </StackPanel>
+                        <ToggleSwitch x:ConnectionId='38'
+                            Grid.Column="1"
+                                                                                      
+                            OnContent="" OffContent=""
+                            AutomationProperties.Name="Scan Removable Drives"
+                            VerticalAlignment="Center" />
+                    </Grid>
+
+                    <Rectangle Height="1" Fill="{StaticResource BorderSubtleBrush}" Margin="0,4" />
+
+                    <!-- Scan Network Drives -->
+                    <Grid ColumnSpacing="16" Padding="0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" Spacing="2" VerticalAlignment="Center">
+                            <TextBlock Text="Scan Network Drives" Style="{StaticResource BodyStyle}" FontWeight="SemiBold" />
+                            <TextBlock Text="Include mapped network drives in scans" Style="{StaticResource CaptionStyle}" />
+                        </StackPanel>
+                        <ToggleSwitch x:ConnectionId='37'
+                            Grid.Column="1"
+                                                                                    
+                            OnContent="" OffContent=""
+                            AutomationProperties.Name="Scan Network Drives"
+                            VerticalAlignment="Center" />
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- ════════════════════════════════════════════════════════ -->
+            <!-- Category 3: Notifications                               -->
+            <!-- ════════════════════════════════════════════════════════ -->
+            <Border Style="{StaticResource DashboardCardStyle}">
+                <StackPanel Spacing="0">
+                    <StackPanel Orientation="Horizontal" Spacing="10" Margin="0,0,0,16">
+                        <FontIcon Glyph="&#xEA8F;" FontSize="20" Foreground="{StaticResource WarningBrush}" />
+                        <TextBlock Text="Notifications" Style="{StaticResource SubtitleStyle}" />
+                    </StackPanel>
+
+                    <!-- Threat Notifications -->
+                    <Grid ColumnSpacing="16" Padding="0,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Threat Detected Alerts" Style="{StaticResource BodyStyle}" FontWeight="SemiBold" VerticalAlignment="Center" />
+                        <ToggleSwitch x:ConnectionId='36'
+                            Grid.Column="1"
+                                                                                      
+                            OnContent="" OffContent=""
+                            AutomationProperties.Name="Threat Detected Alerts"
+                            VerticalAlignment="Center" />
+                    </Grid>
+
+                    <Rectangle Height="1" Fill="{StaticResource BorderSubtleBrush}" Margin="0,2" />
+
+                    <!-- Scan Complete -->
+                    <Grid ColumnSpacing="16" Padding="0,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Scan Complete Notifications" Style="{StaticResource BodyStyle}" FontWeight="SemiBold" VerticalAlignment="Center" />
+                        <ToggleSwitch x:ConnectionId='35'
+                            Grid.Column="1"
+                                                                                            
+                            OnContent="" OffContent=""
+                            AutomationProperties.Name="Scan Complete Notifications"
+                            VerticalAlignment="Center" />
+                    </Grid>
+
+                    <Rectangle Height="1" Fill="{StaticResource BorderSubtleBrush}" Margin="0,2" />
+
+                    <!-- Update Notifications -->
+                    <Grid ColumnSpacing="16" Padding="0,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Update Available Notifications" Style="{StaticResource BodyStyle}" FontWeight="SemiBold" VerticalAlignment="Center" />
+                        <ToggleSwitch x:ConnectionId='34'
+                            Grid.Column="1"
+                                                                                      
+                            OnContent="" OffContent=""
+                            AutomationProperties.Name="Update Available Notifications"
+                            VerticalAlignment="Center" />
+                    </Grid>
+
+                    <Rectangle Height="1" Fill="{StaticResource BorderSubtleBrush}" Margin="0,2" />
+
+                    <!-- Weekly Report -->
+                    <Grid ColumnSpacing="16" Padding="0,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Weekly Security Report" Style="{StaticResource BodyStyle}" FontWeight="SemiBold" VerticalAlignment="Center" />
+                        <ToggleSwitch x:ConnectionId='33'
+                            Grid.Column="1"
+                                                                                            
+                            OnContent="" OffContent=""
+                            AutomationProperties.Name="Weekly Security Report"
+                            VerticalAlignment="Center" />
+                    </Grid>
+
+                    <Rectangle Height="1" Fill="{StaticResource BorderSubtleBrush}" Margin="0,2" />
+
+                    <!-- Sound Alerts -->
+                    <Grid ColumnSpacing="16" Padding="0,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Sound Alerts" Style="{StaticResource BodyStyle}" FontWeight="SemiBold" VerticalAlignment="Center" />
+                        <ToggleSwitch x:ConnectionId='32'
+                            Grid.Column="1"
+                                                                              
+                            OnContent="" OffContent=""
+                            AutomationProperties.Name="Sound Alerts"
+                            VerticalAlignment="Center" />
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- ════════════════════════════════════════════════════════ -->
+            <!-- Category 4: Scheduled Scans                             -->
+            <!-- ════════════════════════════════════════════════════════ -->
+            <Border Style="{StaticResource DashboardCardStyle}">
+                <StackPanel Spacing="0">
+                    <StackPanel Orientation="Horizontal" Spacing="10" Margin="0,0,0,16">
+                        <FontIcon Glyph="&#xE823;" FontSize="20" Foreground="{StaticResource AccentBrush}" />
+                        <TextBlock Text="Scheduled Scans" Style="{StaticResource SubtitleStyle}" />
+                    </StackPanel>
+
+                    <!-- Enable Scheduled Scans -->
+                    <Grid ColumnSpacing="16" Padding="0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" Spacing="2" VerticalAlignment="Center">
+                            <TextBlock Text="Enable Scheduled Scans" Style="{StaticResource BodyStyle}" FontWeight="SemiBold" />
+                            <TextBlock Text="Automatically run scans on a schedule" Style="{StaticResource CaptionStyle}" />
+                        </StackPanel>
+                        <ToggleSwitch x:ConnectionId='31'
+                            Grid.Column="1"
+                                                                                       
+                            OnContent="" OffContent=""
+                            AutomationProperties.Name="Enable Scheduled Scans"
+                            VerticalAlignment="Center" />
+                    </Grid>
+
+                    <Rectangle Height="1" Fill="{StaticResource BorderSubtleBrush}" Margin="0,4" />
+
+                    <!-- Scan Frequency -->
+                    <Grid ColumnSpacing="16" Padding="0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Scan Frequency" Style="{StaticResource BodyStyle}" FontWeight="SemiBold" VerticalAlignment="Center" />
+                        <ComboBox x:ConnectionId='30'
+                            Grid.Column="1"
+                                                                            
+                                                                                        
+                            MinWidth="150"
+                            AutomationProperties.Name="Scan Frequency"
+                            VerticalAlignment="Center" />
+                    </Grid>
+
+                    <Rectangle Height="1" Fill="{StaticResource BorderSubtleBrush}" Margin="0,4" />
+
+                    <!-- Scan Day -->
+                    <Grid ColumnSpacing="16" Padding="0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Day" Style="{StaticResource BodyStyle}" FontWeight="SemiBold" VerticalAlignment="Center" />
+                        <ComboBox x:ConnectionId='29'
+                            Grid.Column="1"
+                                                                     
+                                                                                  
+                            MinWidth="150"
+                            AutomationProperties.Name="Scan Day"
+                            VerticalAlignment="Center" />
+                    </Grid>
+
+                    <Rectangle Height="1" Fill="{StaticResource BorderSubtleBrush}" Margin="0,4" />
+
+                    <!-- Scan Time -->
+                    <Grid ColumnSpacing="16" Padding="0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Time" Style="{StaticResource BodyStyle}" FontWeight="SemiBold" VerticalAlignment="Center" />
+                        <ComboBox x:ConnectionId='28'
+                            Grid.Column="1"
+                                                                      
+                                                                                   
+                            MinWidth="150"
+                            AutomationProperties.Name="Scan Time"
+                            VerticalAlignment="Center" />
+                    </Grid>
+
+                    <Rectangle Height="1" Fill="{StaticResource BorderSubtleBrush}" Margin="0,4" />
+
+                    <!-- Scan Type -->
+                    <Grid ColumnSpacing="16" Padding="0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Scan Type" Style="{StaticResource BodyStyle}" FontWeight="SemiBold" VerticalAlignment="Center" />
+                        <ComboBox x:ConnectionId='27'
+                            Grid.Column="1"
+                                                                      
+                                                                                            
+                            MinWidth="150"
+                            AutomationProperties.Name="Scan Type"
+                            VerticalAlignment="Center" />
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- ════════════════════════════════════════════════════════ -->
+            <!-- Category 5: Exclusions                                  -->
+            <!-- ════════════════════════════════════════════════════════ -->
+            <Border Style="{StaticResource DashboardCardStyle}">
+                <StackPanel Spacing="16">
+                    <StackPanel Orientation="Horizontal" Spacing="10">
+                        <FontIcon Glyph="&#xED25;" FontSize="20" Foreground="{StaticResource TextSecondaryBrush}" />
+                        <TextBlock Text="Exclusions" Style="{StaticResource SubtitleStyle}" />
+                    </StackPanel>
+
+                    <!-- Excluded Files -->
+                    <StackPanel Spacing="8">
+                        <TextBlock Text="Excluded Files" Style="{StaticResource BodyStyle}" FontWeight="SemiBold" />
+                        <Border
+                            Background="{StaticResource SurfaceBrush}"
+                            BorderBrush="{StaticResource BorderSubtleBrush}"
+                            BorderThickness="1"
+                            CornerRadius="6"
+                            Padding="4">
+                            <ItemsRepeater x:ConnectionId='22'                                               >
+                                <ItemsRepeater.Layout>
+                                    <StackLayout Spacing="2" />
+                                </ItemsRepeater.Layout>
+                                <ItemsRepeater.ItemTemplate>
+                                    <DataTemplate                      >
+                                        <Grid x:ConnectionId='24' Padding="12,8" ColumnSpacing="8">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock x:ConnectionId='25'
+                                                Grid.Column="0"
+                                                               
+                                                Style="{StaticResource CaptionStyle}"
+                                                Foreground="{StaticResource TextPrimaryBrush}"
+                                                VerticalAlignment="Center"
+                                                TextTrimming="CharacterEllipsis" />
+                                            <Button x:ConnectionId='26'
+                                                Grid.Column="1"
+                                                Content="Remove"
+                                                Style="{StaticResource SecondaryButtonStyle}"
+                                                Padding="10,4"
+                                                FontSize="12"
+                                                Command="{Binding ElementName=ExcludedFilesPanel, Path=Tag.RemoveExcludedFileCommand}"
+                                                                           
+                                                AutomationProperties.Name="Remove file exclusion" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </ItemsRepeater.ItemTemplate>
+                            </ItemsRepeater>
+                        </Border>
+                        <Button x:ConnectionId='21'
+                            x:Name="ExcludedFilesPanel"
+                                                    
+                            Content="+ Add File Exclusion"
+                            Style="{StaticResource SecondaryButtonStyle}"
+                            HorizontalAlignment="Left"
+                                                                               
+                            AutomationProperties.Name="Add file exclusion" />
+                    </StackPanel>
+
+                    <Rectangle Height="1" Fill="{StaticResource BorderSubtleBrush}" />
+
+                    <!-- Excluded Folders -->
+                    <StackPanel Spacing="8">
+                        <TextBlock Text="Excluded Folders" Style="{StaticResource BodyStyle}" FontWeight="SemiBold" />
+                        <Border
+                            Background="{StaticResource SurfaceBrush}"
+                            BorderBrush="{StaticResource BorderSubtleBrush}"
+                            BorderThickness="1"
+                            CornerRadius="6"
+                            Padding="4">
+                            <ItemsRepeater x:ConnectionId='16'                                                 >
+                                <ItemsRepeater.Layout>
+                                    <StackLayout Spacing="2" />
+                                </ItemsRepeater.Layout>
+                                <ItemsRepeater.ItemTemplate>
+                                    <DataTemplate                      >
+                                        <Grid x:ConnectionId='18' Padding="12,8" ColumnSpacing="8">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock x:ConnectionId='19'
+                                                Grid.Column="0"
+                                                               
+                                                Style="{StaticResource CaptionStyle}"
+                                                Foreground="{StaticResource TextPrimaryBrush}"
+                                                VerticalAlignment="Center"
+                                                TextTrimming="CharacterEllipsis" />
+                                            <Button x:ConnectionId='20'
+                                                Grid.Column="1"
+                                                Content="Remove"
+                                                Style="{StaticResource SecondaryButtonStyle}"
+                                                Padding="10,4"
+                                                FontSize="12"
+                                                Command="{Binding ElementName=ExcludedFoldersPanel, Path=Tag.RemoveExcludedFolderCommand}"
+                                                                           
+                                                AutomationProperties.Name="Remove folder exclusion" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </ItemsRepeater.ItemTemplate>
+                            </ItemsRepeater>
+                        </Border>
+                        <Button x:ConnectionId='15'
+                            x:Name="ExcludedFoldersPanel"
+                                                    
+                            Content="+ Add Folder Exclusion"
+                            Style="{StaticResource SecondaryButtonStyle}"
+                            HorizontalAlignment="Left"
+                                                                                 
+                            AutomationProperties.Name="Add folder exclusion" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- ════════════════════════════════════════════════════════ -->
+            <!-- Category 6: Appearance                                  -->
+            <!-- ════════════════════════════════════════════════════════ -->
+            <Border Style="{StaticResource DashboardCardStyle}">
+                <StackPanel Spacing="0">
+                    <StackPanel Orientation="Horizontal" Spacing="10" Margin="0,0,0,16">
+                        <FontIcon Glyph="&#xE790;" FontSize="20" Foreground="{StaticResource AccentLightBrush}" />
+                        <TextBlock Text="Appearance" Style="{StaticResource SubtitleStyle}" />
+                    </StackPanel>
+
+                    <!-- Theme -->
+                    <Grid ColumnSpacing="16" Padding="0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" Spacing="2" VerticalAlignment="Center">
+                            <TextBlock Text="Theme" Style="{StaticResource BodyStyle}" FontWeight="SemiBold" />
+                            <TextBlock Text="Choose between Dark, Light, or System theme" Style="{StaticResource CaptionStyle}" />
+                        </StackPanel>
+                        <ComboBox x:ConnectionId='14'
+                            Grid.Column="1"
+                                                                   
+                                                                                        
+                            MinWidth="150"
+                            AutomationProperties.Name="Theme"
+                            VerticalAlignment="Center" />
+                    </Grid>
+
+                    <Rectangle Height="1" Fill="{StaticResource BorderSubtleBrush}" Margin="0,4" />
+
+                    <!-- Accent Color -->
+                    <Grid ColumnSpacing="16" Padding="0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" Spacing="2" VerticalAlignment="Center">
+                            <TextBlock Text="Accent Color" Style="{StaticResource BodyStyle}" FontWeight="SemiBold" />
+                            <TextBlock Text="Customize the accent color of the interface" Style="{StaticResource CaptionStyle}" />
+                        </StackPanel>
+                        <ComboBox x:ConnectionId='13'
+                            Grid.Column="1"
+                                                                         
+                                                                                      
+                            MinWidth="150"
+                            AutomationProperties.Name="Accent Color"
+                            VerticalAlignment="Center" />
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- ════════════════════════════════════════════════════════ -->
+            <!-- Category 7: Privacy                                     -->
+            <!-- ════════════════════════════════════════════════════════ -->
+            <Border Style="{StaticResource DashboardCardStyle}">
+                <StackPanel Spacing="0">
+                    <StackPanel Orientation="Horizontal" Spacing="10" Margin="0,0,0,16">
+                        <FontIcon Glyph="&#xE72E;" FontSize="20" Foreground="{StaticResource InfoBrush}" />
+                        <TextBlock Text="Privacy" Style="{StaticResource SubtitleStyle}" />
+                    </StackPanel>
+
+                    <!-- Send Usage Data -->
+                    <Grid ColumnSpacing="16" Padding="0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" Spacing="2" VerticalAlignment="Center">
+                            <TextBlock Text="Send Usage Data" Style="{StaticResource BodyStyle}" FontWeight="SemiBold" />
+                            <TextBlock Text="Help improve DefenderUI by sending anonymous usage data" Style="{StaticResource CaptionStyle}" />
+                        </StackPanel>
+                        <ToggleSwitch x:ConnectionId='12'
+                            Grid.Column="1"
+                                                                                
+                            OnContent="" OffContent=""
+                            AutomationProperties.Name="Send Usage Data"
+                            VerticalAlignment="Center" />
+                    </Grid>
+
+                    <Rectangle Height="1" Fill="{StaticResource BorderSubtleBrush}" Margin="0,4" />
+
+                    <!-- Send Crash Reports -->
+                    <Grid ColumnSpacing="16" Padding="0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" Spacing="2" VerticalAlignment="Center">
+                            <TextBlock Text="Send Crash Reports" Style="{StaticResource BodyStyle}" FontWeight="SemiBold" />
+                            <TextBlock Text="Automatically send crash reports for troubleshooting" Style="{StaticResource CaptionStyle}" />
+                        </StackPanel>
+                        <ToggleSwitch x:ConnectionId='11'
+                            Grid.Column="1"
+                                                                                   
+                            OnContent="" OffContent=""
+                            AutomationProperties.Name="Send Crash Reports"
+                            VerticalAlignment="Center" />
+                    </Grid>
+
+                    <Rectangle Height="1" Fill="{StaticResource BorderSubtleBrush}" Margin="0,4" />
+
+                    <!-- Beta Program -->
+                    <Grid ColumnSpacing="16" Padding="0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" Spacing="2" VerticalAlignment="Center">
+                            <TextBlock Text="Participate in Beta Program" Style="{StaticResource BodyStyle}" FontWeight="SemiBold" />
+                            <TextBlock Text="Get early access to new features" Style="{StaticResource CaptionStyle}" />
+                        </StackPanel>
+                        <ToggleSwitch x:ConnectionId='10'
+                            Grid.Column="1"
+                                                                                    
+                            OnContent="" OffContent=""
+                            AutomationProperties.Name="Participate in Beta Program"
+                            VerticalAlignment="Center" />
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- ════════════════════════════════════════════════════════ -->
+            <!-- Category 8: About & License                             -->
+            <!-- ════════════════════════════════════════════════════════ -->
+            <Border Style="{StaticResource DashboardCardStyle}">
+                <StackPanel Spacing="16">
+                    <StackPanel Orientation="Horizontal" Spacing="10">
+                        <FontIcon Glyph="&#xE946;" FontSize="20" Foreground="{StaticResource TextSecondaryBrush}" />
+                        <TextBlock Text="About" Style="{StaticResource SubtitleStyle}" />
+                    </StackPanel>
+
+                    <!-- App Info -->
+                    <StackPanel Spacing="4">
+                        <TextBlock x:ConnectionId='8'
+                                                                    
+                            Style="{StaticResource BodyLargeStyle}"
+                            FontWeight="SemiBold" />
+                        <TextBlock x:ConnectionId='9'
+                                                                 
+                            Style="{StaticResource CaptionStyle}" />
+                    </StackPanel>
+
+                    <Rectangle Height="1" Fill="{StaticResource BorderSubtleBrush}" />
+
+                    <!-- License Info -->
+                    <StackPanel Spacing="4">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <TextBlock Text="License:" Style="{StaticResource BodyStyle}" Foreground="{StaticResource TextSecondaryBrush}" />
+                            <TextBlock x:ConnectionId='7'                                       Style="{StaticResource BodyStyle}" FontWeight="SemiBold" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <TextBlock Text="Valid until:" Style="{StaticResource BodyStyle}" Foreground="{StaticResource TextSecondaryBrush}" />
+                            <TextBlock x:ConnectionId='6'                                         Style="{StaticResource BodyStyle}" FontWeight="SemiBold" />
+                        </StackPanel>
+                    </StackPanel>
+
+                    <Rectangle Height="1" Fill="{StaticResource BorderSubtleBrush}" />
+
+                    <!-- Action Buttons -->
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <Button x:ConnectionId='3'
+                            Content="Check for Updates"
+                            Style="{StaticResource PrimaryButtonStyle}"
+                                                                               
+                            AutomationProperties.Name="Check for Updates" />
+                        <Button x:ConnectionId='4'
+                            Content="Export Settings"
+                            Style="{StaticResource SecondaryButtonStyle}"
+                                                                              
+                            AutomationProperties.Name="Export Settings" />
+                        <Button x:ConnectionId='5'
+                            Content="Import Settings"
+                            Style="{StaticResource SecondaryButtonStyle}"
+                                                                              
+                            AutomationProperties.Name="Import Settings" />
+                    </StackPanel>
+
+                    <Rectangle Height="1" Fill="{StaticResource BorderSubtleBrush}" />
+
+                    <!-- Reset Button -->
+                    <Button x:ConnectionId='2'
+                        Content="Reset All Settings to Default"
+                        Style="{StaticResource DangerButtonStyle}"
+                        HorizontalAlignment="Left"
+                                                                            
+                        AutomationProperties.Name="Reset All Settings to Default" />
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+    </ScrollViewer>
 </Page>
 

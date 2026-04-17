@@ -1,13 +1,416 @@
-﻿<Page
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Page x:ConnectionId='1'
     x:Class="DefenderUI.Views.ReportsPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    xmlns:helpers="using:DefenderUI.Helpers"
+    mc:Ignorable="d"
+    Background="Transparent">
 
-    <Grid>
-        <TextBlock Text="Reports Page" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center" />
-    </Grid>
+    <Page.Resources>
+        <helpers:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    </Page.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Padding="32" Spacing="16">
+
+            <!-- Header -->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="Reports"
+                               Style="{StaticResource TitleLargeStyle}" />
+                    <TextBlock Text="Security reports and threat analytics"
+                               Style="{StaticResource BodySecondaryStyle}"
+                               Margin="0,4,0,0" />
+                </StackPanel>
+
+                <!-- Period Filter -->
+                <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="4"
+                            VerticalAlignment="Center">
+                    <Button x:ConnectionId='23' Content="7 Days"
+                            Style="{StaticResource SecondaryButtonStyle}"
+                                                                            
+                            CommandParameter="Last 7 Days"
+                            AutomationProperties.Name="Last 7 Days filter" />
+                    <Button x:ConnectionId='24' Content="30 Days"
+                            Style="{StaticResource SecondaryButtonStyle}"
+                                                                            
+                            CommandParameter="Last 30 Days"
+                            AutomationProperties.Name="Last 30 Days filter" />
+                    <Button x:ConnectionId='25' Content="90 Days"
+                            Style="{StaticResource SecondaryButtonStyle}"
+                                                                            
+                            CommandParameter="Last 90 Days"
+                            AutomationProperties.Name="Last 90 Days filter" />
+                </StackPanel>
+            </Grid>
+
+            <!-- KPI Cards -->
+            <Grid ColumnSpacing="12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Scans Performed -->
+                <Border Grid.Column="0" Style="{StaticResource KpiCardStyle}">
+                    <StackPanel Spacing="4">
+                        <TextBlock Text="&#xE9D9;" FontFamily="Segoe Fluent Icons"
+                                   FontSize="20" Foreground="{StaticResource AccentBrush}" />
+                        <TextBlock x:ConnectionId='22'                                                  
+                                   Style="{StaticResource DisplayNumberStyle}" />
+                        <TextBlock Text="Scans Performed"
+                                   Style="{StaticResource CaptionStyle}" />
+                    </StackPanel>
+                </Border>
+
+                <!-- Threats Detected -->
+                <Border Grid.Column="1" Style="{StaticResource KpiCardStyle}">
+                    <StackPanel Spacing="4">
+                        <TextBlock Text="&#xE7BA;" FontFamily="Segoe Fluent Icons"
+                                   FontSize="20" Foreground="{StaticResource WarningBrush}" />
+                        <TextBlock x:ConnectionId='21'                                                            
+                                   Style="{StaticResource DisplayNumberStyle}" />
+                        <TextBlock Text="Threats Detected"
+                                   Style="{StaticResource CaptionStyle}" />
+                    </StackPanel>
+                </Border>
+
+                <!-- Blocked Attacks -->
+                <Border Grid.Column="2" Style="{StaticResource KpiCardStyle}">
+                    <StackPanel Spacing="4">
+                        <TextBlock Text="&#xE72E;" FontFamily="Segoe Fluent Icons"
+                                   FontSize="20" Foreground="{StaticResource DangerBrush}" />
+                        <TextBlock x:ConnectionId='20'                                                           
+                                   Style="{StaticResource DisplayNumberStyle}" />
+                        <TextBlock Text="Blocked Attacks"
+                                   Style="{StaticResource CaptionStyle}" />
+                    </StackPanel>
+                </Border>
+
+                <!-- Files Scanned -->
+                <Border Grid.Column="3" Style="{StaticResource KpiCardStyle}">
+                    <StackPanel Spacing="4">
+                        <TextBlock Text="&#xE8B7;" FontFamily="Segoe Fluent Icons"
+                                   FontSize="20" Foreground="{StaticResource SuccessBrush}" />
+                        <TextBlock x:ConnectionId='19'                                                         
+                                   Style="{StaticResource DisplayNumberStyle}" />
+                        <TextBlock Text="Files Scanned"
+                                   Style="{StaticResource CaptionStyle}" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <!-- Threat Trends Chart -->
+            <Border Style="{StaticResource DashboardCardStyle}">
+                <StackPanel Spacing="16">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <TextBlock Text="&#xE9D9;" FontFamily="Segoe Fluent Icons"
+                                   FontSize="18" Foreground="{StaticResource AccentBrush}"
+                                   VerticalAlignment="Center" />
+                        <TextBlock Text="Threat Trends (Last 7 Days)"
+                                   Style="{StaticResource SubtitleStyle}" />
+                    </StackPanel>
+
+                    <ItemsRepeater x:ConnectionId='17'                                                            >
+                        <ItemsRepeater.Layout>
+                            <StackLayout Spacing="8" />
+                        </ItemsRepeater.Layout>
+                        <ItemsRepeater.ItemTemplate>
+                            <DataTemplate>
+                                <Grid ColumnSpacing="12" Height="32">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="40" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="40" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Grid.Column="0"
+                                               Text="{Binding Day}"
+                                               Style="{StaticResource BodyStyle}"
+                                               VerticalAlignment="Center" />
+
+                                    <ProgressBar Grid.Column="1"
+                                                 Value="{Binding Threats}"
+                                                 Maximum="10"
+                                                 Height="20"
+                                                 CornerRadius="4"
+                                                 Foreground="{StaticResource AccentBrush}"
+                                                 Background="{StaticResource SurfaceBrush}"
+                                                 VerticalAlignment="Center" />
+
+                                    <TextBlock Grid.Column="2"
+                                               Text="{Binding Threats}"
+                                               Style="{StaticResource BodyStyle}"
+                                               Foreground="{StaticResource AccentBrush}"
+                                               HorizontalAlignment="Right"
+                                               VerticalAlignment="Center"
+                                               FontWeight="SemiBold" />
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsRepeater.ItemTemplate>
+                    </ItemsRepeater>
+                </StackPanel>
+            </Border>
+
+            <!-- Threat Distribution -->
+            <Border Style="{StaticResource DashboardCardStyle}">
+                <StackPanel Spacing="16">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <TextBlock Text="&#xE945;" FontFamily="Segoe Fluent Icons"
+                                   FontSize="18" Foreground="{StaticResource WarningBrush}"
+                                   VerticalAlignment="Center" />
+                        <TextBlock Text="Threat Distribution"
+                                   Style="{StaticResource SubtitleStyle}" />
+                    </StackPanel>
+
+                    <!-- Trojans -->
+                    <Grid ColumnSpacing="12" Height="28">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="80" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Trojans"
+                                   Style="{StaticResource BodyStyle}"
+                                   VerticalAlignment="Center" />
+                        <ProgressBar x:ConnectionId='15' Grid.Column="1"
+                                                                                        
+                                     Maximum="47" Height="16" CornerRadius="4"
+                                     Foreground="{StaticResource DangerBrush}"
+                                     Background="{StaticResource SurfaceBrush}"
+                                     VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="2" VerticalAlignment="Center"
+                                   HorizontalAlignment="Right"
+                                   Style="{StaticResource CaptionStyle}">
+                            <Run x:ConnectionId='16'                                                    />
+                            <Run Text=" (38%)" />
+                        </TextBlock>
+                    </Grid>
+
+                    <!-- Adware -->
+                    <Grid ColumnSpacing="12" Height="28">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="80" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Adware"
+                                   Style="{StaticResource BodyStyle}"
+                                   VerticalAlignment="Center" />
+                        <ProgressBar x:ConnectionId='13' Grid.Column="1"
+                                                                                        
+                                     Maximum="47" Height="16" CornerRadius="4"
+                                     Foreground="{StaticResource WarningBrush}"
+                                     Background="{StaticResource SurfaceBrush}"
+                                     VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="2" VerticalAlignment="Center"
+                                   HorizontalAlignment="Right"
+                                   Style="{StaticResource CaptionStyle}">
+                            <Run x:ConnectionId='14'                                                    />
+                            <Run Text=" (26%)" />
+                        </TextBlock>
+                    </Grid>
+
+                    <!-- Spyware -->
+                    <Grid ColumnSpacing="12" Height="28">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="80" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Spyware"
+                                   Style="{StaticResource BodyStyle}"
+                                   VerticalAlignment="Center" />
+                        <ProgressBar x:ConnectionId='11' Grid.Column="1"
+                                                                                         
+                                     Maximum="47" Height="16" CornerRadius="4"
+                                     Foreground="{StaticResource InfoBrush}"
+                                     Background="{StaticResource SurfaceBrush}"
+                                     VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="2" VerticalAlignment="Center"
+                                   HorizontalAlignment="Right"
+                                   Style="{StaticResource CaptionStyle}">
+                            <Run x:ConnectionId='12'                                                     />
+                            <Run Text=" (17%)" />
+                        </TextBlock>
+                    </Grid>
+
+                    <!-- PUP -->
+                    <Grid ColumnSpacing="12" Height="28">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="80" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="PUP"
+                                   Style="{StaticResource BodyStyle}"
+                                   VerticalAlignment="Center" />
+                        <ProgressBar x:ConnectionId='9' Grid.Column="1"
+                                                                                     
+                                     Maximum="47" Height="16" CornerRadius="4"
+                                     Foreground="{StaticResource TextTertiaryBrush}"
+                                     Background="{StaticResource SurfaceBrush}"
+                                     VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="2" VerticalAlignment="Center"
+                                   HorizontalAlignment="Right"
+                                   Style="{StaticResource CaptionStyle}">
+                            <Run x:ConnectionId='10'                                                 />
+                            <Run Text=" (11%)" />
+                        </TextBlock>
+                    </Grid>
+
+                    <!-- Ransomware -->
+                    <Grid ColumnSpacing="12" Height="28">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="80" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Ransomware"
+                                   Style="{StaticResource BodyStyle}"
+                                   VerticalAlignment="Center" />
+                        <ProgressBar x:ConnectionId='7' Grid.Column="1"
+                                                                                            
+                                     Maximum="47" Height="16" CornerRadius="4"
+                                     Foreground="{StaticResource DangerBrush}"
+                                     Background="{StaticResource SurfaceBrush}"
+                                     VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="2" VerticalAlignment="Center"
+                                   HorizontalAlignment="Right"
+                                   Style="{StaticResource CaptionStyle}">
+                            <Run x:ConnectionId='8'                                                        />
+                            <Run Text=" (8%)" />
+                        </TextBlock>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- Protection Summary + Recent Scans -->
+            <Grid ColumnSpacing="12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Protection Summary -->
+                <Border Grid.Column="0" Style="{StaticResource DashboardCardStyle}">
+                    <StackPanel Spacing="16">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <TextBlock Text="&#xE72E;" FontFamily="Segoe Fluent Icons"
+                                       FontSize="18" Foreground="{StaticResource SuccessBrush}"
+                                       VerticalAlignment="Center" />
+                            <TextBlock Text="Protection Summary"
+                                       Style="{StaticResource SubtitleStyle}" />
+                        </StackPanel>
+
+                        <Grid RowSpacing="12">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Protected for"
+                                       Style="{StaticResource BodySecondaryStyle}"
+                                       VerticalAlignment="Center" />
+                            <TextBlock Grid.Row="0" Grid.Column="1"
+                                       Style="{StaticResource BodyStyle}"
+                                       VerticalAlignment="Center">
+                                <Run x:ConnectionId='6'                                                      />
+                                <Run Text=" days" />
+                            </TextBlock>
+
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Avg scan time"
+                                       Style="{StaticResource BodySecondaryStyle}"
+                                       VerticalAlignment="Center" />
+                            <TextBlock Grid.Row="1" Grid.Column="1"
+                                       Style="{StaticResource BodyStyle}"
+                                       VerticalAlignment="Center">
+                                <Run x:ConnectionId='5'                                                        />
+                                <Run Text=" min" />
+                            </TextBlock>
+
+                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Uptime"
+                                       Style="{StaticResource BodySecondaryStyle}"
+                                       VerticalAlignment="Center" />
+                            <TextBlock Grid.Row="2" Grid.Column="1" Text="99.8%"
+                                       Style="{StaticResource BodyStyle}"
+                                       Foreground="{StaticResource SuccessBrush}"
+                                       VerticalAlignment="Center" />
+                        </Grid>
+
+                        <Button x:ConnectionId='4' Content="Export Report"
+                                Style="{StaticResource SecondaryButtonStyle}"
+                                                                                
+                                HorizontalAlignment="Left"
+                                AutomationProperties.Name="Export security report" />
+                    </StackPanel>
+                </Border>
+
+                <!-- Recent Scans -->
+                <Border Grid.Column="1" Style="{StaticResource DashboardCardStyle}">
+                    <StackPanel Spacing="12">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <TextBlock Text="&#xE8A1;" FontFamily="Segoe Fluent Icons"
+                                       FontSize="18" Foreground="{StaticResource AccentBrush}"
+                                       VerticalAlignment="Center" />
+                            <TextBlock Text="Recent Scans"
+                                       Style="{StaticResource SubtitleStyle}" />
+                        </StackPanel>
+
+                        <ItemsRepeater x:ConnectionId='2'                                                          >
+                            <ItemsRepeater.Layout>
+                                <StackLayout Spacing="8" />
+                            </ItemsRepeater.Layout>
+                            <ItemsRepeater.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Background="{StaticResource SurfaceBrush}"
+                                            CornerRadius="6" Padding="12,8">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <StackPanel Grid.Column="0">
+                                                <TextBlock Text="{Binding Type}"
+                                                           Style="{StaticResource BodyStyle}"
+                                                           FontWeight="SemiBold" />
+                                                <TextBlock Style="{StaticResource CaptionStyle}">
+                                                    <Run Text="{Binding StartTime}" />
+                                                </TextBlock>
+                                            </StackPanel>
+
+                                            <TextBlock Grid.Column="1"
+                                                       VerticalAlignment="Center"
+                                                       Style="{StaticResource CaptionStyle}">
+                                                <Run Text="{Binding ThreatsFound}" />
+                                                <Run Text=" threats" />
+                                            </TextBlock>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsRepeater.ItemTemplate>
+                        </ItemsRepeater>
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+        </StackPanel>
+    </ScrollViewer>
 </Page>
 
