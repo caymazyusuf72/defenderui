@@ -4,6 +4,7 @@ using DefenderUI.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Windows.UI;
 
 namespace DefenderUI.Views;
 
@@ -60,6 +61,15 @@ public sealed partial class DashboardPage : Page
         AnimationHelper.AnimateEntrance(ActivityCard, delayMs: 1380, durationMs: 500);
         AnimationHelper.AnimateEntrance(AlertsCard, delayMs: 1460, durationMs: 500);
 
+        // Number count-up on KPI cards (odometer effect).
+        AnimationHelper.AnimateNumberCount(ThreatsDetectedText, 0, ViewModel.ThreatsDetected, 800);
+        AnimationHelper.AnimateNumberCount(QuarantinedText, 0, ViewModel.QuarantinedItems, 900);
+        AnimationHelper.AnimateNumberCount(BlockedAttacksText, 0, ViewModel.BlockedAttacks, 1200);
+        AnimationHelper.AnimateNumberCount(ProtectedFilesText, 0, ViewModel.ProtectedFiles, 1500);
+
+        // Security score counts up from 0 as well.
+        AnimationHelper.AnimateNumberCount(SecurityScoreText, 0, ViewModel.SecurityScore, 1200);
+
         // Hero emphasis effects - start after entrance completes.
         _ = StartHeroEmphasisAsync();
     }
@@ -75,5 +85,25 @@ public sealed partial class DashboardPage : Page
 
         // Subtle pulse on the shield icon.
         AnimationHelper.StartPulse(ShieldIcon, minScale: 1.0f, maxScale: 1.08f, durationMs: 2200);
+
+        // Decorative glow ring slowly rotates around the security score.
+        AnimationHelper.StartRotation(GlowRing, durationSec: 20.0);
+
+        // Color-aware glow pulse on the hero accent stripe based on protection state.
+        var glowColor = ViewModel.ProtectionState switch
+        {
+            Models.ProtectionState.Protected => Color.FromArgb(255, 0x3F, 0xB9, 0x50),
+            Models.ProtectionState.AtRisk => Color.FromArgb(255, 0xF8, 0x51, 0x49),
+            Models.ProtectionState.AttentionNeeded => Color.FromArgb(255, 0xD2, 0x99, 0x22),
+            Models.ProtectionState.Scanning => Color.FromArgb(255, 0x58, 0xA6, 0xFF),
+            _ => Color.FromArgb(255, 0x3F, 0xB9, 0x50),
+        };
+        AnimationHelper.StartGlowPulse(HeroAccentStripe, glowColor, durationMs: 2400,
+            minBlur: 10f, maxBlur: 24f, minOpacity: 0.3f, maxOpacity: 0.75f);
+
+        if (ViewModel.ProtectionState == Models.ProtectionState.AtRisk)
+        {
+            AnimationHelper.Shake(HeroAccentStripe, intensity: 4f, durationMs: 450);
+        }
     }
 }

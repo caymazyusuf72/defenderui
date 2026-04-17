@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DefenderUI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4836e303b6e2f4860ac3049c14aaca1be4ca2262")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+960eec4059e31928fc34145ce1237885eeb1a00c")]
 [assembly: System.Reflection.AssemblyProductAttribute("DefenderUI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DefenderUI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

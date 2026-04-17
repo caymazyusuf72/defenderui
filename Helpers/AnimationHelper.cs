@@ -7,6 +7,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Hosting;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
+using Microsoft.UI.Xaml.Shapes;
 using Windows.UI;
 
 namespace DefenderUI.Helpers;
@@ -596,5 +597,340 @@ public static class AnimationHelper
                     0f);
             };
         }
+    }
+
+    // ──────────────────────────────────────────────────────────────
+    //  DECORATIVE EFFECTS - Part 3 (premium polish)
+    // ──────────────────────────────────────────────────────────────
+
+    /// <summary>
+    /// Animates an integer number in a <see cref="TextBlock"/> from
+    /// <paramref name="from"/> to <paramref name="to"/> using an ease-out
+    /// cubic curve. Great for odometer-style KPI reveals.
+    /// </summary>
+    public static void AnimateNumberCount(
+        TextBlock block,
+        int from,
+        int to,
+        double durationMs = 1000,
+        string? numberFormat = null)
+    {
+        if (block is null)
+        {
+            return;
+        }
+
+        var start = DateTime.UtcNow;
+        block.Text = FormatNumber(from, numberFormat);
+
+        var timer = new DispatcherTimer
+        {
+            Interval = TimeSpan.FromMilliseconds(16),
+        };
+
+        timer.Tick += (_, _) =>
+        {
+            var elapsed = (DateTime.UtcNow - start).TotalMilliseconds;
+            var progress = Math.Clamp(elapsed / durationMs, 0, 1);
+            // Ease-out cubic.
+            var eased = 1 - Math.Pow(1 - progress, 3);
+            var current = (int)Math.Round(from + (to - from) * eased);
+            block.Text = FormatNumber(current, numberFormat);
+
+            if (progress >= 1)
+            {
+                block.Text = FormatNumber(to, numberFormat);
+                timer.Stop();
+            }
+        };
+        timer.Start();
+    }
+
+    private static string FormatNumber(int value, string? format)
+    {
+        return string.IsNullOrEmpty(format)
+            ? value.ToString("N0", System.Globalization.CultureInfo.InvariantCulture)
+            : value.ToString(format, System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    /// <summary>
+    /// Starts a continuous shimmer sweep (a soft highlight that slides
+    /// left-to-right) on top of the given host panel. A <see cref="Rectangle"/>
+    /// with a linear gradient is inserted into the host; the caller may
+    /// remove it later via <see cref="StopShimmerSweep"/>.
+    /// </summary>
+    public static void StartShimmerSweep(Panel host, double durationMs = 1800)
+    {
+        if (host is null)
+        {
+            return;
+        }
+
+        // Avoid duplicates.
+        StopShimmerSweep(host);
+
+        var highlight = new Rectangle
+        {
+            Name = "__ShimmerSweepRect",
+            IsHitTestVisible = false,
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            VerticalAlignment = VerticalAlignment.Stretch,
+            Opacity = 0.55,
+        };
+
+        var gradient = new LinearGradientBrush
+        {
+            StartPoint = new Windows.Foundation.Point(0, 0.5),
+            EndPoint = new Windows.Foundation.Point(1, 0.5),
+        };
+        gradient.GradientStops.Add(new GradientStop { Color = Color.FromArgb(0, 255, 255, 255), Offset = 0.0 });
+        gradient.GradientStops.Add(new GradientStop { Color = Color.FromArgb(60, 255, 255, 255), Offset = 0.45 });
+        gradient.GradientStops.Add(new GradientStop { Color = Color.FromArgb(120, 255, 255, 255), Offset = 0.5 });
+        gradient.GradientStops.Add(new GradientStop { Color = Color.FromArgb(60, 255, 255, 255), Offset = 0.55 });
+        gradient.GradientStops.Add(new GradientStop { Color = Color.FromArgb(0, 255, 255, 255), Offset = 1.0 });
+        highlight.Fill = gradient;
+
+        host.Children.Add(highlight);
+
+        // Animate a translate offset on the element's visual.
+        var visual = ElementCompositionPreview.GetElementVisual(highlight);
+        var compositor = visual.Compositor;
+
+        void StartAnim(double width)
+        {
+            if (width <= 0)
+            {
+                width = 400;
+            }
+
+            var anim = compositor.CreateScalarKeyFrameAnimation();
+            anim.InsertKeyFrame(0f, -(float)width);
+            anim.InsertKeyFrame(1f, (float)width);
+            anim.Duration = TimeSpan.FromMilliseconds(durationMs);
+            anim.IterationBehavior = AnimationIterationBehavior.Forever;
+
+            visual.StopAnimation("Offset.X");
+            visual.StartAnimation("Offset.X", anim);
+        }
+
+        if (highlight.ActualWidth > 0)
+        {
+            StartAnim(highlight.ActualWidth);
+        }
+
+        highlight.SizeChanged += (_, args) =>
+        {
+            StartAnim(args.NewSize.Width);
+        };
+    }
+
+    /// <summary>
+    /// Removes a shimmer sweep previously started via
+    /// <see cref="StartShimmerSweep"/>.
+    /// </summary>
+    public static void StopShimmerSweep(Panel host)
+    {
+        if (host is null)
+        {
+            return;
+        }
+
+        for (int i = host.Children.Count - 1; i >= 0; i--)
+        {
+            if (host.Children[i] is FrameworkElement fe && fe.Name == "__ShimmerSweepRect")
+            {
+                host.Children.RemoveAt(i);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Adds a thin horizontal "scan line" that sweeps from top to bottom of
+    /// the overlay panel, evoking a radar / lidar pass. Repeats every
+    /// <paramref name="passIntervalMs"/> milliseconds until stopped.
+    /// </summary>
+    public static void StartScanLinePass(
+        Panel host,
+        Color? color = null,
+        double passDurationMs = 1400,
+        double passIntervalMs = 2500)
+    {
+        if (host is null)
+        {
+            return;
+        }
+
+        StopScanLinePass(host);
+
+        var lineColor = color ?? Color.FromArgb(180, 88, 166, 255);
+
+        var line = new Rectangle
+        {
+            Name = "__ScanLineRect",
+            IsHitTestVisible = false,
+            Height = 2,
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            VerticalAlignment = VerticalAlignment.Top,
+            Opacity = 0.0,
+        };
+        var brush = new LinearGradientBrush
+        {
+            StartPoint = new Windows.Foundation.Point(0, 0.5),
+            EndPoint = new Windows.Foundation.Point(1, 0.5),
+        };
+        brush.GradientStops.Add(new GradientStop { Color = Color.FromArgb(0, lineColor.R, lineColor.G, lineColor.B), Offset = 0.0 });
+        brush.GradientStops.Add(new GradientStop { Color = lineColor, Offset = 0.5 });
+        brush.GradientStops.Add(new GradientStop { Color = Color.FromArgb(0, lineColor.R, lineColor.G, lineColor.B), Offset = 1.0 });
+        line.Fill = brush;
+
+        host.Children.Add(line);
+
+        var visual = ElementCompositionPreview.GetElementVisual(line);
+        var compositor = visual.Compositor;
+
+        void RunPass()
+        {
+            if (host.Children.Contains(line) == false)
+            {
+                return;
+            }
+
+            var height = host.ActualHeight > 0 ? host.ActualHeight : 260;
+
+            var offsetAnim = compositor.CreateScalarKeyFrameAnimation();
+            offsetAnim.InsertKeyFrame(0f, 0f);
+            offsetAnim.InsertKeyFrame(1f, (float)height);
+            offsetAnim.Duration = TimeSpan.FromMilliseconds(passDurationMs);
+
+            var opacityAnim = compositor.CreateScalarKeyFrameAnimation();
+            opacityAnim.InsertKeyFrame(0f, 0f);
+            opacityAnim.InsertKeyFrame(0.15f, 1f);
+            opacityAnim.InsertKeyFrame(0.85f, 1f);
+            opacityAnim.InsertKeyFrame(1f, 0f);
+            opacityAnim.Duration = TimeSpan.FromMilliseconds(passDurationMs);
+
+            visual.StartAnimation("Offset.Y", offsetAnim);
+            visual.StartAnimation("Opacity", opacityAnim);
+        }
+
+        // Initial pass + repeating timer.
+        RunPass();
+        var timer = new DispatcherTimer
+        {
+            Interval = TimeSpan.FromMilliseconds(passIntervalMs),
+        };
+        timer.Tick += (_, _) =>
+        {
+            if (host.Children.Contains(line) == false)
+            {
+                timer.Stop();
+                return;
+            }
+            RunPass();
+        };
+        timer.Start();
+
+        // Stash the timer on the line so we can stop it later.
+        line.Tag = timer;
+    }
+
+    /// <summary>
+    /// Stops the scan-line sweep previously started via
+    /// <see cref="StartScanLinePass"/>.
+    /// </summary>
+    public static void StopScanLinePass(Panel host)
+    {
+        if (host is null)
+        {
+            return;
+        }
+
+        for (int i = host.Children.Count - 1; i >= 0; i--)
+        {
+            if (host.Children[i] is FrameworkElement fe && fe.Name == "__ScanLineRect")
+            {
+                if (fe.Tag is DispatcherTimer t)
+                {
+                    t.Stop();
+                }
+                host.Children.RemoveAt(i);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Starts a continuous colored drop-shadow pulse (glow) under the given
+    /// element using the Composition API. The shadow breathes between
+    /// subtle and stronger blur + opacity.
+    /// </summary>
+    public static void StartGlowPulse(
+        FrameworkElement element,
+        Color color,
+        double durationMs = 2200,
+        float minBlur = 12f,
+        float maxBlur = 28f,
+        float minOpacity = 0.25f,
+        float maxOpacity = 0.7f)
+    {
+        if (element is null)
+        {
+            return;
+        }
+
+        var visual = ElementCompositionPreview.GetElementVisual(element);
+        var compositor = visual.Compositor;
+
+        var shadow = compositor.CreateDropShadow();
+        shadow.Color = color;
+        shadow.BlurRadius = minBlur;
+        shadow.Opacity = minOpacity;
+        shadow.Offset = Vector3.Zero;
+
+        var spriteVisual = compositor.CreateSpriteVisual();
+        spriteVisual.Shadow = shadow;
+        spriteVisual.Size = new Vector2((float)element.ActualWidth, (float)element.ActualHeight);
+
+        // Insert the shadow behind the element so it becomes its glow.
+        ElementCompositionPreview.SetElementChildVisual(element, spriteVisual);
+
+        element.SizeChanged += (_, args) =>
+        {
+            spriteVisual.Size = new Vector2((float)args.NewSize.Width, (float)args.NewSize.Height);
+        };
+
+        var easing = compositor.CreateCubicBezierEasingFunction(
+            new Vector2(0.4f, 0f),
+            new Vector2(0.6f, 1f));
+
+        var blurAnim = compositor.CreateScalarKeyFrameAnimation();
+        blurAnim.InsertKeyFrame(0f, minBlur);
+        blurAnim.InsertKeyFrame(0.5f, maxBlur, easing);
+        blurAnim.InsertKeyFrame(1f, minBlur, easing);
+        blurAnim.Duration = TimeSpan.FromMilliseconds(durationMs);
+        blurAnim.IterationBehavior = AnimationIterationBehavior.Forever;
+
+        var opacityAnim = compositor.CreateScalarKeyFrameAnimation();
+        opacityAnim.InsertKeyFrame(0f, minOpacity);
+        opacityAnim.InsertKeyFrame(0.5f, maxOpacity, easing);
+        opacityAnim.InsertKeyFrame(1f, minOpacity, easing);
+        opacityAnim.Duration = TimeSpan.FromMilliseconds(durationMs);
+        opacityAnim.IterationBehavior = AnimationIterationBehavior.Forever;
+
+        shadow.StartAnimation("BlurRadius", blurAnim);
+        shadow.StartAnimation("Opacity", opacityAnim);
+    }
+
+    /// <summary>
+    /// Removes any child composition visual (including a pulsing glow)
+    /// previously set on the element.
+    /// </summary>
+    public static void StopGlowPulse(FrameworkElement element)
+    {
+        if (element is null)
+        {
+            return;
+        }
+
+        ElementCompositionPreview.SetElementChildVisual(element, null);
     }
 }

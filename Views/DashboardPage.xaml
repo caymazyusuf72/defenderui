@@ -50,6 +50,7 @@
                     <Border.Child>
                         <Grid>
                             <Border
+                                x:Name="HeroAccentStripe"
                                 Background="{StaticResource SuccessBrush}"
                                 Width="4"
                                 HorizontalAlignment="Left"
@@ -71,6 +72,23 @@
                                         Width="120"
                                         Height="120"
                                         AutomationProperties.Name="Security score">
+                                        <!-- Decorative outer glow ring (slowly rotating) -->
+                                        <Ellipse
+                                            x:Name="GlowRing"
+                                            Width="170"
+                                            Height="170"
+                                            StrokeThickness="3"
+                                            Fill="Transparent"
+                                            Opacity="0.45"
+                                            IsHitTestVisible="False">
+                                            <Ellipse.Stroke>
+                                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                                    <GradientStop Color="#58A6FF" Offset="0.0" />
+                                                    <GradientStop Color="#0058A6FF" Offset="0.5" />
+                                                    <GradientStop Color="#3FB950" Offset="1.0" />
+                                                </LinearGradientBrush>
+                                            </Ellipse.Stroke>
+                                        </Ellipse>
                                         <Ellipse
                                             Width="120"
                                             Height="120"
@@ -90,6 +108,7 @@
                                             VerticalAlignment="Center"
                                             Spacing="0">
                                             <TextBlock
+                                                x:Name="SecurityScoreText"
                                                 Text="{x:Bind ViewModel.SecurityScore, Mode=OneWay}"
                                                 Style="{StaticResource HeroNumberStyle}"
                                                 Foreground="{StaticResource SuccessBrush}"
@@ -214,6 +233,7 @@
                                 Foreground="{StaticResource DangerBrush}"
                                 HorizontalAlignment="Left" />
                             <TextBlock
+                                x:Name="ThreatsDetectedText"
                                 Text="{x:Bind ViewModel.ThreatsDetected, Mode=OneWay}"
                                 Style="{StaticResource DisplayNumberStyle}"
                                 Foreground="{StaticResource DangerBrush}" />
@@ -238,6 +258,7 @@
                                 Foreground="{StaticResource WarningBrush}"
                                 HorizontalAlignment="Left" />
                             <TextBlock
+                                x:Name="QuarantinedText"
                                 Text="{x:Bind ViewModel.QuarantinedItems, Mode=OneWay}"
                                 Style="{StaticResource DisplayNumberStyle}"
                                 Foreground="{StaticResource WarningBrush}" />
@@ -262,6 +283,7 @@
                                 Foreground="{StaticResource AccentBrush}"
                                 HorizontalAlignment="Left" />
                             <TextBlock
+                                x:Name="BlockedAttacksText"
                                 Text="{x:Bind ViewModel.BlockedAttacks, Mode=OneWay}"
                                 Style="{StaticResource DisplayNumberStyle}"
                                 Foreground="{StaticResource AccentBrush}" />
@@ -286,6 +308,7 @@
                                 Foreground="{StaticResource SuccessBrush}"
                                 HorizontalAlignment="Left" />
                             <TextBlock
+                                x:Name="ProtectedFilesText"
                                 Text="{x:Bind ViewModel.ProtectedFiles, Mode=OneWay}"
                                 Style="{StaticResource DisplayNumberStyle}"
                                 Foreground="{StaticResource SuccessBrush}" />

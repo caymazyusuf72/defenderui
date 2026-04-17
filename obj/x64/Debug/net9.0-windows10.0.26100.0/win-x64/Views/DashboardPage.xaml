@@ -49,7 +49,8 @@
                     <!-- Left accent stripe -->
                     <Border.Child>
                         <Grid>
-                            <Border
+                            <Border x:ConnectionId='58'
+                                x:Name="HeroAccentStripe"
                                 Background="{StaticResource SuccessBrush}"
                                 Width="4"
                                 HorizontalAlignment="Left"
@@ -71,13 +72,30 @@
                                         Width="120"
                                         Height="120"
                                         AutomationProperties.Name="Security score">
+                                        <!-- Decorative outer glow ring (slowly rotating) -->
+                                        <Ellipse x:ConnectionId='66'
+                                            x:Name="GlowRing"
+                                            Width="170"
+                                            Height="170"
+                                            StrokeThickness="3"
+                                            Fill="Transparent"
+                                            Opacity="0.45"
+                                            IsHitTestVisible="False">
+                                            <Ellipse.Stroke>
+                                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                                    <GradientStop Color="#58A6FF" Offset="0.0" />
+                                                    <GradientStop Color="#0058A6FF" Offset="0.5" />
+                                                    <GradientStop Color="#3FB950" Offset="1.0" />
+                                                </LinearGradientBrush>
+                                            </Ellipse.Stroke>
+                                        </Ellipse>
                                         <Ellipse
                                             Width="120"
                                             Height="120"
                                             Stroke="{StaticResource BorderBrush}"
                                             StrokeThickness="3"
                                             Fill="Transparent" />
-                                        <Ellipse x:ConnectionId='65'
+                                        <Ellipse x:ConnectionId='67'
                                             x:Name="ScorePulseRing"
                                             Width="120"
                                             Height="120"
@@ -89,7 +107,8 @@
                                             HorizontalAlignment="Center"
                                             VerticalAlignment="Center"
                                             Spacing="0">
-                                            <TextBlock x:ConnectionId='66'
+                                            <TextBlock x:ConnectionId='68'
+                                                x:Name="SecurityScoreText"
                                                                                                     
                                                 Style="{StaticResource HeroNumberStyle}"
                                                 Foreground="{StaticResource SuccessBrush}"
@@ -107,18 +126,18 @@
                                         VerticalAlignment="Center"
                                         Spacing="8">
                                         <StackPanel Orientation="Horizontal" Spacing="10">
-                                            <FontIcon x:ConnectionId='63'
+                                            <FontIcon x:ConnectionId='64'
                                                 x:Name="ShieldIcon"
                                                 Glyph="&#xE72E;"
                                                 FontFamily="Segoe Fluent Icons"
                                                 FontSize="28"
                                                 Foreground="{StaticResource SuccessBrush}" />
-                                            <TextBlock x:ConnectionId='64'
+                                            <TextBlock x:ConnectionId='65'
                                                                                                     
                                                 Style="{StaticResource SubtitleStyle}" />
                                         </StackPanel>
 
-                                        <TextBlock x:ConnectionId='62'
+                                        <TextBlock x:ConnectionId='63'
                                                                                                     
                                             Style="{StaticResource BodySecondaryStyle}" />
 
@@ -147,7 +166,7 @@
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
 
-                                    <Button x:ConnectionId='58'
+                                    <Button x:ConnectionId='59'
                                         Grid.Column="0"
                                         Style="{StaticResource PrimaryButtonStyle}"
                                                                                      
@@ -168,15 +187,15 @@
                                         VerticalAlignment="Center">
                                         <TextBlock Style="{StaticResource CaptionStyle}">
                                             <Run Text="Last scan: " />
-                                            <Run x:ConnectionId='61'                                                     Foreground="{StaticResource TextPrimaryBrush}" />
+                                            <Run x:ConnectionId='62'                                                     Foreground="{StaticResource TextPrimaryBrush}" />
                                         </TextBlock>
                                         <TextBlock Style="{StaticResource CaptionStyle}">
                                             <Run Text="Duration: " />
-                                            <Run x:ConnectionId='60'                                                         Foreground="{StaticResource TextPrimaryBrush}" />
+                                            <Run x:ConnectionId='61'                                                         Foreground="{StaticResource TextPrimaryBrush}" />
                                         </TextBlock>
                                         <TextBlock Style="{StaticResource CaptionStyle}">
                                             <Run Text="Files: " />
-                                            <Run x:ConnectionId='59'                                                             Foreground="{StaticResource TextPrimaryBrush}" />
+                                            <Run x:ConnectionId='60'                                                             Foreground="{StaticResource TextPrimaryBrush}" />
                                         </TextBlock>
                                     </StackPanel>
                                 </Grid>
@@ -214,6 +233,7 @@
                                 Foreground="{StaticResource DangerBrush}"
                                 HorizontalAlignment="Left" />
                             <TextBlock x:ConnectionId='57'
+                                x:Name="ThreatsDetectedText"
                                                                                       
                                 Style="{StaticResource DisplayNumberStyle}"
                                 Foreground="{StaticResource DangerBrush}" />
@@ -238,6 +258,7 @@
                                 Foreground="{StaticResource WarningBrush}"
                                 HorizontalAlignment="Left" />
                             <TextBlock x:ConnectionId='56'
+                                x:Name="QuarantinedText"
                                                                                        
                                 Style="{StaticResource DisplayNumberStyle}"
                                 Foreground="{StaticResource WarningBrush}" />
@@ -262,6 +283,7 @@
                                 Foreground="{StaticResource AccentBrush}"
                                 HorizontalAlignment="Left" />
                             <TextBlock x:ConnectionId='55'
+                                x:Name="BlockedAttacksText"
                                                                                      
                                 Style="{StaticResource DisplayNumberStyle}"
                                 Foreground="{StaticResource AccentBrush}" />
@@ -286,6 +308,7 @@
                                 Foreground="{StaticResource SuccessBrush}"
                                 HorizontalAlignment="Left" />
                             <TextBlock x:ConnectionId='54'
+                                x:Name="ProtectedFilesText"
                                                                                      
                                 Style="{StaticResource DisplayNumberStyle}"
                                 Foreground="{StaticResource SuccessBrush}" />
