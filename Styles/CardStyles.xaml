@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:helpers="using:DefenderUI.Helpers">
 
     <!-- ═══════════════════════════════════════════════════════════ -->
     <!-- Dashboard Card - Standard card for dashboard widgets       -->
@@ -12,6 +13,7 @@
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="CornerRadius" Value="8" />
         <Setter Property="Padding" Value="20" />
+        <Setter Property="helpers:CardHoverEffect.IsEnabled" Value="True" />
     </Style>
 
     <!-- ═══════════════════════════════════════════════════════════ -->
@@ -24,6 +26,7 @@
         <Setter Property="CornerRadius" Value="8" />
         <Setter Property="Padding" Value="16" />
         <Setter Property="MinWidth" Value="160" />
+        <Setter Property="helpers:CardHoverEffect.IsEnabled" Value="True" />
     </Style>
 
     <!-- ═══════════════════════════════════════════════════════════ -->
@@ -46,6 +49,7 @@
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="CornerRadius" Value="8" />
         <Setter Property="Padding" Value="16" />
+        <Setter Property="helpers:CardHoverEffect.IsEnabled" Value="True" />
     </Style>
 
     <!-- ═══════════════════════════════════════════════════════════ -->
