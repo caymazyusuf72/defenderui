@@ -6,6 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:DefenderUI.ViewModels"
     mc:Ignorable="d"
+    Loaded="Page_Loaded"
     Background="{StaticResource AppBackgroundBrush}">
 
     <ScrollViewer
@@ -19,7 +20,7 @@
             <!-- ════════════════════════════════════════════════════ -->
             <!-- Section A - Page Header                             -->
             <!-- ════════════════════════════════════════════════════ -->
-            <StackPanel Spacing="4">
+            <StackPanel x:Name="HeaderPanel" Spacing="4">
                 <TextBlock
                     Text="Security Overview"
                     Style="{StaticResource TitleLargeStyle}"
@@ -40,6 +41,7 @@
 
                 <!-- Hero Protection Status Card -->
                 <Border
+                    x:Name="HeroCard"
                     Grid.Column="0"
                     Style="{StaticResource HeroCardStyle}"
                     AutomationProperties.Name="Protection status card">
@@ -76,6 +78,7 @@
                                             StrokeThickness="3"
                                             Fill="Transparent" />
                                         <Ellipse
+                                            x:Name="ScorePulseRing"
                                             Width="120"
                                             Height="120"
                                             Stroke="{StaticResource SuccessBrush}"
@@ -105,6 +108,7 @@
                                         Spacing="8">
                                         <StackPanel Orientation="Horizontal" Spacing="10">
                                             <FontIcon
+                                                x:Name="ShieldIcon"
                                                 Glyph="&#xE72E;"
                                                 FontFamily="Segoe Fluent Icons"
                                                 FontSize="28"
@@ -197,6 +201,7 @@
 
                     <!-- KPI 1: Threats Detected -->
                     <Border
+                        x:Name="Kpi1"
                         Grid.Row="0"
                         Grid.Column="0"
                         Style="{StaticResource KpiCardStyle}"
@@ -220,6 +225,7 @@
 
                     <!-- KPI 2: Quarantined -->
                     <Border
+                        x:Name="Kpi2"
                         Grid.Row="0"
                         Grid.Column="1"
                         Style="{StaticResource KpiCardStyle}"
@@ -243,6 +249,7 @@
 
                     <!-- KPI 3: Blocked Attacks -->
                     <Border
+                        x:Name="Kpi3"
                         Grid.Row="1"
                         Grid.Column="0"
                         Style="{StaticResource KpiCardStyle}"
@@ -266,6 +273,7 @@
 
                     <!-- KPI 4: Protected Files -->
                     <Border
+                        x:Name="Kpi4"
                         Grid.Row="1"
                         Grid.Column="1"
                         Style="{StaticResource KpiCardStyle}"
@@ -293,6 +301,7 @@
             <!-- Section C - Quick Action Buttons                    -->
             <!-- ════════════════════════════════════════════════════ -->
             <TextBlock
+                x:Name="QuickActionsHeader"
                 Text="Quick Actions"
                 Style="{StaticResource SubtitleStyle}"
                 Margin="0,8,0,0"
@@ -308,6 +317,7 @@
 
                 <!-- Quick Scan -->
                 <Button
+                    x:Name="QuickAction1"
                     Grid.Column="0"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Stretch"
@@ -346,6 +356,7 @@
 
                 <!-- Full Scan -->
                 <Button
+                    x:Name="QuickAction2"
                     Grid.Column="1"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Stretch"
@@ -384,6 +395,7 @@
 
                 <!-- Custom Scan -->
                 <Button
+                    x:Name="QuickAction3"
                     Grid.Column="2"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Stretch"
@@ -422,6 +434,7 @@
 
                 <!-- Update Now -->
                 <Button
+                    x:Name="QuickAction4"
                     Grid.Column="3"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Stretch"
@@ -463,6 +476,7 @@
             <!-- Section D - Real-time Protection + Update/Health    -->
             <!-- ════════════════════════════════════════════════════ -->
             <TextBlock
+                x:Name="ProtectionSectionHeader"
                 Text="Protection &amp; System Status"
                 Style="{StaticResource SubtitleStyle}"
                 Margin="0,8,0,0"
@@ -476,6 +490,7 @@
 
                 <!-- Left: Real-time Protection Panel -->
                 <Border
+                    x:Name="ProtectionCard"
                     Grid.Column="0"
                     Style="{StaticResource DashboardCardStyle}"
                     AutomationProperties.Name="Real-time protection modules">
@@ -732,6 +747,7 @@
 
                     <!-- Update Status Card -->
                     <Border
+                        x:Name="UpdateStatusCard"
                         Style="{StaticResource DashboardCardStyle}"
                         AutomationProperties.Name="Update status">
                         <StackPanel Spacing="12">
@@ -810,6 +826,7 @@
 
                     <!-- System Health Card -->
                     <Border
+                        x:Name="HealthCard"
                         Style="{StaticResource DashboardCardStyle}"
                         AutomationProperties.Name="System health information">
                         <StackPanel Spacing="12">
@@ -936,6 +953,7 @@
             <!-- Section E - Activity Log + Alerts                   -->
             <!-- ════════════════════════════════════════════════════ -->
             <TextBlock
+                x:Name="ActivitySectionHeader"
                 Text="Activity &amp; Alerts"
                 Style="{StaticResource SubtitleStyle}"
                 Margin="0,8,0,0"
@@ -949,6 +967,7 @@
 
                 <!-- Left: Recent Activity -->
                 <Border
+                    x:Name="ActivityCard"
                     Grid.Column="0"
                     Style="{StaticResource DashboardCardStyle}"
                     AutomationProperties.Name="Recent activity log">
@@ -1257,6 +1276,7 @@
 
                 <!-- Right: Alerts & Recommendations -->
                 <Border
+                    x:Name="AlertsCard"
                     Grid.Column="1"
                     Style="{StaticResource DashboardCardStyle}"
                     AutomationProperties.Name="Alerts and recommendations">
