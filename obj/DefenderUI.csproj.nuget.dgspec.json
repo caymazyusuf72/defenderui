@@ -44,6 +44,18 @@
         "net9.0-windows10.0.26100": {
           "targetAlias": "net9.0-windows10.0.26100.0",
           "dependencies": {
+            "CommunityToolkit.Mvvm": {
+              "target": "Package",
+              "version": "[8.*, )"
+            },
+            "CommunityToolkit.WinUI.UI.Controls": {
+              "target": "Package",
+              "version": "[7.*, )"
+            },
+            "Microsoft.Extensions.DependencyInjection": {
+              "target": "Package",
+              "version": "[9.*, )"
+            },
             "Microsoft.Windows.SDK.BuildTools": {
               "target": "Package",
               "version": "[*, )"
@@ -51,6 +63,10 @@
             "Microsoft.WindowsAppSDK": {
               "target": "Package",
               "version": "[*, )"
+            },
+            "Microsoft.Xaml.Behaviors.WinUI.Managed": {
+              "target": "Package",
+              "version": "[2.*, )"
             }
           },
           "imports": [

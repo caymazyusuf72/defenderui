@@ -12,6 +12,7 @@
     <WinUISDKReferences>false</WinUISDKReferences>
     <EnableMsixTooling>true</EnableMsixTooling>
     <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
   <ItemGroup>
@@ -42,7 +43,6 @@
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="*" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="*" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.*" />
-    <PackageReference Include="CommunityToolkit.WinUI.Controls" Version="8.*" />
     <PackageReference Include="CommunityToolkit.WinUI.UI.Controls" Version="7.*" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.*" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.*" />
