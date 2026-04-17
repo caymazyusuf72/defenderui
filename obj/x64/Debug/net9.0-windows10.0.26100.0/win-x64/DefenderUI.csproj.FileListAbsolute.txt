@@ -332,3 +332,15 @@ C:\Users\yusuf\Desktop\defenderui\obj\x64\Debug\net9.0-windows10.0.26100.0\win-x
 C:\Users\yusuf\Desktop\defenderui\obj\x64\Debug\net9.0-windows10.0.26100.0\win-x64\MultipleQualifiersPerDimensionFound.txt
 C:\Users\yusuf\Desktop\defenderui\obj\x64\Debug\net9.0-windows10.0.26100.0\win-x64\ProjectArchitectures.txt
 C:\Users\yusuf\Desktop\defenderui\obj\x64\Debug\net9.0-windows10.0.26100.0\win-x64\.winmd_cache\$Microsoft.Web.WebView2.Core.winmd_638789222360000000.json
+C:\Users\yusuf\Desktop\defenderui\bin\x64\Debug\net9.0-windows10.0.26100.0\win-x64\Styles\ButtonStyles.xbf
+C:\Users\yusuf\Desktop\defenderui\bin\x64\Debug\net9.0-windows10.0.26100.0\win-x64\Styles\CardStyles.xbf
+C:\Users\yusuf\Desktop\defenderui\bin\x64\Debug\net9.0-windows10.0.26100.0\win-x64\Styles\Colors.xbf
+C:\Users\yusuf\Desktop\defenderui\bin\x64\Debug\net9.0-windows10.0.26100.0\win-x64\Styles\Typography.xbf
+C:\Users\yusuf\Desktop\defenderui\obj\x64\Debug\net9.0-windows10.0.26100.0\win-x64\Styles\ButtonStyles.xaml
+C:\Users\yusuf\Desktop\defenderui\obj\x64\Debug\net9.0-windows10.0.26100.0\win-x64\Styles\CardStyles.xaml
+C:\Users\yusuf\Desktop\defenderui\obj\x64\Debug\net9.0-windows10.0.26100.0\win-x64\Styles\Colors.xaml
+C:\Users\yusuf\Desktop\defenderui\obj\x64\Debug\net9.0-windows10.0.26100.0\win-x64\Styles\Typography.xaml
+C:\Users\yusuf\Desktop\defenderui\obj\x64\Debug\net9.0-windows10.0.26100.0\win-x64\Styles\ButtonStyles.xbf
+C:\Users\yusuf\Desktop\defenderui\obj\x64\Debug\net9.0-windows10.0.26100.0\win-x64\Styles\CardStyles.xbf
+C:\Users\yusuf\Desktop\defenderui\obj\x64\Debug\net9.0-windows10.0.26100.0\win-x64\Styles\Colors.xbf
+C:\Users\yusuf\Desktop\defenderui\obj\x64\Debug\net9.0-windows10.0.26100.0\win-x64\Styles\Typography.xbf

@@ -1,5 +1,9 @@
 App.xbf
 MainWindow.xbf
+Styles\ButtonStyles.xbf
+Styles\CardStyles.xbf
+Styles\Colors.xbf
+Styles\Typography.xbf
 Views\DashboardPage.xbf
 Views\ProtectionPage.xbf
 Views\QuarantinePage.xbf
