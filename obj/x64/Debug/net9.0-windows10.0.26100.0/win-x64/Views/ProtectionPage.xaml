@@ -75,7 +75,7 @@
                             </StackPanel>
 
                             <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8">
-                                <Button x:ConnectionId='34'
+                                <Button x:ConnectionId='26'
                                     Style="{StaticResource PrimaryButtonStyle}"
                                                                                            
                                                                                                                                                                                         
@@ -88,7 +88,7 @@
                                         <TextBlock Text="Enable All" />
                                     </StackPanel>
                                 </Button>
-                                <Button x:ConnectionId='35'
+                                <Button x:ConnectionId='27'
                                     Style="{StaticResource SecondaryButtonStyle}"
                                                                                             
                                                                                                                                                              
@@ -112,21 +112,21 @@
                                     FontFamily="Segoe Fluent Icons"
                                     FontSize="20"
                                     Foreground="{StaticResource SuccessBrush}" />
-                                <TextBlock x:ConnectionId='33'
+                                <TextBlock x:ConnectionId='25'
                                                                                             
                                     Style="{StaticResource BodyLargeStyle}" />
                             </StackPanel>
                             <TextBlock Style="{StaticResource CaptionStyle}">
-                                <Run x:ConnectionId='31'                                                           />
+                                <Run x:ConnectionId='23'                                                           />
                                 <Run Text="/" />
-                                <Run x:ConnectionId='32'                                                          />
+                                <Run x:ConnectionId='24'                                                          />
                                 <Run Text=" modules active" />
                             </TextBlock>
                         </StackPanel>
 
                         <!-- Progress bar -->
                         <StackPanel Grid.Row="2" Spacing="4">
-                            <ProgressBar x:ConnectionId='30'
+                            <ProgressBar x:ConnectionId='22'
                                                                                           
                                                                                            
                                 Height="8"
@@ -153,14 +153,14 @@
                 Style="{StaticResource DashboardCardStyle}"
                 AutomationProperties.Name="Real-time Protection module">
                 <Grid>
-                    <Border x:ConnectionId='28'
+                    <Border
                         Background="{StaticResource SuccessBrush}"
                         Width="4"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Stretch"
                         CornerRadius="2"
                         Margin="-20,0,0,0"
-                                                                                                                                                          />
+                        Visibility="Visible" />
                     <Grid ColumnSpacing="16">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
@@ -207,9 +207,9 @@
                         </StackPanel>
 
                         <!-- Toggle -->
-                        <ToggleSwitch x:ConnectionId='29'
+                        <ToggleSwitch x:ConnectionId='21'
                             Grid.Column="2"
-                                                                                                 
+                            IsOn="True"
                                                      
                             Tag="0"
                             MinWidth="0"
@@ -225,14 +225,14 @@
                 Style="{StaticResource DashboardCardStyle}"
                 AutomationProperties.Name="Web Protection module">
                 <Grid>
-                    <Border x:ConnectionId='26'
+                    <Border
                         Background="{StaticResource SuccessBrush}"
                         Width="4"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Stretch"
                         CornerRadius="2"
                         Margin="-20,0,0,0"
-                                                                                                                                                          />
+                        Visibility="Visible" />
                     <Grid ColumnSpacing="16">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
@@ -276,9 +276,9 @@
                             </StackPanel>
                         </StackPanel>
 
-                        <ToggleSwitch x:ConnectionId='27'
+                        <ToggleSwitch x:ConnectionId='20'
                             Grid.Column="2"
-                                                                                                 
+                            IsOn="True"
                                                      
                             Tag="1"
                             MinWidth="0"
@@ -294,14 +294,14 @@
                 Style="{StaticResource DashboardCardStyle}"
                 AutomationProperties.Name="File Protection module">
                 <Grid>
-                    <Border x:ConnectionId='24'
+                    <Border
                         Background="{StaticResource SuccessBrush}"
                         Width="4"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Stretch"
                         CornerRadius="2"
                         Margin="-20,0,0,0"
-                                                                                                                                                          />
+                        Visibility="Visible" />
                     <Grid ColumnSpacing="16">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
@@ -345,9 +345,9 @@
                             </StackPanel>
                         </StackPanel>
 
-                        <ToggleSwitch x:ConnectionId='25'
+                        <ToggleSwitch x:ConnectionId='19'
                             Grid.Column="2"
-                                                                                                 
+                            IsOn="True"
                                                      
                             Tag="2"
                             MinWidth="0"
@@ -363,14 +363,14 @@
                 Style="{StaticResource DashboardCardStyle}"
                 AutomationProperties.Name="Ransomware Protection module">
                 <Grid>
-                    <Border x:ConnectionId='22'
+                    <Border
                         Background="{StaticResource SuccessBrush}"
                         Width="4"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Stretch"
                         CornerRadius="2"
                         Margin="-20,0,0,0"
-                                                                                                                                                          />
+                        Visibility="Visible" />
                     <Grid ColumnSpacing="16">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
@@ -414,9 +414,9 @@
                             </StackPanel>
                         </StackPanel>
 
-                        <ToggleSwitch x:ConnectionId='23'
+                        <ToggleSwitch x:ConnectionId='18'
                             Grid.Column="2"
-                                                                                                 
+                            IsOn="True"
                                                      
                             Tag="3"
                             MinWidth="0"
@@ -432,22 +432,14 @@
                 Style="{StaticResource DashboardCardStyle}"
                 AutomationProperties.Name="Email Protection module">
                 <Grid>
-                    <Border x:ConnectionId='18'
+                    <Border
                         Background="{StaticResource WarningBrush}"
                         Width="4"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Stretch"
                         CornerRadius="2"
                         Margin="-20,0,0,0"
-                                                                                                                                                         />
-                    <Border x:ConnectionId='19'
-                        Background="{StaticResource TextTertiaryBrush}"
-                        Width="4"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Stretch"
-                        CornerRadius="2"
-                        Margin="-20,0,0,0"
-                                                                                                                                                                                     />
+                        Visibility="Visible" />
                     <Grid ColumnSpacing="16">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
@@ -477,13 +469,13 @@
                                     Text="Email Protection"
                                     Style="{StaticResource BodyLargeStyle}"
                                     FontWeight="SemiBold" />
-                                <FontIcon x:ConnectionId='21'
+                                <FontIcon
                                     Glyph="&#xE7BA;"
                                     FontFamily="Segoe Fluent Icons"
                                     FontSize="14"
                                     Foreground="{StaticResource WarningBrush}"
                                     VerticalAlignment="Center"
-                                                                                                                                                                     />
+                                    Visibility="Visible" />
                             </StackPanel>
                             <TextBlock
                                 Text="Scans email attachments and blocks phishing. Protects against malicious links in emails."
@@ -503,9 +495,9 @@
                             </StackPanel>
                         </StackPanel>
 
-                        <ToggleSwitch x:ConnectionId='20'
+                        <ToggleSwitch x:ConnectionId='17'
                             Grid.Column="2"
-                                                                                                 
+                            IsOn="False"
                                                      
                             Tag="4"
                             MinWidth="0"
@@ -521,14 +513,14 @@
                 Style="{StaticResource DashboardCardStyle}"
                 AutomationProperties.Name="Network Protection module">
                 <Grid>
-                    <Border x:ConnectionId='16'
+                    <Border
                         Background="{StaticResource SuccessBrush}"
                         Width="4"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Stretch"
                         CornerRadius="2"
                         Margin="-20,0,0,0"
-                                                                                                                                                          />
+                        Visibility="Visible" />
                     <Grid ColumnSpacing="16">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
@@ -572,9 +564,9 @@
                             </StackPanel>
                         </StackPanel>
 
-                        <ToggleSwitch x:ConnectionId='17'
+                        <ToggleSwitch x:ConnectionId='16'
                             Grid.Column="2"
-                                                                                                 
+                            IsOn="True"
                                                      
                             Tag="5"
                             MinWidth="0"

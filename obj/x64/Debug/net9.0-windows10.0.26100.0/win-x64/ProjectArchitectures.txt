@@ -1,1 +1,0 @@
-C:\Users\yusuf\Desktop\defenderui\DefenderUI.csproj;x64

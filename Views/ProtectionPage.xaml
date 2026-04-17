@@ -160,7 +160,7 @@
                         VerticalAlignment="Stretch"
                         CornerRadius="2"
                         Margin="-20,0,0,0"
-                        Visibility="{x:Bind ViewModel.ProtectionModules[0].IsEnabled, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                        Visibility="Visible" />
                     <Grid ColumnSpacing="16">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
@@ -209,7 +209,7 @@
                         <!-- Toggle -->
                         <ToggleSwitch
                             Grid.Column="2"
-                            IsOn="{x:Bind ViewModel.ProtectionModules[0].IsEnabled, Mode=OneWay}"
+                            IsOn="True"
                             Toggled="OnModuleToggled"
                             Tag="0"
                             MinWidth="0"
@@ -232,7 +232,7 @@
                         VerticalAlignment="Stretch"
                         CornerRadius="2"
                         Margin="-20,0,0,0"
-                        Visibility="{x:Bind ViewModel.ProtectionModules[1].IsEnabled, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                        Visibility="Visible" />
                     <Grid ColumnSpacing="16">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
@@ -278,7 +278,7 @@
 
                         <ToggleSwitch
                             Grid.Column="2"
-                            IsOn="{x:Bind ViewModel.ProtectionModules[1].IsEnabled, Mode=OneWay}"
+                            IsOn="True"
                             Toggled="OnModuleToggled"
                             Tag="1"
                             MinWidth="0"
@@ -301,7 +301,7 @@
                         VerticalAlignment="Stretch"
                         CornerRadius="2"
                         Margin="-20,0,0,0"
-                        Visibility="{x:Bind ViewModel.ProtectionModules[2].IsEnabled, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                        Visibility="Visible" />
                     <Grid ColumnSpacing="16">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
@@ -347,7 +347,7 @@
 
                         <ToggleSwitch
                             Grid.Column="2"
-                            IsOn="{x:Bind ViewModel.ProtectionModules[2].IsEnabled, Mode=OneWay}"
+                            IsOn="True"
                             Toggled="OnModuleToggled"
                             Tag="2"
                             MinWidth="0"
@@ -370,7 +370,7 @@
                         VerticalAlignment="Stretch"
                         CornerRadius="2"
                         Margin="-20,0,0,0"
-                        Visibility="{x:Bind ViewModel.ProtectionModules[3].IsEnabled, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                        Visibility="Visible" />
                     <Grid ColumnSpacing="16">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
@@ -416,7 +416,7 @@
 
                         <ToggleSwitch
                             Grid.Column="2"
-                            IsOn="{x:Bind ViewModel.ProtectionModules[3].IsEnabled, Mode=OneWay}"
+                            IsOn="True"
                             Toggled="OnModuleToggled"
                             Tag="3"
                             MinWidth="0"
@@ -439,15 +439,7 @@
                         VerticalAlignment="Stretch"
                         CornerRadius="2"
                         Margin="-20,0,0,0"
-                        Visibility="{x:Bind ViewModel.ProtectionModules[4].HasIssue, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
-                    <Border
-                        Background="{StaticResource TextTertiaryBrush}"
-                        Width="4"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Stretch"
-                        CornerRadius="2"
-                        Margin="-20,0,0,0"
-                        Visibility="{x:Bind ViewModel.ProtectionModules[4].IsEnabled, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Invert}" />
+                        Visibility="Visible" />
                     <Grid ColumnSpacing="16">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
@@ -483,7 +475,7 @@
                                     FontSize="14"
                                     Foreground="{StaticResource WarningBrush}"
                                     VerticalAlignment="Center"
-                                    Visibility="{x:Bind ViewModel.ProtectionModules[4].HasIssue, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                    Visibility="Visible" />
                             </StackPanel>
                             <TextBlock
                                 Text="Scans email attachments and blocks phishing. Protects against malicious links in emails."
@@ -505,7 +497,7 @@
 
                         <ToggleSwitch
                             Grid.Column="2"
-                            IsOn="{x:Bind ViewModel.ProtectionModules[4].IsEnabled, Mode=OneWay}"
+                            IsOn="False"
                             Toggled="OnModuleToggled"
                             Tag="4"
                             MinWidth="0"
@@ -528,7 +520,7 @@
                         VerticalAlignment="Stretch"
                         CornerRadius="2"
                         Margin="-20,0,0,0"
-                        Visibility="{x:Bind ViewModel.ProtectionModules[5].IsEnabled, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                        Visibility="Visible" />
                     <Grid ColumnSpacing="16">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
@@ -574,7 +566,7 @@
 
                         <ToggleSwitch
                             Grid.Column="2"
-                            IsOn="{x:Bind ViewModel.ProtectionModules[5].IsEnabled, Mode=OneWay}"
+                            IsOn="True"
                             Toggled="OnModuleToggled"
                             Tag="5"
                             MinWidth="0"
