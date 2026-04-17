@@ -1,0 +1,58 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+
+jobs:
+  release:
+    name: Build and Release (${{ matrix.platform }})
+    runs-on: windows-latest
+    permissions:
+      contents: write
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [x64, x86, ARM64]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 9
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Restore dependencies
+        run: dotnet restore -p:Platform=${{ matrix.platform }}
+
+      - name: Build Release
+        run: dotnet build --no-restore -c Release -p:Platform=${{ matrix.platform }}
+
+      - name: Package binaries
+        shell: pwsh
+        run: |
+          $rid = "${{ matrix.platform }}".ToLower()
+          $dir = "bin/${{ matrix.platform }}/Release/net9.0-windows10.0.26100.0/win-$rid"
+          if (-not (Test-Path $dir)) {
+            Write-Error "Build output directory not found: $dir"
+            exit 1
+          }
+          Compress-Archive -Path "$dir/*" -DestinationPath "DefenderUI-${{ matrix.platform }}.zip" -Force
+          Get-FileHash "DefenderUI-${{ matrix.platform }}.zip" -Algorithm SHA256 | Format-List
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: DefenderUI-${{ matrix.platform }}.zip
+          generate_release_notes: true
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
