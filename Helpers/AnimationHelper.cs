@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Numerics;
 using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Hosting;
+using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
+using Windows.UI;
 
 namespace DefenderUI.Helpers;
 
@@ -18,10 +21,6 @@ public static class AnimationHelper
     /// <summary>
     /// Fades an element in while sliding it up from 24px below.
     /// </summary>
-    /// <param name="element">Target element.</param>
-    /// <param name="delayMs">Delay before the animation starts.</param>
-    /// <param name="durationMs">Animation duration in milliseconds.</param>
-    /// <param name="offsetY">Initial vertical offset (px).</param>
     public static void AnimateEntrance(
         UIElement element,
         double delayMs = 0,
@@ -44,7 +43,6 @@ public static class AnimationHelper
             new Vector2(0.1f, 0.9f),
             new Vector2(0.2f, 1f));
 
-        // Opacity animation
         var opacityAnim = compositor.CreateScalarKeyFrameAnimation();
         opacityAnim.InsertKeyFrame(0f, 0f);
         opacityAnim.InsertKeyFrame(1f, 1f, easing);
@@ -52,7 +50,6 @@ public static class AnimationHelper
         opacityAnim.DelayTime = TimeSpan.FromMilliseconds(delayMs);
         opacityAnim.DelayBehavior = AnimationDelayBehavior.SetInitialValueBeforeDelay;
 
-        // Offset animation
         var offsetAnim = compositor.CreateVector3KeyFrameAnimation();
         offsetAnim.InsertKeyFrame(0f, new Vector3(0, offsetY, 0));
         offsetAnim.InsertKeyFrame(1f, Vector3.Zero, easing);
@@ -125,6 +122,29 @@ public static class AnimationHelper
         foreach (var element in elements)
         {
             AnimateEntrance(element, delay, durationMs, offsetY);
+            delay += staggerMs;
+        }
+    }
+
+    /// <summary>
+    /// Animates a set of elements in sequence with a horizontal slide.
+    /// </summary>
+    public static void AnimateStaggeredHorizontal(
+        IEnumerable<UIElement> elements,
+        double staggerMs = 90,
+        double initialDelayMs = 0,
+        double durationMs = 500,
+        float offsetX = 40f)
+    {
+        if (elements is null)
+        {
+            return;
+        }
+
+        double delay = initialDelayMs;
+        foreach (var element in elements)
+        {
+            AnimateSlideInHorizontal(element, offsetX, delay, durationMs);
             delay += staggerMs;
         }
     }
@@ -343,6 +363,216 @@ public static class AnimationHelper
     }
 
     /// <summary>
+    /// Flashes a container's background with an accent color briefly, and
+    /// adds a short shake for emphasis. Great for threat-detected feedback.
+    /// </summary>
+    public static void FlashAccentColor(FrameworkElement element, Color color, double durationMs = 600)
+    {
+        if (element is null)
+        {
+            return;
+        }
+
+        Brush? originalBrush = GetBackground(element);
+        var flashBrush = new SolidColorBrush(color);
+        ApplyBackground(element, flashBrush);
+
+        var timer = new DispatcherTimer
+        {
+            Interval = TimeSpan.FromMilliseconds(durationMs / 2),
+        };
+        int tick = 0;
+        timer.Tick += (_, _) =>
+        {
+            tick++;
+            if (tick == 1)
+            {
+                var fadedColor = Color.FromArgb((byte)(color.A / 2), color.R, color.G, color.B);
+                ApplyBackground(element, new SolidColorBrush(fadedColor));
+            }
+            else
+            {
+                ApplyBackground(element, originalBrush);
+                timer.Stop();
+            }
+        };
+        timer.Start();
+
+        Shake(element, intensity: 4f, durationMs: durationMs);
+    }
+
+    private static Brush? GetBackground(FrameworkElement element)
+    {
+        return element switch
+        {
+            Border b => b.Background,
+            Panel p => p.Background,
+            Control c => c.Background,
+            _ => null,
+        };
+    }
+
+    private static void ApplyBackground(FrameworkElement element, Brush? brush)
+    {
+        switch (element)
+        {
+            case Border b:
+                b.Background = brush;
+                break;
+            case Panel p:
+                p.Background = brush;
+                break;
+            case Control c:
+                c.Background = brush;
+                break;
+        }
+    }
+
+    /// <summary>
+    /// Starts a continuous opacity shimmer (0.65 -> 1.0 -> 0.65) intended to
+    /// be applied to a ProgressBar or its overlay while work is in progress.
+    /// </summary>
+    public static void AnimateProgressShimmer(FrameworkElement element, double durationMs = 1400)
+    {
+        if (element is null)
+        {
+            return;
+        }
+
+        var visual = ElementCompositionPreview.GetElementVisual(element);
+        var compositor = visual.Compositor;
+
+        var easing = compositor.CreateCubicBezierEasingFunction(
+            new Vector2(0.4f, 0f),
+            new Vector2(0.6f, 1f));
+
+        var opacityAnim = compositor.CreateScalarKeyFrameAnimation();
+        opacityAnim.InsertKeyFrame(0f, 0.65f);
+        opacityAnim.InsertKeyFrame(0.5f, 1.0f, easing);
+        opacityAnim.InsertKeyFrame(1f, 0.65f, easing);
+        opacityAnim.Duration = TimeSpan.FromMilliseconds(durationMs);
+        opacityAnim.IterationBehavior = AnimationIterationBehavior.Forever;
+
+        visual.StartAnimation("Opacity", opacityAnim);
+    }
+
+    /// <summary>
+    /// Smoothly animates a <see cref="ProgressBar"/> from 0 to the target
+    /// value over the specified duration using an ease-out cubic tween.
+    /// </summary>
+    public static void AnimateProgressBar(
+        ProgressBar bar,
+        double targetValue,
+        double delayMs = 0,
+        double durationMs = 800)
+    {
+        if (bar is null)
+        {
+            return;
+        }
+
+        bar.Value = 0;
+
+        void StartTween()
+        {
+            var startTime = DateTime.UtcNow;
+            var tweenTimer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromMilliseconds(16),
+            };
+            tweenTimer.Tick += (_, _) =>
+            {
+                var elapsed = (DateTime.UtcNow - startTime).TotalMilliseconds;
+                var progress = Math.Clamp(elapsed / durationMs, 0, 1);
+                var eased = 1 - Math.Pow(1 - progress, 3);
+                bar.Value = targetValue * eased;
+
+                if (progress >= 1)
+                {
+                    bar.Value = targetValue;
+                    tweenTimer.Stop();
+                }
+            };
+            tweenTimer.Start();
+        }
+
+        if (delayMs > 0)
+        {
+            var delayTimer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromMilliseconds(delayMs),
+            };
+            delayTimer.Tick += (_, _) =>
+            {
+                delayTimer.Stop();
+                StartTween();
+            };
+            delayTimer.Start();
+        }
+        else
+        {
+            StartTween();
+        }
+    }
+
+    /// <summary>
+    /// Performs a short scale pulse ("check" effect) for toggle feedback.
+    /// </summary>
+    public static void AnimateCheckPulse(FrameworkElement element, double durationMs = 380)
+    {
+        if (element is null)
+        {
+            return;
+        }
+
+        var visual = ElementCompositionPreview.GetElementVisual(element);
+        var compositor = visual.Compositor;
+
+        CenterAnchor(element, visual);
+
+        var easing = compositor.CreateCubicBezierEasingFunction(
+            new Vector2(0.34f, 1.56f),
+            new Vector2(0.64f, 1f));
+
+        var anim = compositor.CreateVector3KeyFrameAnimation();
+        anim.InsertKeyFrame(0f, Vector3.One);
+        anim.InsertKeyFrame(0.5f, new Vector3(1.04f, 1.04f, 1f), easing);
+        anim.InsertKeyFrame(1f, Vector3.One, easing);
+        anim.Duration = TimeSpan.FromMilliseconds(durationMs);
+
+        visual.StartAnimation("Scale", anim);
+    }
+
+    /// <summary>
+    /// Fades an element's opacity from one value to another.
+    /// </summary>
+    public static void FadeOpacity(
+        UIElement element,
+        float from,
+        float to,
+        double durationMs = 200)
+    {
+        if (element is null)
+        {
+            return;
+        }
+
+        var visual = ElementCompositionPreview.GetElementVisual(element);
+        var compositor = visual.Compositor;
+
+        var easing = compositor.CreateCubicBezierEasingFunction(
+            new Vector2(0.1f, 0.9f),
+            new Vector2(0.2f, 1f));
+
+        var anim = compositor.CreateScalarKeyFrameAnimation();
+        anim.InsertKeyFrame(0f, from);
+        anim.InsertKeyFrame(1f, to, easing);
+        anim.Duration = TimeSpan.FromMilliseconds(durationMs);
+
+        visual.StartAnimation("Opacity", anim);
+    }
+
+    /// <summary>
     /// Anchors the composition transform origin to the element's center so
     /// scale and rotation animations rotate around the middle.
     /// </summary>
@@ -358,7 +588,6 @@ public static class AnimationHelper
                     0f);
             }
 
-            // Ensure the center is updated once the element is measured.
             fe.SizeChanged += (_, args) =>
             {
                 visual.CenterPoint = new Vector3(

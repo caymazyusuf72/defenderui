@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:helpers="using:DefenderUI.Helpers"
     mc:Ignorable="d"
+    Loaded="Page_Loaded"
     Background="Transparent">
 
     <Page.Resources>
@@ -17,7 +18,7 @@
         <StackPanel Padding="32" Spacing="16">
 
             <!-- Header -->
-            <StackPanel>
+            <StackPanel x:Name="HeaderPanel">
                 <TextBlock Text="Update"
                            Style="{StaticResource TitleLargeStyle}" />
                 <TextBlock Text="Keep your protection up to date"
@@ -26,7 +27,7 @@
             </StackPanel>
 
             <!-- Update Status Hero Card -->
-            <Border Style="{StaticResource HeroCardStyle}">
+            <Border x:Name="HeroCard" Style="{StaticResource HeroCardStyle}">
                 <StackPanel Spacing="16">
                     <StackPanel Orientation="Horizontal" Spacing="8">
                         <TextBlock Text="&#xE895;" FontFamily="Segoe Fluent Icons"

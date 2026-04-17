@@ -57,6 +57,7 @@
             PaneDisplayMode="Left"
             OpenPaneLength="260"
             Background="Transparent"
+            Loaded="NavView_Loaded"
             SelectionChanged="NavView_SelectionChanged"
             AutomationProperties.Name="Main navigation">
 

@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:helpers="using:DefenderUI.Helpers"
     mc:Ignorable="d"
+                        
     Background="Transparent">
 
     <Page.Resources>
@@ -17,7 +18,7 @@
         <StackPanel Padding="32" Spacing="16">
 
             <!-- Header -->
-            <Grid>
+            <Grid x:ConnectionId='2' x:Name="HeaderGrid">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
@@ -34,17 +35,17 @@
                 <!-- Period Filter -->
                 <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="4"
                             VerticalAlignment="Center">
-                    <Button x:ConnectionId='23' Content="7 Days"
+                    <Button x:ConnectionId='24' Content="7 Days"
                             Style="{StaticResource SecondaryButtonStyle}"
                                                                             
                             CommandParameter="Last 7 Days"
                             AutomationProperties.Name="Last 7 Days filter" />
-                    <Button x:ConnectionId='24' Content="30 Days"
+                    <Button x:ConnectionId='25' Content="30 Days"
                             Style="{StaticResource SecondaryButtonStyle}"
                                                                             
                             CommandParameter="Last 30 Days"
                             AutomationProperties.Name="Last 30 Days filter" />
-                    <Button x:ConnectionId='25' Content="90 Days"
+                    <Button x:ConnectionId='26' Content="90 Days"
                             Style="{StaticResource SecondaryButtonStyle}"
                                                                             
                             CommandParameter="Last 90 Days"
@@ -66,7 +67,7 @@
                     <StackPanel Spacing="4">
                         <TextBlock Text="&#xE9D9;" FontFamily="Segoe Fluent Icons"
                                    FontSize="20" Foreground="{StaticResource AccentBrush}" />
-                        <TextBlock x:ConnectionId='22'                                                  
+                        <TextBlock x:ConnectionId='23'                                                  
                                    Style="{StaticResource DisplayNumberStyle}" />
                         <TextBlock Text="Scans Performed"
                                    Style="{StaticResource CaptionStyle}" />
@@ -78,7 +79,7 @@
                     <StackPanel Spacing="4">
                         <TextBlock Text="&#xE7BA;" FontFamily="Segoe Fluent Icons"
                                    FontSize="20" Foreground="{StaticResource WarningBrush}" />
-                        <TextBlock x:ConnectionId='21'                                                            
+                        <TextBlock x:ConnectionId='22'                                                            
                                    Style="{StaticResource DisplayNumberStyle}" />
                         <TextBlock Text="Threats Detected"
                                    Style="{StaticResource CaptionStyle}" />
@@ -90,7 +91,7 @@
                     <StackPanel Spacing="4">
                         <TextBlock Text="&#xE72E;" FontFamily="Segoe Fluent Icons"
                                    FontSize="20" Foreground="{StaticResource DangerBrush}" />
-                        <TextBlock x:ConnectionId='20'                                                           
+                        <TextBlock x:ConnectionId='21'                                                           
                                    Style="{StaticResource DisplayNumberStyle}" />
                         <TextBlock Text="Blocked Attacks"
                                    Style="{StaticResource CaptionStyle}" />
@@ -102,7 +103,7 @@
                     <StackPanel Spacing="4">
                         <TextBlock Text="&#xE8B7;" FontFamily="Segoe Fluent Icons"
                                    FontSize="20" Foreground="{StaticResource SuccessBrush}" />
-                        <TextBlock x:ConnectionId='19'                                                         
+                        <TextBlock x:ConnectionId='20'                                                         
                                    Style="{StaticResource DisplayNumberStyle}" />
                         <TextBlock Text="Files Scanned"
                                    Style="{StaticResource CaptionStyle}" />
@@ -121,7 +122,7 @@
                                    Style="{StaticResource SubtitleStyle}" />
                     </StackPanel>
 
-                    <ItemsRepeater x:ConnectionId='17'                                                            >
+                    <ItemsRepeater x:ConnectionId='18'                                                            >
                         <ItemsRepeater.Layout>
                             <StackLayout Spacing="8" />
                         </ItemsRepeater.Layout>
@@ -183,7 +184,7 @@
                         <TextBlock Grid.Column="0" Text="Trojans"
                                    Style="{StaticResource BodyStyle}"
                                    VerticalAlignment="Center" />
-                        <ProgressBar x:ConnectionId='15' Grid.Column="1"
+                        <ProgressBar x:ConnectionId='16' Grid.Column="1"
                                                                                         
                                      Maximum="47" Height="16" CornerRadius="4"
                                      Foreground="{StaticResource DangerBrush}"
@@ -192,7 +193,7 @@
                         <TextBlock Grid.Column="2" VerticalAlignment="Center"
                                    HorizontalAlignment="Right"
                                    Style="{StaticResource CaptionStyle}">
-                            <Run x:ConnectionId='16'                                                    />
+                            <Run x:ConnectionId='17'                                                    />
                             <Run Text=" (38%)" />
                         </TextBlock>
                     </Grid>
@@ -207,7 +208,7 @@
                         <TextBlock Grid.Column="0" Text="Adware"
                                    Style="{StaticResource BodyStyle}"
                                    VerticalAlignment="Center" />
-                        <ProgressBar x:ConnectionId='13' Grid.Column="1"
+                        <ProgressBar x:ConnectionId='14' Grid.Column="1"
                                                                                         
                                      Maximum="47" Height="16" CornerRadius="4"
                                      Foreground="{StaticResource WarningBrush}"
@@ -216,7 +217,7 @@
                         <TextBlock Grid.Column="2" VerticalAlignment="Center"
                                    HorizontalAlignment="Right"
                                    Style="{StaticResource CaptionStyle}">
-                            <Run x:ConnectionId='14'                                                    />
+                            <Run x:ConnectionId='15'                                                    />
                             <Run Text=" (26%)" />
                         </TextBlock>
                     </Grid>
@@ -231,7 +232,7 @@
                         <TextBlock Grid.Column="0" Text="Spyware"
                                    Style="{StaticResource BodyStyle}"
                                    VerticalAlignment="Center" />
-                        <ProgressBar x:ConnectionId='11' Grid.Column="1"
+                        <ProgressBar x:ConnectionId='12' Grid.Column="1"
                                                                                          
                                      Maximum="47" Height="16" CornerRadius="4"
                                      Foreground="{StaticResource InfoBrush}"
@@ -240,7 +241,7 @@
                         <TextBlock Grid.Column="2" VerticalAlignment="Center"
                                    HorizontalAlignment="Right"
                                    Style="{StaticResource CaptionStyle}">
-                            <Run x:ConnectionId='12'                                                     />
+                            <Run x:ConnectionId='13'                                                     />
                             <Run Text=" (17%)" />
                         </TextBlock>
                     </Grid>
@@ -255,7 +256,7 @@
                         <TextBlock Grid.Column="0" Text="PUP"
                                    Style="{StaticResource BodyStyle}"
                                    VerticalAlignment="Center" />
-                        <ProgressBar x:ConnectionId='9' Grid.Column="1"
+                        <ProgressBar x:ConnectionId='10' Grid.Column="1"
                                                                                      
                                      Maximum="47" Height="16" CornerRadius="4"
                                      Foreground="{StaticResource TextTertiaryBrush}"
@@ -264,7 +265,7 @@
                         <TextBlock Grid.Column="2" VerticalAlignment="Center"
                                    HorizontalAlignment="Right"
                                    Style="{StaticResource CaptionStyle}">
-                            <Run x:ConnectionId='10'                                                 />
+                            <Run x:ConnectionId='11'                                                 />
                             <Run Text=" (11%)" />
                         </TextBlock>
                     </Grid>
@@ -279,7 +280,7 @@
                         <TextBlock Grid.Column="0" Text="Ransomware"
                                    Style="{StaticResource BodyStyle}"
                                    VerticalAlignment="Center" />
-                        <ProgressBar x:ConnectionId='7' Grid.Column="1"
+                        <ProgressBar x:ConnectionId='8' Grid.Column="1"
                                                                                             
                                      Maximum="47" Height="16" CornerRadius="4"
                                      Foreground="{StaticResource DangerBrush}"
@@ -288,7 +289,7 @@
                         <TextBlock Grid.Column="2" VerticalAlignment="Center"
                                    HorizontalAlignment="Right"
                                    Style="{StaticResource CaptionStyle}">
-                            <Run x:ConnectionId='8'                                                        />
+                            <Run x:ConnectionId='9'                                                        />
                             <Run Text=" (8%)" />
                         </TextBlock>
                     </Grid>
@@ -330,7 +331,7 @@
                             <TextBlock Grid.Row="0" Grid.Column="1"
                                        Style="{StaticResource BodyStyle}"
                                        VerticalAlignment="Center">
-                                <Run x:ConnectionId='6'                                                      />
+                                <Run x:ConnectionId='7'                                                      />
                                 <Run Text=" days" />
                             </TextBlock>
 
@@ -340,7 +341,7 @@
                             <TextBlock Grid.Row="1" Grid.Column="1"
                                        Style="{StaticResource BodyStyle}"
                                        VerticalAlignment="Center">
-                                <Run x:ConnectionId='5'                                                        />
+                                <Run x:ConnectionId='6'                                                        />
                                 <Run Text=" min" />
                             </TextBlock>
 
@@ -353,7 +354,7 @@
                                        VerticalAlignment="Center" />
                         </Grid>
 
-                        <Button x:ConnectionId='4' Content="Export Report"
+                        <Button x:ConnectionId='5' Content="Export Report"
                                 Style="{StaticResource SecondaryButtonStyle}"
                                                                                 
                                 HorizontalAlignment="Left"
@@ -372,7 +373,7 @@
                                        Style="{StaticResource SubtitleStyle}" />
                         </StackPanel>
 
-                        <ItemsRepeater x:ConnectionId='2'                                                          >
+                        <ItemsRepeater x:ConnectionId='3'                                                          >
                             <ItemsRepeater.Layout>
                                 <StackLayout Spacing="8" />
                             </ItemsRepeater.Layout>

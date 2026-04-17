@@ -6,6 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:DefenderUI.ViewModels"
     mc:Ignorable="d"
+                        
     Background="{StaticResource AppBackgroundBrush}">
 
     <ScrollViewer
@@ -19,7 +20,7 @@
             <!-- ════════════════════════════════════════════════════ -->
             <!-- Section A - Page Header                             -->
             <!-- ════════════════════════════════════════════════════ -->
-            <StackPanel Spacing="4">
+            <StackPanel x:ConnectionId='2' x:Name="HeaderPanel" Spacing="4">
                 <TextBlock
                     Text="Security Overview"
                     Style="{StaticResource TitleLargeStyle}"
@@ -39,7 +40,8 @@
                 </Grid.ColumnDefinitions>
 
                 <!-- Hero Protection Status Card -->
-                <Border
+                <Border x:ConnectionId='49'
+                    x:Name="HeroCard"
                     Grid.Column="0"
                     Style="{StaticResource HeroCardStyle}"
                     AutomationProperties.Name="Protection status card">
@@ -75,7 +77,8 @@
                                             Stroke="{StaticResource BorderBrush}"
                                             StrokeThickness="3"
                                             Fill="Transparent" />
-                                        <Ellipse
+                                        <Ellipse x:ConnectionId='65'
+                                            x:Name="ScorePulseRing"
                                             Width="120"
                                             Height="120"
                                             Stroke="{StaticResource SuccessBrush}"
@@ -86,7 +89,7 @@
                                             HorizontalAlignment="Center"
                                             VerticalAlignment="Center"
                                             Spacing="0">
-                                            <TextBlock x:ConnectionId='50'
+                                            <TextBlock x:ConnectionId='66'
                                                                                                     
                                                 Style="{StaticResource HeroNumberStyle}"
                                                 Foreground="{StaticResource SuccessBrush}"
@@ -104,17 +107,18 @@
                                         VerticalAlignment="Center"
                                         Spacing="8">
                                         <StackPanel Orientation="Horizontal" Spacing="10">
-                                            <FontIcon
+                                            <FontIcon x:ConnectionId='63'
+                                                x:Name="ShieldIcon"
                                                 Glyph="&#xE72E;"
                                                 FontFamily="Segoe Fluent Icons"
                                                 FontSize="28"
                                                 Foreground="{StaticResource SuccessBrush}" />
-                                            <TextBlock x:ConnectionId='49'
+                                            <TextBlock x:ConnectionId='64'
                                                                                                     
                                                 Style="{StaticResource SubtitleStyle}" />
                                         </StackPanel>
 
-                                        <TextBlock x:ConnectionId='48'
+                                        <TextBlock x:ConnectionId='62'
                                                                                                     
                                             Style="{StaticResource BodySecondaryStyle}" />
 
@@ -143,7 +147,7 @@
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
 
-                                    <Button x:ConnectionId='44'
+                                    <Button x:ConnectionId='58'
                                         Grid.Column="0"
                                         Style="{StaticResource PrimaryButtonStyle}"
                                                                                      
@@ -164,15 +168,15 @@
                                         VerticalAlignment="Center">
                                         <TextBlock Style="{StaticResource CaptionStyle}">
                                             <Run Text="Last scan: " />
-                                            <Run x:ConnectionId='47'                                                     Foreground="{StaticResource TextPrimaryBrush}" />
+                                            <Run x:ConnectionId='61'                                                     Foreground="{StaticResource TextPrimaryBrush}" />
                                         </TextBlock>
                                         <TextBlock Style="{StaticResource CaptionStyle}">
                                             <Run Text="Duration: " />
-                                            <Run x:ConnectionId='46'                                                         Foreground="{StaticResource TextPrimaryBrush}" />
+                                            <Run x:ConnectionId='60'                                                         Foreground="{StaticResource TextPrimaryBrush}" />
                                         </TextBlock>
                                         <TextBlock Style="{StaticResource CaptionStyle}">
                                             <Run Text="Files: " />
-                                            <Run x:ConnectionId='45'                                                             Foreground="{StaticResource TextPrimaryBrush}" />
+                                            <Run x:ConnectionId='59'                                                             Foreground="{StaticResource TextPrimaryBrush}" />
                                         </TextBlock>
                                     </StackPanel>
                                 </Grid>
@@ -196,7 +200,8 @@
                     </Grid.ColumnDefinitions>
 
                     <!-- KPI 1: Threats Detected -->
-                    <Border
+                    <Border x:ConnectionId='50'
+                        x:Name="Kpi1"
                         Grid.Row="0"
                         Grid.Column="0"
                         Style="{StaticResource KpiCardStyle}"
@@ -208,7 +213,7 @@
                                 FontSize="18"
                                 Foreground="{StaticResource DangerBrush}"
                                 HorizontalAlignment="Left" />
-                            <TextBlock x:ConnectionId='43'
+                            <TextBlock x:ConnectionId='57'
                                                                                       
                                 Style="{StaticResource DisplayNumberStyle}"
                                 Foreground="{StaticResource DangerBrush}" />
@@ -219,7 +224,8 @@
                     </Border>
 
                     <!-- KPI 2: Quarantined -->
-                    <Border
+                    <Border x:ConnectionId='51'
+                        x:Name="Kpi2"
                         Grid.Row="0"
                         Grid.Column="1"
                         Style="{StaticResource KpiCardStyle}"
@@ -231,7 +237,7 @@
                                 FontSize="18"
                                 Foreground="{StaticResource WarningBrush}"
                                 HorizontalAlignment="Left" />
-                            <TextBlock x:ConnectionId='42'
+                            <TextBlock x:ConnectionId='56'
                                                                                        
                                 Style="{StaticResource DisplayNumberStyle}"
                                 Foreground="{StaticResource WarningBrush}" />
@@ -242,7 +248,8 @@
                     </Border>
 
                     <!-- KPI 3: Blocked Attacks -->
-                    <Border
+                    <Border x:ConnectionId='52'
+                        x:Name="Kpi3"
                         Grid.Row="1"
                         Grid.Column="0"
                         Style="{StaticResource KpiCardStyle}"
@@ -254,7 +261,7 @@
                                 FontSize="18"
                                 Foreground="{StaticResource AccentBrush}"
                                 HorizontalAlignment="Left" />
-                            <TextBlock x:ConnectionId='41'
+                            <TextBlock x:ConnectionId='55'
                                                                                      
                                 Style="{StaticResource DisplayNumberStyle}"
                                 Foreground="{StaticResource AccentBrush}" />
@@ -265,7 +272,8 @@
                     </Border>
 
                     <!-- KPI 4: Protected Files -->
-                    <Border
+                    <Border x:ConnectionId='53'
+                        x:Name="Kpi4"
                         Grid.Row="1"
                         Grid.Column="1"
                         Style="{StaticResource KpiCardStyle}"
@@ -277,7 +285,7 @@
                                 FontSize="18"
                                 Foreground="{StaticResource SuccessBrush}"
                                 HorizontalAlignment="Left" />
-                            <TextBlock x:ConnectionId='40'
+                            <TextBlock x:ConnectionId='54'
                                                                                      
                                 Style="{StaticResource DisplayNumberStyle}"
                                 Foreground="{StaticResource SuccessBrush}" />
@@ -292,7 +300,8 @@
             <!-- ════════════════════════════════════════════════════ -->
             <!-- Section C - Quick Action Buttons                    -->
             <!-- ════════════════════════════════════════════════════ -->
-            <TextBlock
+            <TextBlock x:ConnectionId='3'
+                x:Name="QuickActionsHeader"
                 Text="Quick Actions"
                 Style="{StaticResource SubtitleStyle}"
                 Margin="0,8,0,0"
@@ -307,7 +316,8 @@
                 </Grid.ColumnDefinitions>
 
                 <!-- Quick Scan -->
-                <Button x:ConnectionId='36'
+                <Button x:ConnectionId='45'
+                    x:Name="QuickAction1"
                     Grid.Column="0"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Stretch"
@@ -345,7 +355,8 @@
                 </Button>
 
                 <!-- Full Scan -->
-                <Button x:ConnectionId='37'
+                <Button x:ConnectionId='46'
+                    x:Name="QuickAction2"
                     Grid.Column="1"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Stretch"
@@ -383,7 +394,8 @@
                 </Button>
 
                 <!-- Custom Scan -->
-                <Button x:ConnectionId='38'
+                <Button x:ConnectionId='47'
+                    x:Name="QuickAction3"
                     Grid.Column="2"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Stretch"
@@ -421,7 +433,8 @@
                 </Button>
 
                 <!-- Update Now -->
-                <Button x:ConnectionId='39'
+                <Button x:ConnectionId='48'
+                    x:Name="QuickAction4"
                     Grid.Column="3"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Stretch"
@@ -462,7 +475,8 @@
             <!-- ════════════════════════════════════════════════════ -->
             <!-- Section D - Real-time Protection + Update/Health    -->
             <!-- ════════════════════════════════════════════════════ -->
-            <TextBlock
+            <TextBlock x:ConnectionId='4'
+                x:Name="ProtectionSectionHeader"
                 Text="Protection &amp; System Status"
                 Style="{StaticResource SubtitleStyle}"
                 Margin="0,8,0,0"
@@ -475,7 +489,8 @@
                 </Grid.ColumnDefinitions>
 
                 <!-- Left: Real-time Protection Panel -->
-                <Border
+                <Border x:ConnectionId='27'
+                    x:Name="ProtectionCard"
                     Grid.Column="0"
                     Style="{StaticResource DashboardCardStyle}"
                     AutomationProperties.Name="Real-time protection modules">
@@ -519,7 +534,7 @@
                                 Text="Real-time Protection"
                                 Style="{StaticResource BodyStyle}"
                                 VerticalAlignment="Center" />
-                            <ToggleSwitch x:ConnectionId='35'
+                            <ToggleSwitch x:ConnectionId='44'
                                 Grid.Column="2"
                                                                                                      
                                 IsEnabled="False"
@@ -557,7 +572,7 @@
                                 Text="Web Protection"
                                 Style="{StaticResource BodyStyle}"
                                 VerticalAlignment="Center" />
-                            <ToggleSwitch x:ConnectionId='34'
+                            <ToggleSwitch x:ConnectionId='43'
                                 Grid.Column="2"
                                                                                                      
                                 IsEnabled="False"
@@ -595,7 +610,7 @@
                                 Text="File Protection"
                                 Style="{StaticResource BodyStyle}"
                                 VerticalAlignment="Center" />
-                            <ToggleSwitch x:ConnectionId='33'
+                            <ToggleSwitch x:ConnectionId='42'
                                 Grid.Column="2"
                                                                                                      
                                 IsEnabled="False"
@@ -633,7 +648,7 @@
                                 Text="Ransomware Protection"
                                 Style="{StaticResource BodyStyle}"
                                 VerticalAlignment="Center" />
-                            <ToggleSwitch x:ConnectionId='32'
+                            <ToggleSwitch x:ConnectionId='41'
                                 Grid.Column="2"
                                                                                                      
                                 IsEnabled="False"
@@ -671,7 +686,7 @@
                                 Text="Email Protection"
                                 Style="{StaticResource BodyStyle}"
                                 VerticalAlignment="Center" />
-                            <ToggleSwitch x:ConnectionId='31'
+                            <ToggleSwitch x:ConnectionId='40'
                                 Grid.Column="2"
                                                                                                      
                                 IsEnabled="False"
@@ -709,7 +724,7 @@
                                 Text="Network Protection"
                                 Style="{StaticResource BodyStyle}"
                                 VerticalAlignment="Center" />
-                            <ToggleSwitch x:ConnectionId='30'
+                            <ToggleSwitch x:ConnectionId='39'
                                 Grid.Column="2"
                                                                                                      
                                 IsEnabled="False"
@@ -731,7 +746,8 @@
                 <StackPanel Grid.Column="1" Spacing="16">
 
                     <!-- Update Status Card -->
-                    <Border
+                    <Border x:ConnectionId='28'
+                        x:Name="UpdateStatusCard"
                         Style="{StaticResource DashboardCardStyle}"
                         AutomationProperties.Name="Update status">
                         <StackPanel Spacing="12">
@@ -755,7 +771,7 @@
                                 <TextBlock
                                     Text="Virus Definitions"
                                     Style="{StaticResource CaptionStyle}" />
-                                <TextBlock x:ConnectionId='29'
+                                <TextBlock x:ConnectionId='38'
                                                                                                  
                                     Style="{StaticResource BodyStyle}"
                                     FontWeight="SemiBold" />
@@ -780,19 +796,19 @@
                                 </Grid.ColumnDefinitions>
                                 <StackPanel Grid.Column="0" Spacing="2">
                                     <TextBlock Text="App Version" Style="{StaticResource CaptionStyle}" />
-                                    <TextBlock x:ConnectionId='28'
+                                    <TextBlock x:ConnectionId='37'
                                                                                          
                                         Style="{StaticResource BodyStyle}" />
                                 </StackPanel>
                                 <StackPanel Grid.Column="1" Spacing="2">
                                     <TextBlock Text="Last Update" Style="{StaticResource CaptionStyle}" />
-                                    <TextBlock x:ConnectionId='27'
+                                    <TextBlock x:ConnectionId='36'
                                                                                              
                                         Style="{StaticResource BodyStyle}" />
                                 </StackPanel>
                             </Grid>
 
-                            <Button x:ConnectionId='26'
+                            <Button x:ConnectionId='35'
                                 HorizontalAlignment="Stretch"
                                 Style="{StaticResource AccentButtonStyle}"
                                                                                    
@@ -809,7 +825,8 @@
                     </Border>
 
                     <!-- System Health Card -->
-                    <Border
+                    <Border x:ConnectionId='29'
+                        x:Name="HealthCard"
                         Style="{StaticResource DashboardCardStyle}"
                         AutomationProperties.Name="System health information">
                         <StackPanel Spacing="12">
@@ -839,7 +856,7 @@
                                         Style="{StaticResource CaptionStyle}"
                                         Foreground="{StaticResource SuccessBrush}"
                                         FontWeight="Bold">
-                                        <Run x:ConnectionId='25'                                                    />
+                                        <Run x:ConnectionId='34'                                                    />
                                         <Run Text="%" />
                                     </TextBlock>
                                 </Border>
@@ -857,11 +874,11 @@
                                     <TextBlock Grid.Column="0" Text="CPU Impact" Style="{StaticResource CaptionStyle}" />
                                     <TextBlock Grid.Column="1" Style="{StaticResource CaptionStyle}" Foreground="{StaticResource SuccessBrush}">
                                         <Run Text="Low " />
-                                        <Run x:ConnectionId='24'                                                  />
+                                        <Run x:ConnectionId='33'                                                  />
                                         <Run Text="%" />
                                     </TextBlock>
                                 </Grid>
-                                <ProgressBar x:ConnectionId='23'
+                                <ProgressBar x:ConnectionId='32'
                                                                                      
                                     Maximum="100"
                                     Height="6"
@@ -879,11 +896,11 @@
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Grid.Column="0" Text="Memory Usage" Style="{StaticResource CaptionStyle}" />
                                     <TextBlock Grid.Column="1" Style="{StaticResource CaptionStyle}">
-                                        <Run x:ConnectionId='22'                                                    />
+                                        <Run x:ConnectionId='31'                                                    />
                                         <Run Text=" MB" />
                                     </TextBlock>
                                 </Grid>
-                                <ProgressBar x:ConnectionId='21'
+                                <ProgressBar x:ConnectionId='30'
                                                                                        
                                     Maximum="512"
                                     Height="6"
@@ -935,7 +952,8 @@
             <!-- ════════════════════════════════════════════════════ -->
             <!-- Section E - Activity Log + Alerts                   -->
             <!-- ════════════════════════════════════════════════════ -->
-            <TextBlock
+            <TextBlock x:ConnectionId='5'
+                x:Name="ActivitySectionHeader"
                 Text="Activity &amp; Alerts"
                 Style="{StaticResource SubtitleStyle}"
                 Margin="0,8,0,0"
@@ -948,7 +966,8 @@
                 </Grid.ColumnDefinitions>
 
                 <!-- Left: Recent Activity -->
-                <Border
+                <Border x:ConnectionId='6'
+                    x:Name="ActivityCard"
                     Grid.Column="0"
                     Style="{StaticResource DashboardCardStyle}"
                     AutomationProperties.Name="Recent activity log">
@@ -984,11 +1003,11 @@
                                 Foreground="{StaticResource DangerBrush}"
                                 VerticalAlignment="Center" />
                             <StackPanel Grid.Column="1" Spacing="2">
-                                <TextBlock x:ConnectionId='19'
+                                <TextBlock x:ConnectionId='25'
                                                                                                     
                                     Style="{StaticResource BodyStyle}"
                                     TextTrimming="CharacterEllipsis" />
-                                <TextBlock x:ConnectionId='20'
+                                <TextBlock x:ConnectionId='26'
                                                                                                           
                                     Style="{StaticResource CaptionStyle}"
                                     TextTrimming="CharacterEllipsis" />
@@ -1017,11 +1036,11 @@
                                 Foreground="{StaticResource SuccessBrush}"
                                 VerticalAlignment="Center" />
                             <StackPanel Grid.Column="1" Spacing="2">
-                                <TextBlock x:ConnectionId='17'
+                                <TextBlock x:ConnectionId='23'
                                                                                                     
                                     Style="{StaticResource BodyStyle}"
                                     TextTrimming="CharacterEllipsis" />
-                                <TextBlock x:ConnectionId='18'
+                                <TextBlock x:ConnectionId='24'
                                                                                                           
                                     Style="{StaticResource CaptionStyle}"
                                     TextTrimming="CharacterEllipsis" />
@@ -1050,11 +1069,11 @@
                                 Foreground="{StaticResource AccentBrush}"
                                 VerticalAlignment="Center" />
                             <StackPanel Grid.Column="1" Spacing="2">
-                                <TextBlock x:ConnectionId='15'
+                                <TextBlock x:ConnectionId='21'
                                                                                                     
                                     Style="{StaticResource BodyStyle}"
                                     TextTrimming="CharacterEllipsis" />
-                                <TextBlock x:ConnectionId='16'
+                                <TextBlock x:ConnectionId='22'
                                                                                                           
                                     Style="{StaticResource CaptionStyle}"
                                     TextTrimming="CharacterEllipsis" />
@@ -1083,11 +1102,11 @@
                                 Foreground="{StaticResource WarningBrush}"
                                 VerticalAlignment="Center" />
                             <StackPanel Grid.Column="1" Spacing="2">
-                                <TextBlock x:ConnectionId='13'
+                                <TextBlock x:ConnectionId='19'
                                                                                                     
                                     Style="{StaticResource BodyStyle}"
                                     TextTrimming="CharacterEllipsis" />
-                                <TextBlock x:ConnectionId='14'
+                                <TextBlock x:ConnectionId='20'
                                                                                                           
                                     Style="{StaticResource CaptionStyle}"
                                     TextTrimming="CharacterEllipsis" />
@@ -1116,11 +1135,11 @@
                                 Foreground="{StaticResource SuccessBrush}"
                                 VerticalAlignment="Center" />
                             <StackPanel Grid.Column="1" Spacing="2">
-                                <TextBlock x:ConnectionId='11'
+                                <TextBlock x:ConnectionId='17'
                                                                                                     
                                     Style="{StaticResource BodyStyle}"
                                     TextTrimming="CharacterEllipsis" />
-                                <TextBlock x:ConnectionId='12'
+                                <TextBlock x:ConnectionId='18'
                                                                                                           
                                     Style="{StaticResource CaptionStyle}"
                                     TextTrimming="CharacterEllipsis" />
@@ -1149,11 +1168,11 @@
                                 Foreground="{StaticResource WarningBrush}"
                                 VerticalAlignment="Center" />
                             <StackPanel Grid.Column="1" Spacing="2">
-                                <TextBlock x:ConnectionId='9'
+                                <TextBlock x:ConnectionId='15'
                                                                                                     
                                     Style="{StaticResource BodyStyle}"
                                     TextTrimming="CharacterEllipsis" />
-                                <TextBlock x:ConnectionId='10'
+                                <TextBlock x:ConnectionId='16'
                                                                                                           
                                     Style="{StaticResource CaptionStyle}"
                                     TextTrimming="CharacterEllipsis" />
@@ -1182,11 +1201,11 @@
                                 Foreground="{StaticResource SuccessBrush}"
                                 VerticalAlignment="Center" />
                             <StackPanel Grid.Column="1" Spacing="2">
-                                <TextBlock x:ConnectionId='7'
+                                <TextBlock x:ConnectionId='13'
                                                                                                     
                                     Style="{StaticResource BodyStyle}"
                                     TextTrimming="CharacterEllipsis" />
-                                <TextBlock x:ConnectionId='8'
+                                <TextBlock x:ConnectionId='14'
                                                                                                           
                                     Style="{StaticResource CaptionStyle}"
                                     TextTrimming="CharacterEllipsis" />
@@ -1215,11 +1234,11 @@
                                 Foreground="{StaticResource DangerBrush}"
                                 VerticalAlignment="Center" />
                             <StackPanel Grid.Column="1" Spacing="2">
-                                <TextBlock x:ConnectionId='5'
+                                <TextBlock x:ConnectionId='11'
                                                                                                     
                                     Style="{StaticResource BodyStyle}"
                                     TextTrimming="CharacterEllipsis" />
-                                <TextBlock x:ConnectionId='6'
+                                <TextBlock x:ConnectionId='12'
                                                                                                           
                                     Style="{StaticResource CaptionStyle}"
                                     TextTrimming="CharacterEllipsis" />
@@ -1234,7 +1253,7 @@
                         <Rectangle Height="1" Fill="{StaticResource BorderSubtleBrush}" HorizontalAlignment="Stretch" />
 
                         <!-- View All Activity Link -->
-                        <Button x:ConnectionId='4'
+                        <Button x:ConnectionId='10'
                             HorizontalAlignment="Stretch"
                             Background="Transparent"
                             BorderThickness="0"
@@ -1256,7 +1275,8 @@
                 </Border>
 
                 <!-- Right: Alerts & Recommendations -->
-                <Border
+                <Border x:ConnectionId='7'
+                    x:Name="AlertsCard"
                     Grid.Column="1"
                     Style="{StaticResource DashboardCardStyle}"
                     AutomationProperties.Name="Alerts and recommendations">
@@ -1293,7 +1313,7 @@
                                 <TextBlock
                                     Text="Last scan was 3 days ago"
                                     Style="{StaticResource CaptionStyle}" />
-                                <Button x:ConnectionId='3'
+                                <Button x:ConnectionId='9'
                                     Content="Run Scan Now"
                                     HorizontalAlignment="Stretch"
                                                                                   
@@ -1318,7 +1338,7 @@
                                 <TextBlock
                                     Text="Review and take action"
                                     Style="{StaticResource CaptionStyle}" />
-                                <Button x:ConnectionId='2'
+                                <Button x:ConnectionId='8'
                                     Content="View Quarantine"
                                     HorizontalAlignment="Stretch"
                                                                                       

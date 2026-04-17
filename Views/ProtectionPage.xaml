@@ -6,6 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:helpers="using:DefenderUI.Helpers"
     mc:Ignorable="d"
+    Loaded="Page_Loaded"
     Background="{StaticResource AppBackgroundBrush}">
 
     <Page.Resources>
@@ -23,7 +24,7 @@
             <!-- ════════════════════════════════════════════════════ -->
             <!-- Section A - Page Header                             -->
             <!-- ════════════════════════════════════════════════════ -->
-            <StackPanel Spacing="4">
+            <StackPanel x:Name="HeaderPanel" Spacing="4">
                 <TextBlock
                     Text="Protection"
                     Style="{StaticResource TitleLargeStyle}"
@@ -37,6 +38,7 @@
             <!-- Section B - Protection Status Summary Card          -->
             <!-- ════════════════════════════════════════════════════ -->
             <Border
+                x:Name="ProtectionHeroCard"
                 Style="{StaticResource HeroCardStyle}"
                 AutomationProperties.Name="Protection status summary">
                 <Grid>

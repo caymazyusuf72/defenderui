@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:helpers="using:DefenderUI.Helpers"
     mc:Ignorable="d"
+                        
     Background="Transparent">
 
     <Page.Resources>
@@ -17,7 +18,7 @@
         <StackPanel Padding="32" Spacing="16">
 
             <!-- Header -->
-            <StackPanel>
+            <StackPanel x:ConnectionId='2' x:Name="HeaderPanel">
                 <TextBlock Text="Update"
                            Style="{StaticResource TitleLargeStyle}" />
                 <TextBlock Text="Keep your protection up to date"
@@ -26,7 +27,7 @@
             </StackPanel>
 
             <!-- Update Status Hero Card -->
-            <Border Style="{StaticResource HeroCardStyle}">
+            <Border x:ConnectionId='3' x:Name="HeroCard" Style="{StaticResource HeroCardStyle}">
                 <StackPanel Spacing="16">
                     <StackPanel Orientation="Horizontal" Spacing="8">
                         <TextBlock Text="&#xE895;" FontFamily="Segoe Fluent Icons"
@@ -37,9 +38,9 @@
                     </StackPanel>
 
                     <!-- Up to date state (no update, not complete) -->
-                    <StackPanel x:ConnectionId='11'                                                                                                                                                
+                    <StackPanel x:ConnectionId='13'                                                                                                                                                
                                 Spacing="8">
-                        <StackPanel x:ConnectionId='23'                                                                                                                                               >
+                        <StackPanel x:ConnectionId='25'                                                                                                                                               >
                             <StackPanel Orientation="Horizontal" Spacing="8">
                                 <TextBlock Text="&#xE73E;" FontFamily="Segoe Fluent Icons"
                                            FontSize="24" Foreground="{StaticResource SuccessBrush}"
@@ -52,13 +53,13 @@
                             </StackPanel>
                             <TextBlock Style="{StaticResource BodySecondaryStyle}" Margin="0,4,0,0">
                                 <Run Text="DefenderUI v" />
-                                <Run x:ConnectionId='26'                                                   />
+                                <Run x:ConnectionId='28'                                                   />
                                 <Run Text=" is the latest version." />
                             </TextBlock>
                         </StackPanel>
 
                         <!-- Update complete state -->
-                        <StackPanel x:ConnectionId='24'                                                                                                                    
+                        <StackPanel x:ConnectionId='26'                                                                                                                    
                                     Spacing="8">
                             <StackPanel Orientation="Horizontal" Spacing="8">
                                 <TextBlock Text="&#xE73E;" FontFamily="Segoe Fluent Icons"
@@ -72,17 +73,17 @@
                             </StackPanel>
                             <TextBlock Style="{StaticResource BodySecondaryStyle}">
                                 <Run Text="DefenderUI has been updated to v" />
-                                <Run x:ConnectionId='25'                                                   />
+                                <Run x:ConnectionId='27'                                                   />
                             </TextBlock>
                         </StackPanel>
                     </StackPanel>
 
                     <!-- Update available state -->
-                    <StackPanel x:ConnectionId='12'                                                                                                                     
+                    <StackPanel x:ConnectionId='14'                                                                                                                     
                                 Spacing="12">
 
                         <!-- Not updating -->
-                        <StackPanel x:ConnectionId='13'                                                                                                                                         
+                        <StackPanel x:ConnectionId='15'                                                                                                                                         
                                     Spacing="12">
                             <StackPanel Orientation="Horizontal" Spacing="8">
                                 <TextBlock Text="&#xE7BA;" FontFamily="Segoe Fluent Icons"
@@ -97,20 +98,20 @@
 
                             <TextBlock Style="{StaticResource BodyStyle}">
                                 <Run Text="DefenderUI v" />
-                                <Run x:ConnectionId='22'                                                               />
+                                <Run x:ConnectionId='24'                                                               />
                                 <Run Text=" is available" />
                             </TextBlock>
 
                             <TextBlock Style="{StaticResource BodySecondaryStyle}">
                                 <Run Text="Current: v" />
-                                <Run x:ConnectionId='20'                                                   />
+                                <Run x:ConnectionId='22'                                                   />
                                 <Run Text=" → New: v" />
-                                <Run x:ConnectionId='21'                                                               />
+                                <Run x:ConnectionId='23'                                                               />
                             </TextBlock>
 
                             <TextBlock Style="{StaticResource BodySecondaryStyle}">
                                 <Run Text="Size: " />
-                                <Run x:ConnectionId='19'                                                   />
+                                <Run x:ConnectionId='21'                                                   />
                             </TextBlock>
 
                             <!-- Changelog -->
@@ -128,7 +129,7 @@
                             </StackPanel>
 
                             <StackPanel Orientation="Horizontal" Spacing="8" Margin="0,8,0,0">
-                                <Button x:ConnectionId='18' Content="Download &amp; Install"
+                                <Button x:ConnectionId='20' Content="Download &amp; Install"
                                         Style="{StaticResource PrimaryButtonStyle}"
                                                                                        
                                         AutomationProperties.Name="Download and install update" />
@@ -139,20 +140,20 @@
                         </StackPanel>
 
                         <!-- Updating progress -->
-                        <StackPanel x:ConnectionId='14'                                                                                                              
+                        <StackPanel x:ConnectionId='16'                                                                                                              
                                     Spacing="12">
-                            <TextBlock x:ConnectionId='15'                                                        
+                            <TextBlock x:ConnectionId='17'                                                        
                                        Style="{StaticResource BodyLargeStyle}"
                                        FontWeight="SemiBold" />
 
-                            <ProgressBar x:ConnectionId='16'                                                       
+                            <ProgressBar x:ConnectionId='18'                                                       
                                          Maximum="100"
                                          Height="8"
                                          CornerRadius="4"
                                          Foreground="{StaticResource AccentBrush}"
                                          Background="{StaticResource SurfaceBrush}" />
 
-                            <Button x:ConnectionId='17' Content="Cancel"
+                            <Button x:ConnectionId='19' Content="Cancel"
                                     Style="{StaticResource SecondaryButtonStyle}"
                                                                                     
                                     HorizontalAlignment="Left"
@@ -194,7 +195,7 @@
                             <TextBlock Grid.Row="0" Grid.Column="0" Text="Version"
                                        Style="{StaticResource BodySecondaryStyle}"
                                        VerticalAlignment="Center" />
-                            <TextBlock x:ConnectionId='10' Grid.Row="0" Grid.Column="1"
+                            <TextBlock x:ConnectionId='12' Grid.Row="0" Grid.Column="1"
                                                                                                     
                                        Style="{StaticResource BodyStyle}"
                                        VerticalAlignment="Center" />
@@ -220,7 +221,7 @@
                             </StackPanel>
                         </Grid>
 
-                        <Button x:ConnectionId='9' Content="Check Now"
+                        <Button x:ConnectionId='11' Content="Check Now"
                                 Style="{StaticResource SecondaryButtonStyle}"
                                                                                    
                                 HorizontalAlignment="Left"
@@ -257,7 +258,7 @@
                                        Style="{StaticResource BodyStyle}"
                                        VerticalAlignment="Center">
                                 <Run Text="v" />
-                                <Run x:ConnectionId='8'                                                   />
+                                <Run x:ConnectionId='10'                                                   />
                             </TextBlock>
 
                             <TextBlock Grid.Row="1" Grid.Column="0" Text="Last updated"
@@ -281,7 +282,7 @@
                             </StackPanel>
                         </Grid>
 
-                        <Button x:ConnectionId='7' Content="Check Now"
+                        <Button x:ConnectionId='9' Content="Check Now"
                                 Style="{StaticResource SecondaryButtonStyle}"
                                                                                    
                                 HorizontalAlignment="Left"
@@ -313,7 +314,7 @@
                             <TextBlock Text="Download and install app updates automatically"
                                        Style="{StaticResource CaptionStyle}" />
                         </StackPanel>
-                        <ToggleSwitch x:ConnectionId='6' Grid.Column="1"                                                         
+                        <ToggleSwitch x:ConnectionId='8' Grid.Column="1"                                                         
                                       OffContent="" OnContent=""
                                       AutomationProperties.Name="Automatic app updates toggle" />
                     </Grid>
@@ -332,7 +333,7 @@
                             <TextBlock Text="Keep virus definitions up to date automatically"
                                        Style="{StaticResource CaptionStyle}" />
                         </StackPanel>
-                        <ToggleSwitch x:ConnectionId='5' Grid.Column="1"                                                            
+                        <ToggleSwitch x:ConnectionId='7' Grid.Column="1"                                                            
                                       OffContent="" OnContent=""
                                       AutomationProperties.Name="Automatic virus definition updates toggle" />
                     </Grid>
@@ -351,7 +352,7 @@
                             <TextBlock Text="Allow updates over metered network connections"
                                        Style="{StaticResource CaptionStyle}" />
                         </StackPanel>
-                        <ToggleSwitch x:ConnectionId='4' Grid.Column="1"                                                               
+                        <ToggleSwitch x:ConnectionId='6' Grid.Column="1"                                                               
                                       OffContent="" OnContent=""
                                       AutomationProperties.Name="Metered connection updates toggle" />
                     </Grid>
@@ -391,7 +392,7 @@
                     </Grid>
 
                     <!-- Table Rows -->
-                    <ItemsRepeater x:ConnectionId='2'                                                            >
+                    <ItemsRepeater x:ConnectionId='4'                                                            >
                         <ItemsRepeater.Layout>
                             <StackLayout Spacing="2" />
                         </ItemsRepeater.Layout>

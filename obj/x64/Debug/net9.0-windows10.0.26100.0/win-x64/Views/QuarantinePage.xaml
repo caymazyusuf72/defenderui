@@ -7,6 +7,7 @@
     xmlns:helpers="using:DefenderUI.Helpers"
     xmlns:models="using:DefenderUI.Models"
     mc:Ignorable="d"
+                        
     Background="{StaticResource AppBackgroundBrush}">
 
     <Page.Resources>
@@ -24,7 +25,7 @@
         <!-- ════════════════════════════════════════════════════ -->
         <!-- Section A - Page Header                             -->
         <!-- ════════════════════════════════════════════════════ -->
-        <StackPanel Grid.Row="0" Spacing="4" Padding="32,32,32,0">
+        <StackPanel x:ConnectionId='2' x:Name="HeaderPanel" Grid.Row="0" Spacing="4" Padding="32,32,32,0">
             <TextBlock
                 Text="Quarantine"
                 Style="{StaticResource TitleLargeStyle}"
@@ -46,10 +47,10 @@
             </Grid.ColumnDefinitions>
 
             <!-- Total Quarantined -->
-            <Border Grid.Column="0" Style="{StaticResource KpiCardStyle}"
+            <Border x:ConnectionId='24' x:Name="KpiCard1" Grid.Column="0" Style="{StaticResource KpiCardStyle}"
                     AutomationProperties.Name="Total quarantined items">
                 <StackPanel Spacing="4" HorizontalAlignment="Center">
-                    <TextBlock x:ConnectionId='26'
+                    <TextBlock x:ConnectionId='28'
                                                                                
                         Style="{StaticResource DisplayNumberStyle}"
                         Foreground="{StaticResource AccentBrush}"
@@ -65,7 +66,7 @@
             <Border Grid.Column="1" Style="{StaticResource KpiCardStyle}"
                     AutomationProperties.Name="Critical threats count">
                 <StackPanel Spacing="4" HorizontalAlignment="Center">
-                    <TextBlock x:ConnectionId='25'
+                    <TextBlock x:ConnectionId='27'
                                                                             
                         Style="{StaticResource DisplayNumberStyle}"
                         Foreground="{StaticResource DangerBrush}"
@@ -81,7 +82,7 @@
             <Border Grid.Column="2" Style="{StaticResource KpiCardStyle}"
                     AutomationProperties.Name="High risk threats count">
                 <StackPanel Spacing="4" HorizontalAlignment="Center">
-                    <TextBlock x:ConnectionId='24'
+                    <TextBlock x:ConnectionId='26'
                                                                         
                         Style="{StaticResource DisplayNumberStyle}"
                         Foreground="{StaticResource WarningBrush}"
@@ -97,7 +98,7 @@
             <Border Grid.Column="3" Style="{StaticResource KpiCardStyle}"
                     AutomationProperties.Name="Medium risk threats count">
                 <StackPanel Spacing="4" HorizontalAlignment="Center">
-                    <TextBlock x:ConnectionId='23'
+                    <TextBlock x:ConnectionId='25'
                                                                           
                         Style="{StaticResource DisplayNumberStyle}"
                         Foreground="#D29922"
@@ -126,7 +127,7 @@
                     </Grid.ColumnDefinitions>
 
                     <!-- Search Box -->
-                    <TextBox x:ConnectionId='20'
+                    <TextBox x:ConnectionId='21'
                         Grid.Column="0"
                         PlaceholderText="&#xE721; Search threats..."
                                                                                                                
@@ -137,7 +138,7 @@
                         AutomationProperties.Name="Search quarantined threats" />
 
                     <!-- Risk Filter -->
-                    <ComboBox x:ConnectionId='21'
+                    <ComboBox x:ConnectionId='22'
                         Grid.Column="1"
                                                                                                
                         MinWidth="140"
@@ -152,7 +153,7 @@
                     </ComboBox>
 
                     <!-- Date Filter -->
-                    <ComboBox x:ConnectionId='22'
+                    <ComboBox x:ConnectionId='23'
                         Grid.Column="2"
                                                                                                
                         MinWidth="140"
@@ -179,7 +180,7 @@
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
 
-                    <CheckBox x:ConnectionId='15'
+                    <CheckBox x:ConnectionId='16'
                         Grid.Column="0"
                         Content="Select All"
                                                                                  
@@ -190,14 +191,14 @@
                         Grid.Column="1"
                         Style="{StaticResource CaptionStyle}"
                         VerticalAlignment="Center">
-                        <Run x:ConnectionId='19'                                                      />
+                        <Run x:ConnectionId='20'                                                      />
                         <Run Text=" selected" />
                     </TextBlock>
 
                     <!-- Spacer -->
                     <Border Grid.Column="2" />
 
-                    <Button x:ConnectionId='16'
+                    <Button x:ConnectionId='17'
                         Grid.Column="3"
                         Style="{StaticResource SecondaryButtonStyle}"
                                                                            
@@ -209,7 +210,7 @@
                         </StackPanel>
                     </Button>
 
-                    <Button x:ConnectionId='17'
+                    <Button x:ConnectionId='18'
                         Grid.Column="4"
                         Style="{StaticResource SecondaryButtonStyle}"
                                                                           
@@ -221,7 +222,7 @@
                         </StackPanel>
                     </Button>
 
-                    <Button x:ConnectionId='18'
+                    <Button x:ConnectionId='19'
                         Grid.Column="5"
                         Style="{StaticResource DangerButtonStyle}"
                                                                      
@@ -242,7 +243,7 @@
         <Grid Grid.Row="3" Padding="32,16,32,32">
 
             <!-- Empty State -->
-            <Border x:ConnectionId='2'
+            <Border x:ConnectionId='3'
                 Style="{StaticResource DashboardCardStyle}"
                                                                                                                                                               
                 HorizontalAlignment="Stretch"
@@ -271,18 +272,18 @@
             </Border>
 
             <!-- Threat List -->
-            <ScrollViewer x:ConnectionId='3'
+            <ScrollViewer x:ConnectionId='4'
                 VerticalScrollBarVisibility="Auto"
                 HorizontalScrollBarVisibility="Disabled"
                                                                                                                                    >
-                <ItemsRepeater x:ConnectionId='4'
+                <ItemsRepeater x:ConnectionId='5'
                                                                                >
                     <ItemsRepeater.Layout>
                         <StackLayout Spacing="8" />
                     </ItemsRepeater.Layout>
                     <ItemsRepeater.ItemTemplate>
                         <DataTemplate                               >
-                            <Border x:ConnectionId='6'
+                            <Border x:ConnectionId='7'
                                 Background="{StaticResource CardBackgroundBrush}"
                                 BorderBrush="{StaticResource BorderBrush}"
                                 BorderThickness="1"
@@ -308,7 +309,7 @@
                                         </Grid.ColumnDefinitions>
 
                                         <!-- CheckBox -->
-                                        <CheckBox x:ConnectionId='7'
+                                        <CheckBox x:ConnectionId='8'
                                             Grid.Column="0"
                                                                                         
                                             VerticalAlignment="Top"
@@ -337,7 +338,7 @@
                                         <StackPanel Grid.Column="2" Spacing="4">
                                             <!-- Threat name + badge -->
                                             <StackPanel Orientation="Horizontal" Spacing="10">
-                                                <TextBlock x:ConnectionId='13'
+                                                <TextBlock x:ConnectionId='14'
                                                                               
                                                     Style="{StaticResource BodyLargeStyle}"
                                                     FontWeight="SemiBold" />
@@ -347,7 +348,7 @@
                                                     Padding="8,2"
                                                     VerticalAlignment="Center"
                                                     Background="{StaticResource DangerBackgroundBrush}">
-                                                    <TextBlock x:ConnectionId='14'
+                                                    <TextBlock x:ConnectionId='15'
                                                                                  
                                                         FontSize="11"
                                                         FontWeight="SemiBold"
@@ -356,7 +357,7 @@
                                             </StackPanel>
 
                                             <!-- File path -->
-                                            <TextBlock x:ConnectionId='9'
+                                            <TextBlock x:ConnectionId='10'
                                                                         
                                                 Style="{StaticResource CaptionStyle}"
                                                 TextTrimming="CharacterEllipsis"
@@ -365,12 +366,12 @@
                                             <!-- Action info -->
                                             <TextBlock Style="{StaticResource CaptionStyle}">
                                                 <Run Text="Action: " />
-                                                <Run x:ConnectionId='12'                             />
+                                                <Run x:ConnectionId='13'                             />
                                             </TextBlock>
 
                                             <!-- Action Buttons -->
                                             <StackPanel Orientation="Horizontal" Spacing="8" Margin="0,4,0,0">
-                                                <Button x:ConnectionId='10'
+                                                <Button x:ConnectionId='11'
                                                     Style="{StaticResource SecondaryButtonStyle}"
                                                     Padding="10,4"
                                                     FontSize="12"
@@ -382,7 +383,7 @@
                                                         <TextBlock Text="Restore" FontSize="12" />
                                                     </StackPanel>
                                                 </Button>
-                                                <Button x:ConnectionId='11'
+                                                <Button x:ConnectionId='12'
                                                     Style="{StaticResource DangerButtonStyle}"
                                                     Padding="10,4"
                                                     FontSize="12"
@@ -398,7 +399,7 @@
                                         </StackPanel>
 
                                         <!-- Date -->
-                                        <TextBlock x:ConnectionId='8'
+                                        <TextBlock x:ConnectionId='9'
                                             Grid.Column="3"
                                                                          
                                             Style="{StaticResource CaptionStyle}"

@@ -349,3 +349,7 @@ C:\Users\yusuf\Desktop\defenderui\bin\x64\Debug\net9.0-windows10.0.26100.0\win-x
 C:\Users\yusuf\Desktop\defenderui\bin\x64\Debug\net9.0-windows10.0.26100.0\win-x64\Assets\StoreLogo.png
 C:\Users\yusuf\Desktop\defenderui\bin\x64\Debug\net9.0-windows10.0.26100.0\win-x64\Assets\Wide310x150Logo.scale-200.png
 C:\Users\yusuf\Desktop\defenderui\bin\x64\Debug\net9.0-windows10.0.26100.0\win-x64\DefenderUI.pri
+C:\Users\yusuf\Desktop\defenderui\bin\x64\Debug\net9.0-windows10.0.26100.0\win-x64\Styles\Animations.xbf
+C:\Users\yusuf\Desktop\defenderui\obj\x64\Debug\net9.0-windows10.0.26100.0\win-x64\Styles\Animations.xaml
+C:\Users\yusuf\Desktop\defenderui\obj\x64\Debug\net9.0-windows10.0.26100.0\win-x64\Styles\Animations.xbf
+C:\Users\yusuf\Desktop\defenderui\obj\x64\Debug\net9.0-windows10.0.26100.0\win-x64\DefenderUI.sourcelink.json

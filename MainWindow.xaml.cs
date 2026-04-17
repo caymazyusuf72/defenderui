@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using DefenderUI.Helpers;
 using DefenderUI.Views;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -44,6 +45,33 @@ public sealed partial class MainWindow : Window
 
         ContentFrame.Navigate(typeof(DashboardPage), null, new EntranceNavigationTransitionInfo());
         _currentTag = "dashboard";
+    }
+
+    private void NavView_Loaded(object sender, RoutedEventArgs e)
+    {
+        // Staggered entrance for all visible NavigationViewItems.
+        var items = new List<UIElement>();
+        foreach (var menuItem in NavView.MenuItems)
+        {
+            if (menuItem is NavigationViewItem navItem)
+            {
+                items.Add(navItem);
+            }
+        }
+        foreach (var footerItem in NavView.FooterMenuItems)
+        {
+            if (footerItem is NavigationViewItem navItem)
+            {
+                items.Add(navItem);
+            }
+        }
+
+        AnimationHelper.AnimateStaggered(
+            items,
+            staggerMs: 60,
+            initialDelayMs: 120,
+            durationMs: 380,
+            offsetY: 10f);
     }
 
     private void NavView_SelectionChanged(

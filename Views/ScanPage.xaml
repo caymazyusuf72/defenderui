@@ -7,6 +7,7 @@
     xmlns:helpers="using:DefenderUI.Helpers"
     xmlns:models="using:DefenderUI.Models"
     mc:Ignorable="d"
+    Loaded="Page_Loaded"
     Background="{StaticResource AppBackgroundBrush}">
 
     <Page.Resources>
@@ -24,7 +25,7 @@
             <!-- ════════════════════════════════════════════════════ -->
             <!-- Section A - Page Header                             -->
             <!-- ════════════════════════════════════════════════════ -->
-            <StackPanel Spacing="4">
+            <StackPanel x:Name="HeaderPanel" Spacing="4">
                 <TextBlock
                     Text="Scan"
                     Style="{StaticResource TitleLargeStyle}"
@@ -43,6 +44,7 @@
                 Visibility="{x:Bind ViewModel.IsScanning, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Invert}">
 
                 <TextBlock
+                    x:Name="ScanTypeHeader"
                     Text="Select Scan Type"
                     Style="{StaticResource SubtitleStyle}"
                     AutomationProperties.HeadingLevel="Level2"
@@ -255,6 +257,7 @@
                 <!-- Section C - Start Scan Button                       -->
                 <!-- ════════════════════════════════════════════════════ -->
                 <Button
+                    x:Name="StartScanButton"
                     Style="{StaticResource PrimaryButtonStyle}"
                     HorizontalAlignment="Stretch"
                     Height="48"
@@ -279,6 +282,7 @@
             <!-- Visible when scanning                                -->
             <!-- ════════════════════════════════════════════════════ -->
             <Border
+                x:Name="ScanProgressCard"
                 Style="{StaticResource HeroCardStyle}"
                 Visibility="{x:Bind ViewModel.IsScanning, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"
                 AutomationProperties.Name="Scan progress">

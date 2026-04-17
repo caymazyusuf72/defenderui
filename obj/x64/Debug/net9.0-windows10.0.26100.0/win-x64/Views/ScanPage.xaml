@@ -7,6 +7,7 @@
     xmlns:helpers="using:DefenderUI.Helpers"
     xmlns:models="using:DefenderUI.Models"
     mc:Ignorable="d"
+                        
     Background="{StaticResource AppBackgroundBrush}">
 
     <Page.Resources>
@@ -24,7 +25,7 @@
             <!-- ════════════════════════════════════════════════════ -->
             <!-- Section A - Page Header                             -->
             <!-- ════════════════════════════════════════════════════ -->
-            <StackPanel Spacing="4">
+            <StackPanel x:ConnectionId='2' x:Name="HeaderPanel" Spacing="4">
                 <TextBlock
                     Text="Scan"
                     Style="{StaticResource TitleLargeStyle}"
@@ -38,17 +39,18 @@
             <!-- Section B - Scan Type Selection                     -->
             <!-- Visible when not scanning and not complete           -->
             <!-- ════════════════════════════════════════════════════ -->
-            <StackPanel x:ConnectionId='2'
+            <StackPanel x:ConnectionId='3'
                 Spacing="16"
                                                                                                                                                         >
 
-                <TextBlock x:ConnectionId='38'
+                <TextBlock x:ConnectionId='39'
+                    x:Name="ScanTypeHeader"
                     Text="Select Scan Type"
                     Style="{StaticResource SubtitleStyle}"
                     AutomationProperties.HeadingLevel="Level2"
                                                                                                                                                                  />
 
-                <Grid x:ConnectionId='39'
+                <Grid x:ConnectionId='40'
                     ColumnSpacing="16"
                                                                                                                                                                 >
                     <Grid.ColumnDefinitions>
@@ -59,7 +61,7 @@
                     </Grid.ColumnDefinitions>
 
                     <!-- Quick Scan Card -->
-                    <Button x:ConnectionId='41'
+                    <Button x:ConnectionId='42'
                         Grid.Column="0"
                         HorizontalAlignment="Stretch"
                         HorizontalContentAlignment="Stretch"
@@ -71,7 +73,7 @@
                                                   
                         Tag="Quick"
                         AutomationProperties.Name="Quick Scan">
-                        <Border x:ConnectionId='48'
+                        <Border x:ConnectionId='49'
                             x:Name="QuickScanCard"
                             Background="{StaticResource CardBackgroundBrush}"
                             BorderBrush="{StaticResource AccentBrush}"
@@ -107,7 +109,7 @@
                     </Button>
 
                     <!-- Full Scan Card -->
-                    <Button x:ConnectionId='42'
+                    <Button x:ConnectionId='43'
                         Grid.Column="1"
                         HorizontalAlignment="Stretch"
                         HorizontalContentAlignment="Stretch"
@@ -119,7 +121,7 @@
                                                   
                         Tag="Full"
                         AutomationProperties.Name="Full Scan">
-                        <Border x:ConnectionId='47'
+                        <Border x:ConnectionId='48'
                             x:Name="FullScanCard"
                             Background="{StaticResource CardBackgroundBrush}"
                             BorderBrush="{StaticResource BorderBrush}"
@@ -155,7 +157,7 @@
                     </Button>
 
                     <!-- Custom Scan Card -->
-                    <Button x:ConnectionId='43'
+                    <Button x:ConnectionId='44'
                         Grid.Column="2"
                         HorizontalAlignment="Stretch"
                         HorizontalContentAlignment="Stretch"
@@ -167,7 +169,7 @@
                                                   
                         Tag="Custom"
                         AutomationProperties.Name="Custom Scan">
-                        <Border x:ConnectionId='46'
+                        <Border x:ConnectionId='47'
                             x:Name="CustomScanCard"
                             Background="{StaticResource CardBackgroundBrush}"
                             BorderBrush="{StaticResource BorderBrush}"
@@ -203,7 +205,7 @@
                     </Button>
 
                     <!-- USB Scan Card -->
-                    <Button x:ConnectionId='44'
+                    <Button x:ConnectionId='45'
                         Grid.Column="3"
                         HorizontalAlignment="Stretch"
                         HorizontalContentAlignment="Stretch"
@@ -215,7 +217,7 @@
                                                   
                         Tag="USB"
                         AutomationProperties.Name="USB Scan">
-                        <Border x:ConnectionId='45'
+                        <Border x:ConnectionId='46'
                             x:Name="UsbScanCard"
                             Background="{StaticResource CardBackgroundBrush}"
                             BorderBrush="{StaticResource BorderBrush}"
@@ -254,7 +256,8 @@
                 <!-- ════════════════════════════════════════════════════ -->
                 <!-- Section C - Start Scan Button                       -->
                 <!-- ════════════════════════════════════════════════════ -->
-                <Button x:ConnectionId='40'
+                <Button x:ConnectionId='41'
+                    x:Name="StartScanButton"
                     Style="{StaticResource PrimaryButtonStyle}"
                     HorizontalAlignment="Stretch"
                     Height="48"
@@ -278,7 +281,8 @@
             <!-- Section D - Scan Progress                           -->
             <!-- Visible when scanning                                -->
             <!-- ════════════════════════════════════════════════════ -->
-            <Border x:ConnectionId='3'
+            <Border x:ConnectionId='4'
+                x:Name="ScanProgressCard"
                 Style="{StaticResource HeroCardStyle}"
                                                                                                                              
                 AutomationProperties.Name="Scan progress">
@@ -286,11 +290,11 @@
                     <!-- Scanning status header -->
                     <StackPanel HorizontalAlignment="Center" Spacing="8">
                         <StackPanel Orientation="Horizontal" Spacing="12" HorizontalAlignment="Center">
-                            <ProgressRing x:ConnectionId='36'
+                            <ProgressRing x:ConnectionId='37'
                                                                                      
                                 Width="24"
                                 Height="24" />
-                            <TextBlock x:ConnectionId='37'
+                            <TextBlock x:ConnectionId='38'
                                                                                      
                                 Style="{StaticResource SubtitleStyle}" />
                         </StackPanel>
@@ -298,7 +302,7 @@
 
                     <!-- Progress bar -->
                     <StackPanel Spacing="8">
-                        <ProgressBar x:ConnectionId='34'
+                        <ProgressBar x:ConnectionId='35'
                                                                                 
                             Maximum="100"
                             Height="12"
@@ -310,7 +314,7 @@
                             Style="{StaticResource BodyStyle}"
                             Foreground="{StaticResource AccentBrush}"
                             FontWeight="SemiBold">
-                            <Run x:ConnectionId='35'                                                     />
+                            <Run x:ConnectionId='36'                                                     />
                             <Run Text="%" />
                         </TextBlock>
                     </StackPanel>
@@ -331,7 +335,7 @@
                                     Text="Files Scanned"
                                     Style="{StaticResource CaptionStyle}"
                                     HorizontalAlignment="Center" />
-                                <TextBlock x:ConnectionId='33'
+                                <TextBlock x:ConnectionId='34'
                                                                                                 
                                     Style="{StaticResource DisplayNumberStyle}"
                                     Foreground="{StaticResource AccentBrush}"
@@ -347,7 +351,7 @@
                                     Text="Threats Found"
                                     Style="{StaticResource CaptionStyle}"
                                     HorizontalAlignment="Center" />
-                                <TextBlock x:ConnectionId='32'
+                                <TextBlock x:ConnectionId='33'
                                                                                        
                                     Style="{StaticResource DisplayNumberStyle}"
                                     Foreground="{StaticResource DangerBrush}"
@@ -363,7 +367,7 @@
                                     Text="Elapsed"
                                     Style="{StaticResource CaptionStyle}"
                                     HorizontalAlignment="Center" />
-                                <TextBlock x:ConnectionId='31'
+                                <TextBlock x:ConnectionId='32'
                                                                                                
                                     Style="{StaticResource DisplayNumberStyle}"
                                     HorizontalAlignment="Center"
@@ -378,7 +382,7 @@
                                     Text="Remaining"
                                     Style="{StaticResource CaptionStyle}"
                                     HorizontalAlignment="Center" />
-                                <TextBlock x:ConnectionId='30'
+                                <TextBlock x:ConnectionId='31'
                                                                                                  
                                     Style="{StaticResource DisplayNumberStyle}"
                                     HorizontalAlignment="Center"
@@ -392,7 +396,7 @@
                         <TextBlock
                             Text="Current file:"
                             Style="{StaticResource CaptionStyle}" />
-                        <TextBlock x:ConnectionId='29'
+                        <TextBlock x:ConnectionId='30'
                                                                               
                             Style="{StaticResource BodyStyle}"
                             Foreground="{StaticResource TextSecondaryBrush}"
@@ -405,7 +409,7 @@
                     <!-- Control buttons -->
                     <StackPanel Orientation="Horizontal" Spacing="12" HorizontalAlignment="Center">
                         <!-- Pause button (visible when running) -->
-                        <Button x:ConnectionId='26'
+                        <Button x:ConnectionId='27'
                             Style="{StaticResource SecondaryButtonStyle}"
                                                                          
                                                                                                                                                                   
@@ -420,7 +424,7 @@
                         </Button>
 
                         <!-- Resume button (visible when paused) -->
-                        <Button x:ConnectionId='27'
+                        <Button x:ConnectionId='28'
                             Style="{StaticResource PrimaryButtonStyle}"
                                                                           
                                                                                                                                        
@@ -435,7 +439,7 @@
                         </Button>
 
                         <!-- Stop button -->
-                        <Button x:ConnectionId='28'
+                        <Button x:ConnectionId='29'
                             Style="{StaticResource DangerButtonStyle}"
                                                                         
                             AutomationProperties.Name="Stop scan">
@@ -455,7 +459,7 @@
             <!-- Section E - Detected Threats List                   -->
             <!-- Visible when threats > 0                             -->
             <!-- ════════════════════════════════════════════════════ -->
-            <Border x:ConnectionId='4'
+            <Border x:ConnectionId='5'
                 Style="{StaticResource DangerAlertCardStyle}"
                                                                                                                              
                 AutomationProperties.Name="Detected threats">
@@ -471,7 +475,7 @@
                             Style="{StaticResource BodyLargeStyle}"
                             FontWeight="SemiBold">
                             <Run Text="Threats Detected (" />
-                            <Run x:ConnectionId='25'                                                     />
+                            <Run x:ConnectionId='26'                                                     />
                             <Run Text=")" />
                         </TextBlock>
                     </StackPanel>
@@ -479,10 +483,10 @@
                     <Rectangle Height="1" Fill="{StaticResource BorderBrush}" HorizontalAlignment="Stretch" />
 
                     <!-- Threat items via ItemsRepeater-like manual binding -->
-                    <ItemsControl x:ConnectionId='19'                                                              >
+                    <ItemsControl x:ConnectionId='20'                                                              >
                         <ItemsControl.ItemTemplate>
                             <DataTemplate                               >
-                                <Border x:ConnectionId='21'
+                                <Border x:ConnectionId='22'
                                     Background="{StaticResource CardBackgroundBrush}"
                                     CornerRadius="8"
                                     Padding="16"
@@ -505,11 +509,11 @@
 
                                         <!-- Threat details -->
                                         <StackPanel Grid.Column="1" Spacing="4">
-                                            <TextBlock x:ConnectionId='23'
+                                            <TextBlock x:ConnectionId='24'
                                                                           
                                                 Style="{StaticResource BodyStyle}"
                                                 FontWeight="SemiBold" />
-                                            <TextBlock x:ConnectionId='24'
+                                            <TextBlock x:ConnectionId='25'
                                                                         
                                                 Style="{StaticResource CaptionStyle}"
                                                 TextTrimming="CharacterEllipsis"
@@ -523,7 +527,7 @@
                                             Padding="12,4"
                                             VerticalAlignment="Top"
                                             Background="{StaticResource DangerBackgroundBrush}">
-                                            <TextBlock x:ConnectionId='22'
+                                            <TextBlock x:ConnectionId='23'
                                                                            
                                                 Style="{StaticResource CaptionStyle}"
                                                 Foreground="{StaticResource DangerBrush}"
@@ -541,7 +545,7 @@
             <!-- Section F - Scan Complete Card                      -->
             <!-- Visible when scan is complete                        -->
             <!-- ════════════════════════════════════════════════════ -->
-            <Border x:ConnectionId='5'
+            <Border x:ConnectionId='6'
                 Style="{StaticResource SuccessAlertCardStyle}"
                                                                                                                                  
                 AutomationProperties.Name="Scan complete">
@@ -563,7 +567,7 @@
                         Style="{StaticResource BodyStyle}"
                         HorizontalAlignment="Center"
                         Foreground="{StaticResource TextSecondaryBrush}">
-                        <Run x:ConnectionId='18'                                                         />
+                        <Run x:ConnectionId='19'                                                         />
                         <Run Text=" Scan finished successfully" />
                     </TextBlock>
 
@@ -572,11 +576,11 @@
                         <TextBlock
                             Style="{StaticResource BodyStyle}"
                             HorizontalAlignment="Center">
-                            <Run x:ConnectionId='16'                                                              />
+                            <Run x:ConnectionId='17'                                                              />
                             <Run Text=" files scanned in " />
-                            <Run x:ConnectionId='17'                                                             />
+                            <Run x:ConnectionId='18'                                                             />
                         </TextBlock>
-                        <TextBlock x:ConnectionId='15'
+                        <TextBlock x:ConnectionId='16'
                                                                                  
                             Style="{StaticResource BodyStyle}"
                             HorizontalAlignment="Center"
@@ -585,7 +589,7 @@
 
                     <!-- Action buttons -->
                     <StackPanel Orientation="Horizontal" Spacing="12" HorizontalAlignment="Center">
-                        <Button x:ConnectionId='14'
+                        <Button x:ConnectionId='15'
                             Style="{StaticResource PrimaryButtonStyle}"
                                                                          
                             AutomationProperties.Name="Scan again">
@@ -641,10 +645,10 @@
                         <Rectangle Height="1" Fill="{StaticResource BorderSubtleBrush}" HorizontalAlignment="Stretch" />
 
                         <!-- History Rows -->
-                        <ItemsControl x:ConnectionId='6'                                                          >
+                        <ItemsControl x:ConnectionId='7'                                                          >
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate                               >
-                                    <StackPanel x:ConnectionId='8'>
+                                    <StackPanel x:ConnectionId='9'>
                                         <Grid Padding="12,10">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="1.2*" />
@@ -662,35 +666,35 @@
                                                     FontSize="12"
                                                     Foreground="{StaticResource AccentBrush}"
                                                     VerticalAlignment="Center" />
-                                                <TextBlock x:ConnectionId='13'
+                                                <TextBlock x:ConnectionId='14'
                                                                         
                                                     Style="{StaticResource BodyStyle}"
                                                     VerticalAlignment="Center" />
                                             </StackPanel>
 
                                             <!-- Date -->
-                                            <TextBlock x:ConnectionId='9'
+                                            <TextBlock x:ConnectionId='10'
                                                 Grid.Column="1"
                                                                          
                                                 Style="{StaticResource CaptionStyle}"
                                                 VerticalAlignment="Center" />
 
                                             <!-- Duration -->
-                                            <TextBlock x:ConnectionId='10'
+                                            <TextBlock x:ConnectionId='11'
                                                 Grid.Column="2"
                                                                         
                                                 Style="{StaticResource CaptionStyle}"
                                                 VerticalAlignment="Center" />
 
                                             <!-- Files -->
-                                            <TextBlock x:ConnectionId='11'
+                                            <TextBlock x:ConnectionId='12'
                                                 Grid.Column="3"
                                                                             
                                                 Style="{StaticResource CaptionStyle}"
                                                 VerticalAlignment="Center" />
 
                                             <!-- Threats -->
-                                            <TextBlock x:ConnectionId='12'
+                                            <TextBlock x:ConnectionId='13'
                                                 Grid.Column="4"
                                                                             
                                                 Style="{StaticResource BodyStyle}"

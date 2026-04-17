@@ -7,6 +7,7 @@
     xmlns:helpers="using:DefenderUI.Helpers"
     xmlns:models="using:DefenderUI.Models"
     mc:Ignorable="d"
+    Loaded="Page_Loaded"
     Background="{StaticResource AppBackgroundBrush}">
 
     <Page.Resources>
@@ -24,7 +25,7 @@
         <!-- ════════════════════════════════════════════════════ -->
         <!-- Section A - Page Header                             -->
         <!-- ════════════════════════════════════════════════════ -->
-        <StackPanel Grid.Row="0" Spacing="4" Padding="32,32,32,0">
+        <StackPanel x:Name="HeaderPanel" Grid.Row="0" Spacing="4" Padding="32,32,32,0">
             <TextBlock
                 Text="Quarantine"
                 Style="{StaticResource TitleLargeStyle}"
@@ -46,7 +47,7 @@
             </Grid.ColumnDefinitions>
 
             <!-- Total Quarantined -->
-            <Border Grid.Column="0" Style="{StaticResource KpiCardStyle}"
+            <Border x:Name="KpiCard1" Grid.Column="0" Style="{StaticResource KpiCardStyle}"
                     AutomationProperties.Name="Total quarantined items">
                 <StackPanel Spacing="4" HorizontalAlignment="Center">
                     <TextBlock

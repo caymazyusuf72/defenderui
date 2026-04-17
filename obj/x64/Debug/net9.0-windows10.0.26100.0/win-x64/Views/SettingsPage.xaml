@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
+                        
     Background="Transparent">
 
     <ScrollViewer
@@ -15,7 +16,7 @@
         <StackPanel Spacing="16" Margin="0,0,16,32">
 
             <!-- Page Header -->
-            <StackPanel Spacing="4" Margin="0,0,0,8">
+            <StackPanel x:ConnectionId='2' x:Name="HeaderPanel" Spacing="4" Margin="0,0,0,8">
                 <TextBlock
                     Text="Settings"
                     Style="{StaticResource TitleLargeStyle}"
@@ -28,7 +29,7 @@
             <!-- ════════════════════════════════════════════════════════ -->
             <!-- Category 1: General                                     -->
             <!-- ════════════════════════════════════════════════════════ -->
-            <Border Style="{StaticResource DashboardCardStyle}">
+            <Border x:ConnectionId='3' x:Name="CategoryGeneral" Style="{StaticResource DashboardCardStyle}">
                 <StackPanel Spacing="0">
                     <!-- Category Header -->
                     <StackPanel Orientation="Horizontal" Spacing="10" Margin="0,0,0,16">
@@ -46,7 +47,7 @@
                             <TextBlock Text="Start with Windows" Style="{StaticResource BodyStyle}" FontWeight="SemiBold" />
                             <TextBlock Text="Start DefenderUI when Windows boots" Style="{StaticResource CaptionStyle}" />
                         </StackPanel>
-                        <ToggleSwitch x:ConnectionId='47'
+                        <ToggleSwitch x:ConnectionId='49'
                             Grid.Column="1"
                                                                                    
                             OnContent="" OffContent=""
@@ -66,7 +67,7 @@
                             <TextBlock Text="Minimize to System Tray" Style="{StaticResource BodyStyle}" FontWeight="SemiBold" />
                             <TextBlock Text="Keep running in background when window is closed" Style="{StaticResource CaptionStyle}" />
                         </StackPanel>
-                        <ToggleSwitch x:ConnectionId='46'
+                        <ToggleSwitch x:ConnectionId='48'
                             Grid.Column="1"
                                                                                  
                             OnContent="" OffContent=""
@@ -86,7 +87,7 @@
                             <TextBlock Text="Show Notifications" Style="{StaticResource BodyStyle}" FontWeight="SemiBold" />
                             <TextBlock Text="Display system notifications for important events" Style="{StaticResource CaptionStyle}" />
                         </StackPanel>
-                        <ToggleSwitch x:ConnectionId='45'
+                        <ToggleSwitch x:ConnectionId='47'
                             Grid.Column="1"
                                                                                     
                             OnContent="" OffContent=""
@@ -106,7 +107,7 @@
                             <TextBlock Text="Language" Style="{StaticResource BodyStyle}" FontWeight="SemiBold" />
                             <TextBlock Text="Choose the application display language" Style="{StaticResource CaptionStyle}" />
                         </StackPanel>
-                        <ComboBox x:ConnectionId='44'
+                        <ComboBox x:ConnectionId='46'
                             Grid.Column="1"
                                                                       
                                                                                            
@@ -137,7 +138,7 @@
                             <TextBlock Text="Real-time Protection" Style="{StaticResource BodyStyle}" FontWeight="SemiBold" />
                             <TextBlock Text="Continuously monitor files and programs" Style="{StaticResource CaptionStyle}" />
                         </StackPanel>
-                        <ToggleSwitch x:ConnectionId='43'
+                        <ToggleSwitch x:ConnectionId='45'
                             Grid.Column="1"
                                                                                      
                             OnContent="" OffContent=""
@@ -157,7 +158,7 @@
                             <TextBlock Text="Cloud-delivered Protection" Style="{StaticResource BodyStyle}" FontWeight="SemiBold" />
                             <TextBlock Text="Use cloud intelligence for faster detection" Style="{StaticResource CaptionStyle}" />
                         </StackPanel>
-                        <ToggleSwitch x:ConnectionId='42'
+                        <ToggleSwitch x:ConnectionId='44'
                             Grid.Column="1"
                                                                                   
                             OnContent="" OffContent=""
@@ -177,7 +178,7 @@
                             <TextBlock Text="Automatic Sample Submission" Style="{StaticResource BodyStyle}" FontWeight="SemiBold" />
                             <TextBlock Text="Send suspicious files to cloud for analysis" Style="{StaticResource CaptionStyle}" />
                         </StackPanel>
-                        <ToggleSwitch x:ConnectionId='41'
+                        <ToggleSwitch x:ConnectionId='43'
                             Grid.Column="1"
                                                                                             
                             OnContent="" OffContent=""
@@ -197,7 +198,7 @@
                             <TextBlock Text="Scan Sensitivity" Style="{StaticResource BodyStyle}" FontWeight="SemiBold" />
                             <TextBlock Text="Low / Balanced / High / Maximum" Style="{StaticResource CaptionStyle}" />
                         </StackPanel>
-                        <ComboBox x:ConnectionId='40'
+                        <ComboBox x:ConnectionId='42'
                             Grid.Column="1"
                                                                               
                                                                                           
@@ -218,7 +219,7 @@
                             <TextBlock Text="Scan Archives (ZIP, RAR)" Style="{StaticResource BodyStyle}" FontWeight="SemiBold" />
                             <TextBlock Text="Scan inside compressed files" Style="{StaticResource CaptionStyle}" />
                         </StackPanel>
-                        <ToggleSwitch x:ConnectionId='39'
+                        <ToggleSwitch x:ConnectionId='41'
                             Grid.Column="1"
                                                                                
                             OnContent="" OffContent=""
@@ -238,7 +239,7 @@
                             <TextBlock Text="Scan Removable Drives" Style="{StaticResource BodyStyle}" FontWeight="SemiBold" />
                             <TextBlock Text="Automatically scan USB drives when connected" Style="{StaticResource CaptionStyle}" />
                         </StackPanel>
-                        <ToggleSwitch x:ConnectionId='38'
+                        <ToggleSwitch x:ConnectionId='40'
                             Grid.Column="1"
                                                                                       
                             OnContent="" OffContent=""
@@ -258,7 +259,7 @@
                             <TextBlock Text="Scan Network Drives" Style="{StaticResource BodyStyle}" FontWeight="SemiBold" />
                             <TextBlock Text="Include mapped network drives in scans" Style="{StaticResource CaptionStyle}" />
                         </StackPanel>
-                        <ToggleSwitch x:ConnectionId='37'
+                        <ToggleSwitch x:ConnectionId='39'
                             Grid.Column="1"
                                                                                     
                             OnContent="" OffContent=""
@@ -285,7 +286,7 @@
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0" Text="Threat Detected Alerts" Style="{StaticResource BodyStyle}" FontWeight="SemiBold" VerticalAlignment="Center" />
-                        <ToggleSwitch x:ConnectionId='36'
+                        <ToggleSwitch x:ConnectionId='38'
                             Grid.Column="1"
                                                                                       
                             OnContent="" OffContent=""
@@ -302,7 +303,7 @@
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0" Text="Scan Complete Notifications" Style="{StaticResource BodyStyle}" FontWeight="SemiBold" VerticalAlignment="Center" />
-                        <ToggleSwitch x:ConnectionId='35'
+                        <ToggleSwitch x:ConnectionId='37'
                             Grid.Column="1"
                                                                                             
                             OnContent="" OffContent=""
@@ -319,7 +320,7 @@
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0" Text="Update Available Notifications" Style="{StaticResource BodyStyle}" FontWeight="SemiBold" VerticalAlignment="Center" />
-                        <ToggleSwitch x:ConnectionId='34'
+                        <ToggleSwitch x:ConnectionId='36'
                             Grid.Column="1"
                                                                                       
                             OnContent="" OffContent=""
@@ -336,7 +337,7 @@
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0" Text="Weekly Security Report" Style="{StaticResource BodyStyle}" FontWeight="SemiBold" VerticalAlignment="Center" />
-                        <ToggleSwitch x:ConnectionId='33'
+                        <ToggleSwitch x:ConnectionId='35'
                             Grid.Column="1"
                                                                                             
                             OnContent="" OffContent=""
@@ -353,7 +354,7 @@
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0" Text="Sound Alerts" Style="{StaticResource BodyStyle}" FontWeight="SemiBold" VerticalAlignment="Center" />
-                        <ToggleSwitch x:ConnectionId='32'
+                        <ToggleSwitch x:ConnectionId='34'
                             Grid.Column="1"
                                                                               
                             OnContent="" OffContent=""
@@ -383,7 +384,7 @@
                             <TextBlock Text="Enable Scheduled Scans" Style="{StaticResource BodyStyle}" FontWeight="SemiBold" />
                             <TextBlock Text="Automatically run scans on a schedule" Style="{StaticResource CaptionStyle}" />
                         </StackPanel>
-                        <ToggleSwitch x:ConnectionId='31'
+                        <ToggleSwitch x:ConnectionId='33'
                             Grid.Column="1"
                                                                                        
                             OnContent="" OffContent=""
@@ -400,7 +401,7 @@
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0" Text="Scan Frequency" Style="{StaticResource BodyStyle}" FontWeight="SemiBold" VerticalAlignment="Center" />
-                        <ComboBox x:ConnectionId='30'
+                        <ComboBox x:ConnectionId='32'
                             Grid.Column="1"
                                                                             
                                                                                         
@@ -418,7 +419,7 @@
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0" Text="Day" Style="{StaticResource BodyStyle}" FontWeight="SemiBold" VerticalAlignment="Center" />
-                        <ComboBox x:ConnectionId='29'
+                        <ComboBox x:ConnectionId='31'
                             Grid.Column="1"
                                                                      
                                                                                   
@@ -436,7 +437,7 @@
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0" Text="Time" Style="{StaticResource BodyStyle}" FontWeight="SemiBold" VerticalAlignment="Center" />
-                        <ComboBox x:ConnectionId='28'
+                        <ComboBox x:ConnectionId='30'
                             Grid.Column="1"
                                                                       
                                                                                    
@@ -454,7 +455,7 @@
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0" Text="Scan Type" Style="{StaticResource BodyStyle}" FontWeight="SemiBold" VerticalAlignment="Center" />
-                        <ComboBox x:ConnectionId='27'
+                        <ComboBox x:ConnectionId='29'
                             Grid.Column="1"
                                                                       
                                                                                             
@@ -484,25 +485,25 @@
                             BorderThickness="1"
                             CornerRadius="6"
                             Padding="4">
-                            <ItemsRepeater x:ConnectionId='22'                                               >
+                            <ItemsRepeater x:ConnectionId='24'                                               >
                                 <ItemsRepeater.Layout>
                                     <StackLayout Spacing="2" />
                                 </ItemsRepeater.Layout>
                                 <ItemsRepeater.ItemTemplate>
                                     <DataTemplate                      >
-                                        <Grid x:ConnectionId='24' Padding="12,8" ColumnSpacing="8">
+                                        <Grid x:ConnectionId='26' Padding="12,8" ColumnSpacing="8">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="*" />
                                                 <ColumnDefinition Width="Auto" />
                                             </Grid.ColumnDefinitions>
-                                            <TextBlock x:ConnectionId='25'
+                                            <TextBlock x:ConnectionId='27'
                                                 Grid.Column="0"
                                                                
                                                 Style="{StaticResource CaptionStyle}"
                                                 Foreground="{StaticResource TextPrimaryBrush}"
                                                 VerticalAlignment="Center"
                                                 TextTrimming="CharacterEllipsis" />
-                                            <Button x:ConnectionId='26'
+                                            <Button x:ConnectionId='28'
                                                 Grid.Column="1"
                                                 Content="Remove"
                                                 Style="{StaticResource SecondaryButtonStyle}"
@@ -516,7 +517,7 @@
                                 </ItemsRepeater.ItemTemplate>
                             </ItemsRepeater>
                         </Border>
-                        <Button x:ConnectionId='21'
+                        <Button x:ConnectionId='23'
                             x:Name="ExcludedFilesPanel"
                                                     
                             Content="+ Add File Exclusion"
@@ -537,25 +538,25 @@
                             BorderThickness="1"
                             CornerRadius="6"
                             Padding="4">
-                            <ItemsRepeater x:ConnectionId='16'                                                 >
+                            <ItemsRepeater x:ConnectionId='18'                                                 >
                                 <ItemsRepeater.Layout>
                                     <StackLayout Spacing="2" />
                                 </ItemsRepeater.Layout>
                                 <ItemsRepeater.ItemTemplate>
                                     <DataTemplate                      >
-                                        <Grid x:ConnectionId='18' Padding="12,8" ColumnSpacing="8">
+                                        <Grid x:ConnectionId='20' Padding="12,8" ColumnSpacing="8">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="*" />
                                                 <ColumnDefinition Width="Auto" />
                                             </Grid.ColumnDefinitions>
-                                            <TextBlock x:ConnectionId='19'
+                                            <TextBlock x:ConnectionId='21'
                                                 Grid.Column="0"
                                                                
                                                 Style="{StaticResource CaptionStyle}"
                                                 Foreground="{StaticResource TextPrimaryBrush}"
                                                 VerticalAlignment="Center"
                                                 TextTrimming="CharacterEllipsis" />
-                                            <Button x:ConnectionId='20'
+                                            <Button x:ConnectionId='22'
                                                 Grid.Column="1"
                                                 Content="Remove"
                                                 Style="{StaticResource SecondaryButtonStyle}"
@@ -569,7 +570,7 @@
                                 </ItemsRepeater.ItemTemplate>
                             </ItemsRepeater>
                         </Border>
-                        <Button x:ConnectionId='15'
+                        <Button x:ConnectionId='17'
                             x:Name="ExcludedFoldersPanel"
                                                     
                             Content="+ Add Folder Exclusion"
@@ -601,7 +602,7 @@
                             <TextBlock Text="Theme" Style="{StaticResource BodyStyle}" FontWeight="SemiBold" />
                             <TextBlock Text="Choose between Dark, Light, or System theme" Style="{StaticResource CaptionStyle}" />
                         </StackPanel>
-                        <ComboBox x:ConnectionId='14'
+                        <ComboBox x:ConnectionId='16'
                             Grid.Column="1"
                                                                    
                                                                                         
@@ -622,7 +623,7 @@
                             <TextBlock Text="Accent Color" Style="{StaticResource BodyStyle}" FontWeight="SemiBold" />
                             <TextBlock Text="Customize the accent color of the interface" Style="{StaticResource CaptionStyle}" />
                         </StackPanel>
-                        <ComboBox x:ConnectionId='13'
+                        <ComboBox x:ConnectionId='15'
                             Grid.Column="1"
                                                                          
                                                                                       
@@ -653,7 +654,7 @@
                             <TextBlock Text="Send Usage Data" Style="{StaticResource BodyStyle}" FontWeight="SemiBold" />
                             <TextBlock Text="Help improve DefenderUI by sending anonymous usage data" Style="{StaticResource CaptionStyle}" />
                         </StackPanel>
-                        <ToggleSwitch x:ConnectionId='12'
+                        <ToggleSwitch x:ConnectionId='14'
                             Grid.Column="1"
                                                                                 
                             OnContent="" OffContent=""
@@ -673,7 +674,7 @@
                             <TextBlock Text="Send Crash Reports" Style="{StaticResource BodyStyle}" FontWeight="SemiBold" />
                             <TextBlock Text="Automatically send crash reports for troubleshooting" Style="{StaticResource CaptionStyle}" />
                         </StackPanel>
-                        <ToggleSwitch x:ConnectionId='11'
+                        <ToggleSwitch x:ConnectionId='13'
                             Grid.Column="1"
                                                                                    
                             OnContent="" OffContent=""
@@ -693,7 +694,7 @@
                             <TextBlock Text="Participate in Beta Program" Style="{StaticResource BodyStyle}" FontWeight="SemiBold" />
                             <TextBlock Text="Get early access to new features" Style="{StaticResource CaptionStyle}" />
                         </StackPanel>
-                        <ToggleSwitch x:ConnectionId='10'
+                        <ToggleSwitch x:ConnectionId='12'
                             Grid.Column="1"
                                                                                     
                             OnContent="" OffContent=""
@@ -715,11 +716,11 @@
 
                     <!-- App Info -->
                     <StackPanel Spacing="4">
-                        <TextBlock x:ConnectionId='8'
+                        <TextBlock x:ConnectionId='10'
                                                                     
                             Style="{StaticResource BodyLargeStyle}"
                             FontWeight="SemiBold" />
-                        <TextBlock x:ConnectionId='9'
+                        <TextBlock x:ConnectionId='11'
                                                                  
                             Style="{StaticResource CaptionStyle}" />
                     </StackPanel>
@@ -730,11 +731,11 @@
                     <StackPanel Spacing="4">
                         <StackPanel Orientation="Horizontal" Spacing="8">
                             <TextBlock Text="License:" Style="{StaticResource BodyStyle}" Foreground="{StaticResource TextSecondaryBrush}" />
-                            <TextBlock x:ConnectionId='7'                                       Style="{StaticResource BodyStyle}" FontWeight="SemiBold" />
+                            <TextBlock x:ConnectionId='9'                                       Style="{StaticResource BodyStyle}" FontWeight="SemiBold" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Spacing="8">
                             <TextBlock Text="Valid until:" Style="{StaticResource BodyStyle}" Foreground="{StaticResource TextSecondaryBrush}" />
-                            <TextBlock x:ConnectionId='6'                                         Style="{StaticResource BodyStyle}" FontWeight="SemiBold" />
+                            <TextBlock x:ConnectionId='8'                                         Style="{StaticResource BodyStyle}" FontWeight="SemiBold" />
                         </StackPanel>
                     </StackPanel>
 
@@ -742,17 +743,17 @@
 
                     <!-- Action Buttons -->
                     <StackPanel Orientation="Horizontal" Spacing="8">
-                        <Button x:ConnectionId='3'
+                        <Button x:ConnectionId='5'
                             Content="Check for Updates"
                             Style="{StaticResource PrimaryButtonStyle}"
                                                                                
                             AutomationProperties.Name="Check for Updates" />
-                        <Button x:ConnectionId='4'
+                        <Button x:ConnectionId='6'
                             Content="Export Settings"
                             Style="{StaticResource SecondaryButtonStyle}"
                                                                               
                             AutomationProperties.Name="Export Settings" />
-                        <Button x:ConnectionId='5'
+                        <Button x:ConnectionId='7'
                             Content="Import Settings"
                             Style="{StaticResource SecondaryButtonStyle}"
                                                                               
@@ -762,7 +763,7 @@
                     <Rectangle Height="1" Fill="{StaticResource BorderSubtleBrush}" />
 
                     <!-- Reset Button -->
-                    <Button x:ConnectionId='2'
+                    <Button x:ConnectionId='4'
                         Content="Reset All Settings to Default"
                         Style="{StaticResource DangerButtonStyle}"
                         HorizontalAlignment="Left"

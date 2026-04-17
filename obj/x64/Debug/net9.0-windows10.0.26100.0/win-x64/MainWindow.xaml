@@ -57,6 +57,7 @@
             PaneDisplayMode="Left"
             OpenPaneLength="260"
             Background="Transparent"
+                                   
                                                        
             AutomationProperties.Name="Main navigation">
 
