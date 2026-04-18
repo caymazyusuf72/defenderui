@@ -1,11 +1,19 @@
+using CommunityToolkit.Mvvm.ComponentModel;
+
 namespace DefenderUI.Models;
 
-public class ProtectionModule
+public partial class ProtectionModule : ObservableObject
 {
     public string Name { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     public string Icon { get; set; } = string.Empty;
-    public bool IsEnabled { get; set; }
-    public bool HasIssue { get; set; }
-    public string IssueDescription { get; set; } = string.Empty;
+
+    [ObservableProperty]
+    private bool _isEnabled;
+
+    [ObservableProperty]
+    private bool _hasIssue;
+
+    [ObservableProperty]
+    private string _issueDescription = string.Empty;
 }

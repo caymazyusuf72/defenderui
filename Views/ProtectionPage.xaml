@@ -1,13 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
 <Page
     x:Class="DefenderUI.Views.ProtectionPage"
+    x:Name="RootPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:DefenderUI.Controls"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:helpers="using:DefenderUI.Helpers"
+    xmlns:models="using:DefenderUI.Models"
+    xmlns:local="using:DefenderUI.Views"
     mc:Ignorable="d"
     Loaded="Page_Loaded"
-    Background="{StaticResource AppBackgroundBrush}">
+    Background="{ThemeResource SurfaceBackgroundBrush}">
 
     <Page.Resources>
         <helpers:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
@@ -18,900 +24,233 @@
         HorizontalScrollBarVisibility="Disabled">
 
         <StackPanel
-            Padding="32"
-            Spacing="24">
+            Padding="24"
+            Spacing="32">
 
-            <!-- ════════════════════════════════════════════════════ -->
-            <!-- Section A - Page Header                             -->
-            <!-- ════════════════════════════════════════════════════ -->
+            <!-- ════════════════════════════════════════════════════════ -->
+            <!-- Header                                                    -->
+            <!-- ════════════════════════════════════════════════════════ -->
             <StackPanel x:Name="HeaderPanel" Spacing="4">
                 <TextBlock
-                    Text="Protection"
-                    Style="{StaticResource TitleLargeStyle}"
+                    Text="Koruma Durumu"
+                    Style="{StaticResource DisplayMediumTextStyle}"
                     AutomationProperties.HeadingLevel="Level1" />
                 <TextBlock
-                    Text="Manage your security features and protection modules"
-                    Style="{StaticResource BodySecondaryStyle}" />
+                    Text="Tüm güvenlik modüllerini tek noktadan yönetin"
+                    Style="{StaticResource BodyLargeTextStyle}"
+                    Foreground="{ThemeResource TextSecondaryBrush}" />
             </StackPanel>
 
-            <!-- ════════════════════════════════════════════════════ -->
-            <!-- Section B - Protection Status Summary Card          -->
-            <!-- ════════════════════════════════════════════════════ -->
-            <Border
+            <!-- ════════════════════════════════════════════════════════ -->
+            <!-- Hero Status Card                                          -->
+            <!-- ════════════════════════════════════════════════════════ -->
+            <controls:StatusHeroCard
                 x:Name="ProtectionHeroCard"
-                Style="{StaticResource HeroCardStyle}"
-                AutomationProperties.Name="Protection status summary">
-                <Grid>
-                    <!-- Left accent stripe -->
-                    <Border
-                        Background="{StaticResource SuccessBrush}"
-                        Width="4"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Stretch"
-                        CornerRadius="2"
-                        Margin="-32,0,0,0" />
+                Severity="{x:Bind ViewModel.OverallSeverity, Mode=OneWay}"
+                Title="{x:Bind ViewModel.HeroTitle, Mode=OneWay}"
+                SubTitle="{x:Bind ViewModel.HeroSubTitle, Mode=OneWay}"
+                PrimaryActionText="Varsayılanlara Sıfırla"
+                SecondaryActionText="Öneriler"
+                PrimaryActionCommand="{x:Bind ViewModel.ResetToDefaultsCommand}"
+                SecondaryActionCommand="{x:Bind ViewModel.ShowRecommendationsCommand}" />
 
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
+            <!-- ════════════════════════════════════════════════════════ -->
+            <!-- Temel Koruma Modülleri                                    -->
+            <!-- ════════════════════════════════════════════════════════ -->
+            <StackPanel Spacing="16">
+                <TextBlock
+                    x:Name="ModulesHeader"
+                    Text="Temel Koruma Modülleri"
+                    Style="{StaticResource TitleLargeTextStyle}"
+                    AutomationProperties.HeadingLevel="Level2" />
 
-                        <!-- Top row: Title + Enable All button -->
-                        <Grid Grid.Row="0" Margin="0,0,0,16">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
+                <muxc:ItemsRepeater ItemsSource="{x:Bind ViewModel.CoreModules, Mode=OneWay}">
+                    <muxc:ItemsRepeater.Layout>
+                        <muxc:UniformGridLayout
+                            MinItemWidth="320"
+                            MinItemHeight="180"
+                            MinColumnSpacing="16"
+                            MinRowSpacing="16"
+                            ItemsStretch="Fill" />
+                    </muxc:ItemsRepeater.Layout>
+                    <muxc:ItemsRepeater.ItemTemplate>
+                        <DataTemplate x:DataType="models:ProtectionModule">
+                            <controls:ProtectionModuleCard
+                                Glyph="{x:Bind Icon}"
+                                Title="{x:Bind Name}"
+                                Description="{x:Bind Description}"
+                                IsModuleEnabled="{x:Bind IsEnabled, Mode=TwoWay}"
+                                ConfigureCommand="{Binding ElementName=RootPage, Path=ViewModel.ConfigureModuleCommand}"
+                                ConfigureCommandParameter="{x:Bind}" />
+                        </DataTemplate>
+                    </muxc:ItemsRepeater.ItemTemplate>
+                </muxc:ItemsRepeater>
+            </StackPanel>
 
-                            <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="10">
-                                <FontIcon
-                                    Glyph="&#xE72E;"
-                                    FontFamily="Segoe Fluent Icons"
-                                    FontSize="24"
-                                    Foreground="{StaticResource AccentBrush}" />
-                                <TextBlock
-                                    Text="Protection Status"
-                                    Style="{StaticResource SubtitleStyle}" />
-                            </StackPanel>
+            <!-- ════════════════════════════════════════════════════════ -->
+            <!-- Gelişmiş Koruma                                           -->
+            <!-- ════════════════════════════════════════════════════════ -->
+            <StackPanel Spacing="16">
+                <TextBlock
+                    x:Name="AdvancedHeader"
+                    Text="Gelişmiş Koruma"
+                    Style="{StaticResource TitleLargeTextStyle}"
+                    AutomationProperties.HeadingLevel="Level2" />
 
-                            <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8">
-                                <Button
-                                    Style="{StaticResource PrimaryButtonStyle}"
-                                    Command="{x:Bind ViewModel.EnableAllProtectionCommand}"
-                                    Visibility="{x:Bind ViewModel.IsAllProtectionEnabled, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Invert}"
-                                    AutomationProperties.Name="Enable all protection">
-                                    <StackPanel Orientation="Horizontal" Spacing="8">
-                                        <FontIcon
-                                            Glyph="&#xE72E;"
-                                            FontFamily="Segoe Fluent Icons"
-                                            FontSize="14" />
-                                        <TextBlock Text="Enable All" />
-                                    </StackPanel>
-                                </Button>
-                                <Button
-                                    Style="{StaticResource SecondaryButtonStyle}"
-                                    Command="{x:Bind ViewModel.DisableAllProtectionCommand}"
-                                    Visibility="{x:Bind ViewModel.IsAllProtectionEnabled, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"
-                                    AutomationProperties.Name="Disable all protection">
-                                    <StackPanel Orientation="Horizontal" Spacing="8">
-                                        <FontIcon
-                                            Glyph="&#xE711;"
-                                            FontFamily="Segoe Fluent Icons"
-                                            FontSize="14" />
-                                        <TextBlock Text="Disable All" />
-                                    </StackPanel>
-                                </Button>
-                            </StackPanel>
-                        </Grid>
+                <muxc:ItemsRepeater
+                    x:Name="AdvancedGrid"
+                    ItemsSource="{x:Bind ViewModel.AdvancedModules, Mode=OneWay}">
+                    <muxc:ItemsRepeater.Layout>
+                        <muxc:UniformGridLayout
+                            MinItemWidth="320"
+                            MinItemHeight="180"
+                            MinColumnSpacing="16"
+                            MinRowSpacing="16"
+                            ItemsStretch="Fill" />
+                    </muxc:ItemsRepeater.Layout>
+                    <muxc:ItemsRepeater.ItemTemplate>
+                        <DataTemplate x:DataType="models:ProtectionModule">
+                            <controls:ProtectionModuleCard
+                                Glyph="{x:Bind Icon}"
+                                Title="{x:Bind Name}"
+                                Description="{x:Bind Description}"
+                                IsModuleEnabled="{x:Bind IsEnabled, Mode=TwoWay}"
+                                ConfigureCommand="{Binding ElementName=RootPage, Path=ViewModel.ConfigureModuleCommand}"
+                                ConfigureCommandParameter="{x:Bind}" />
+                        </DataTemplate>
+                    </muxc:ItemsRepeater.ItemTemplate>
+                </muxc:ItemsRepeater>
+            </StackPanel>
 
-                        <!-- Status text -->
-                        <StackPanel Grid.Row="1" Spacing="8" Margin="0,0,0,16">
-                            <StackPanel Orientation="Horizontal" Spacing="10">
-                                <FontIcon
-                                    Glyph="&#xE73E;"
-                                    FontFamily="Segoe Fluent Icons"
-                                    FontSize="20"
-                                    Foreground="{StaticResource SuccessBrush}" />
-                                <TextBlock
-                                    Text="{x:Bind ViewModel.OverallStatusText, Mode=OneWay}"
-                                    Style="{StaticResource BodyLargeStyle}" />
-                            </StackPanel>
-                            <TextBlock Style="{StaticResource CaptionStyle}">
-                                <Run Text="{x:Bind ViewModel.ActiveModulesCount, Mode=OneWay}" />
-                                <Run Text="/" />
-                                <Run Text="{x:Bind ViewModel.TotalModulesCount, Mode=OneWay}" />
-                                <Run Text=" modules active" />
-                            </TextBlock>
-                        </StackPanel>
+            <!-- ════════════════════════════════════════════════════════ -->
+            <!-- Güvenlik Duvarı Özet                                      -->
+            <!-- ════════════════════════════════════════════════════════ -->
+            <StackPanel Spacing="16">
+                <TextBlock
+                    x:Name="FirewallHeader"
+                    Text="Güvenlik Duvarı"
+                    Style="{StaticResource TitleLargeTextStyle}"
+                    AutomationProperties.HeadingLevel="Level2" />
 
-                        <!-- Progress bar -->
-                        <StackPanel Grid.Row="2" Spacing="4">
-                            <ProgressBar
-                                Value="{x:Bind ViewModel.ActiveModulesCount, Mode=OneWay}"
-                                Maximum="{x:Bind ViewModel.TotalModulesCount, Mode=OneWay}"
-                                Height="8"
-                                CornerRadius="4"
-                                Foreground="{StaticResource SuccessBrush}"
-                                Background="{StaticResource SurfaceBrush}"
-                                AutomationProperties.Name="Active protection modules progress" />
-                        </StackPanel>
-                    </Grid>
-                </Grid>
-            </Border>
-
-            <!-- ════════════════════════════════════════════════════ -->
-            <!-- Section C - Protection Modules                      -->
-            <!-- ════════════════════════════════════════════════════ -->
-            <TextBlock
-                Text="Protection Modules"
-                Style="{StaticResource SubtitleStyle}"
-                Margin="0,8,0,0"
-                AutomationProperties.HeadingLevel="Level2" />
-
-            <!-- Module 1: Real-time Protection -->
-            <Border
-                Style="{StaticResource DashboardCardStyle}"
-                AutomationProperties.Name="Real-time Protection module">
-                <Grid>
-                    <Border
-                        Background="{StaticResource SuccessBrush}"
-                        Width="4"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Stretch"
-                        CornerRadius="2"
-                        Margin="-20,0,0,0"
-                        Visibility="Visible" />
-                    <Grid ColumnSpacing="16">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-
-                        <!-- Icon box -->
-                        <Border
-                            Grid.Column="0"
-                            Width="48"
-                            Height="48"
-                            CornerRadius="12"
-                            Background="{StaticResource AccentDarkBrush}"
-                            VerticalAlignment="Top">
-                            <FontIcon
-                                Glyph="&#xE8BE;"
-                                FontFamily="Segoe Fluent Icons"
-                                FontSize="22"
-                                Foreground="{StaticResource AccentLightBrush}"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center" />
-                        </Border>
-
-                        <!-- Content -->
-                        <StackPanel Grid.Column="1" Spacing="6">
-                            <TextBlock
-                                Text="Real-time Protection"
-                                Style="{StaticResource BodyLargeStyle}"
-                                FontWeight="SemiBold" />
-                            <TextBlock
-                                Text="Continuously monitors your system for threats. Scans files, downloads, and programs as they run."
-                                Style="{StaticResource BodySecondaryStyle}" />
-                            <StackPanel Orientation="Horizontal" Spacing="16" Margin="0,4,0,0">
-                                <StackPanel Orientation="Horizontal" Spacing="6">
-                                    <Ellipse Width="8" Height="8" Fill="{StaticResource SuccessBrush}" VerticalAlignment="Center" />
-                                    <TextBlock Text="Active since Apr 17, 2026" Style="{StaticResource CaptionStyle}" />
-                                </StackPanel>
-                                <TextBlock Style="{StaticResource CaptionStyle}">
-                                    <Run Text="Threats blocked today: " />
-                                    <Run Text="3" Foreground="{StaticResource TextPrimaryBrush}" />
-                                </TextBlock>
-                            </StackPanel>
-                        </StackPanel>
-
-                        <!-- Toggle -->
-                        <ToggleSwitch
-                            Grid.Column="2"
-                            IsOn="True"
-                            Toggled="OnModuleToggled"
-                            Tag="0"
-                            MinWidth="0"
-                            MinHeight="0"
-                            VerticalAlignment="Top"
-                            AutomationProperties.Name="Toggle real-time protection" />
-                    </Grid>
-                </Grid>
-            </Border>
-
-            <!-- Module 2: Web Protection -->
-            <Border
-                Style="{StaticResource DashboardCardStyle}"
-                AutomationProperties.Name="Web Protection module">
-                <Grid>
-                    <Border
-                        Background="{StaticResource SuccessBrush}"
-                        Width="4"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Stretch"
-                        CornerRadius="2"
-                        Margin="-20,0,0,0"
-                        Visibility="Visible" />
-                    <Grid ColumnSpacing="16">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-
-                        <Border
-                            Grid.Column="0"
-                            Width="48"
-                            Height="48"
-                            CornerRadius="12"
-                            Background="{StaticResource SuccessBackgroundBrush}"
-                            VerticalAlignment="Top">
-                            <FontIcon
-                                Glyph="&#xE774;"
-                                FontFamily="Segoe Fluent Icons"
-                                FontSize="22"
-                                Foreground="{StaticResource SuccessBrush}"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center" />
-                        </Border>
-
-                        <StackPanel Grid.Column="1" Spacing="6">
-                            <TextBlock
-                                Text="Web Protection"
-                                Style="{StaticResource BodyLargeStyle}"
-                                FontWeight="SemiBold" />
-                            <TextBlock
-                                Text="Blocks malicious websites and phishing attempts. Protects your browsing activity in real-time."
-                                Style="{StaticResource BodySecondaryStyle}" />
-                            <StackPanel Orientation="Horizontal" Spacing="16" Margin="0,4,0,0">
-                                <StackPanel Orientation="Horizontal" Spacing="6">
-                                    <Ellipse Width="8" Height="8" Fill="{StaticResource SuccessBrush}" VerticalAlignment="Center" />
-                                    <TextBlock Text="Active" Style="{StaticResource CaptionStyle}" />
-                                </StackPanel>
-                                <TextBlock Style="{StaticResource CaptionStyle}">
-                                    <Run Text="Blocked sites today: " />
-                                    <Run Text="12" Foreground="{StaticResource TextPrimaryBrush}" />
-                                </TextBlock>
-                            </StackPanel>
-                        </StackPanel>
-
-                        <ToggleSwitch
-                            Grid.Column="2"
-                            IsOn="True"
-                            Toggled="OnModuleToggled"
-                            Tag="1"
-                            MinWidth="0"
-                            MinHeight="0"
-                            VerticalAlignment="Top"
-                            AutomationProperties.Name="Toggle web protection" />
-                    </Grid>
-                </Grid>
-            </Border>
-
-            <!-- Module 3: File Protection -->
-            <Border
-                Style="{StaticResource DashboardCardStyle}"
-                AutomationProperties.Name="File Protection module">
-                <Grid>
-                    <Border
-                        Background="{StaticResource SuccessBrush}"
-                        Width="4"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Stretch"
-                        CornerRadius="2"
-                        Margin="-20,0,0,0"
-                        Visibility="Visible" />
-                    <Grid ColumnSpacing="16">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-
-                        <Border
-                            Grid.Column="0"
-                            Width="48"
-                            Height="48"
-                            CornerRadius="12"
-                            Background="{StaticResource WarningBackgroundBrush}"
-                            VerticalAlignment="Top">
-                            <FontIcon
-                                Glyph="&#xE8A5;"
-                                FontFamily="Segoe Fluent Icons"
-                                FontSize="22"
-                                Foreground="{StaticResource WarningBrush}"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center" />
-                        </Border>
-
-                        <StackPanel Grid.Column="1" Spacing="6">
-                            <TextBlock
-                                Text="File Protection"
-                                Style="{StaticResource BodyLargeStyle}"
-                                FontWeight="SemiBold" />
-                            <TextBlock
-                                Text="Scans files before they are opened or executed. Prevents malicious files from running on your system."
-                                Style="{StaticResource BodySecondaryStyle}" />
-                            <StackPanel Orientation="Horizontal" Spacing="16" Margin="0,4,0,0">
-                                <StackPanel Orientation="Horizontal" Spacing="6">
-                                    <Ellipse Width="8" Height="8" Fill="{StaticResource SuccessBrush}" VerticalAlignment="Center" />
-                                    <TextBlock Text="Active" Style="{StaticResource CaptionStyle}" />
-                                </StackPanel>
-                                <TextBlock Style="{StaticResource CaptionStyle}">
-                                    <Run Text="Files scanned today: " />
-                                    <Run Text="1,247" Foreground="{StaticResource TextPrimaryBrush}" />
-                                </TextBlock>
-                            </StackPanel>
-                        </StackPanel>
-
-                        <ToggleSwitch
-                            Grid.Column="2"
-                            IsOn="True"
-                            Toggled="OnModuleToggled"
-                            Tag="2"
-                            MinWidth="0"
-                            MinHeight="0"
-                            VerticalAlignment="Top"
-                            AutomationProperties.Name="Toggle file protection" />
-                    </Grid>
-                </Grid>
-            </Border>
-
-            <!-- Module 4: Ransomware Protection -->
-            <Border
-                Style="{StaticResource DashboardCardStyle}"
-                AutomationProperties.Name="Ransomware Protection module">
-                <Grid>
-                    <Border
-                        Background="{StaticResource SuccessBrush}"
-                        Width="4"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Stretch"
-                        CornerRadius="2"
-                        Margin="-20,0,0,0"
-                        Visibility="Visible" />
-                    <Grid ColumnSpacing="16">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-
-                        <Border
-                            Grid.Column="0"
-                            Width="48"
-                            Height="48"
-                            CornerRadius="12"
-                            Background="{StaticResource DangerBackgroundBrush}"
-                            VerticalAlignment="Top">
-                            <FontIcon
-                                Glyph="&#xE72E;"
-                                FontFamily="Segoe Fluent Icons"
-                                FontSize="22"
-                                Foreground="{StaticResource DangerBrush}"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center" />
-                        </Border>
-
-                        <StackPanel Grid.Column="1" Spacing="6">
-                            <TextBlock
-                                Text="Ransomware Protection"
-                                Style="{StaticResource BodyLargeStyle}"
-                                FontWeight="SemiBold" />
-                            <TextBlock
-                                Text="Prevents unauthorized encryption of your files. Monitors for suspicious file modification patterns."
-                                Style="{StaticResource BodySecondaryStyle}" />
-                            <StackPanel Orientation="Horizontal" Spacing="16" Margin="0,4,0,0">
-                                <StackPanel Orientation="Horizontal" Spacing="6">
-                                    <Ellipse Width="8" Height="8" Fill="{StaticResource SuccessBrush}" VerticalAlignment="Center" />
-                                    <TextBlock Text="Active" Style="{StaticResource CaptionStyle}" />
-                                </StackPanel>
-                                <TextBlock Style="{StaticResource CaptionStyle}">
-                                    <Run Text="Protected folders: " />
-                                    <Run Text="8" Foreground="{StaticResource TextPrimaryBrush}" />
-                                </TextBlock>
-                            </StackPanel>
-                        </StackPanel>
-
-                        <ToggleSwitch
-                            Grid.Column="2"
-                            IsOn="True"
-                            Toggled="OnModuleToggled"
-                            Tag="3"
-                            MinWidth="0"
-                            MinHeight="0"
-                            VerticalAlignment="Top"
-                            AutomationProperties.Name="Toggle ransomware protection" />
-                    </Grid>
-                </Grid>
-            </Border>
-
-            <!-- Module 5: Email Protection (Disabled by default) -->
-            <Border
-                Style="{StaticResource DashboardCardStyle}"
-                AutomationProperties.Name="Email Protection module">
-                <Grid>
-                    <Border
-                        Background="{StaticResource WarningBrush}"
-                        Width="4"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Stretch"
-                        CornerRadius="2"
-                        Margin="-20,0,0,0"
-                        Visibility="Visible" />
-                    <Grid ColumnSpacing="16">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-
-                        <Border
-                            Grid.Column="0"
-                            Width="48"
-                            Height="48"
-                            CornerRadius="12"
-                            Background="{StaticResource SurfaceBrush}"
-                            VerticalAlignment="Top">
-                            <FontIcon
-                                Glyph="&#xE715;"
-                                FontFamily="Segoe Fluent Icons"
-                                FontSize="22"
-                                Foreground="{StaticResource TextSecondaryBrush}"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center" />
-                        </Border>
-
-                        <StackPanel Grid.Column="1" Spacing="6">
-                            <StackPanel Orientation="Horizontal" Spacing="8">
-                                <TextBlock
-                                    Text="Email Protection"
-                                    Style="{StaticResource BodyLargeStyle}"
-                                    FontWeight="SemiBold" />
-                                <FontIcon
-                                    Glyph="&#xE7BA;"
-                                    FontFamily="Segoe Fluent Icons"
-                                    FontSize="14"
-                                    Foreground="{StaticResource WarningBrush}"
-                                    VerticalAlignment="Center"
-                                    Visibility="Visible" />
-                            </StackPanel>
-                            <TextBlock
-                                Text="Scans email attachments and blocks phishing. Protects against malicious links in emails."
-                                Style="{StaticResource BodySecondaryStyle}" />
-                            <StackPanel Orientation="Horizontal" Spacing="16" Margin="0,4,0,0">
-                                <StackPanel Orientation="Horizontal" Spacing="6">
-                                    <Ellipse Width="8" Height="8" Fill="{StaticResource WarningBrush}" VerticalAlignment="Center" />
-                                    <TextBlock
-                                        Text="Disabled"
-                                        Style="{StaticResource CaptionStyle}"
-                                        Foreground="{StaticResource WarningBrush}" />
-                                </StackPanel>
-                                <TextBlock
-                                    Text="Email protection is currently disabled"
-                                    Style="{StaticResource CaptionStyle}"
-                                    Foreground="{StaticResource WarningBrush}" />
-                            </StackPanel>
-                        </StackPanel>
-
-                        <ToggleSwitch
-                            Grid.Column="2"
-                            IsOn="False"
-                            Toggled="OnModuleToggled"
-                            Tag="4"
-                            MinWidth="0"
-                            MinHeight="0"
-                            VerticalAlignment="Top"
-                            AutomationProperties.Name="Toggle email protection" />
-                    </Grid>
-                </Grid>
-            </Border>
-
-            <!-- Module 6: Network Protection -->
-            <Border
-                Style="{StaticResource DashboardCardStyle}"
-                AutomationProperties.Name="Network Protection module">
-                <Grid>
-                    <Border
-                        Background="{StaticResource SuccessBrush}"
-                        Width="4"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Stretch"
-                        CornerRadius="2"
-                        Margin="-20,0,0,0"
-                        Visibility="Visible" />
-                    <Grid ColumnSpacing="16">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-
-                        <Border
-                            Grid.Column="0"
-                            Width="48"
-                            Height="48"
-                            CornerRadius="12"
-                            Background="{StaticResource AccentDarkBrush}"
-                            VerticalAlignment="Top">
-                            <FontIcon
-                                Glyph="&#xE968;"
-                                FontFamily="Segoe Fluent Icons"
-                                FontSize="22"
-                                Foreground="{StaticResource AccentLightBrush}"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center" />
-                        </Border>
-
-                        <StackPanel Grid.Column="1" Spacing="6">
-                            <TextBlock
-                                Text="Network Protection"
-                                Style="{StaticResource BodyLargeStyle}"
-                                FontWeight="SemiBold" />
-                            <TextBlock
-                                Text="Monitors network traffic for suspicious activity. Blocks unauthorized connections and data exfiltration."
-                                Style="{StaticResource BodySecondaryStyle}" />
-                            <StackPanel Orientation="Horizontal" Spacing="16" Margin="0,4,0,0">
-                                <StackPanel Orientation="Horizontal" Spacing="6">
-                                    <Ellipse Width="8" Height="8" Fill="{StaticResource SuccessBrush}" VerticalAlignment="Center" />
-                                    <TextBlock Text="Active" Style="{StaticResource CaptionStyle}" />
-                                </StackPanel>
-                                <TextBlock Style="{StaticResource CaptionStyle}">
-                                    <Run Text="Connections monitored: " />
-                                    <Run Text="342" Foreground="{StaticResource TextPrimaryBrush}" />
-                                </TextBlock>
-                            </StackPanel>
-                        </StackPanel>
-
-                        <ToggleSwitch
-                            Grid.Column="2"
-                            IsOn="True"
-                            Toggled="OnModuleToggled"
-                            Tag="5"
-                            MinWidth="0"
-                            MinHeight="0"
-                            VerticalAlignment="Top"
-                            AutomationProperties.Name="Toggle network protection" />
-                    </Grid>
-                </Grid>
-            </Border>
-
-            <!-- ════════════════════════════════════════════════════ -->
-            <!-- Section D - Advanced Protection Settings            -->
-            <!-- ════════════════════════════════════════════════════ -->
-            <TextBlock
-                Text="Advanced Protection Settings"
-                Style="{StaticResource SubtitleStyle}"
-                Margin="0,8,0,0"
-                AutomationProperties.HeadingLevel="Level2" />
-
-            <Grid ColumnSpacing="16">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-
-                <!-- Left: Cloud & Analysis -->
-                <Border
-                    Grid.Column="0"
-                    Style="{StaticResource DashboardCardStyle}"
-                    AutomationProperties.Name="Cloud protection settings">
+                <Border x:Name="FirewallCard" Style="{StaticResource SurfaceCardStyle}">
                     <StackPanel Spacing="16">
-                        <!-- Card Header -->
-                        <StackPanel Orientation="Horizontal" Spacing="10">
+                        <Grid ColumnSpacing="12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
                             <FontIcon
-                                Glyph="&#xE753;"
-                                FontFamily="Segoe Fluent Icons"
-                                FontSize="20"
-                                Foreground="{StaticResource AccentBrush}" />
-                            <TextBlock
-                                Text="Cloud Protection Settings"
-                                Style="{StaticResource BodyLargeStyle}"
-                                FontWeight="SemiBold" />
-                        </StackPanel>
-
-                        <Rectangle Height="1" Fill="{StaticResource BorderSubtleBrush}" HorizontalAlignment="Stretch" />
-
-                        <!-- Cloud-delivered Protection -->
-                        <Grid ColumnSpacing="12">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <StackPanel Grid.Column="0" Spacing="2" VerticalAlignment="Center">
-                                <TextBlock Text="Cloud-delivered Protection" Style="{StaticResource BodyStyle}" />
-                                <TextBlock Text="Get the latest protection from the cloud" Style="{StaticResource CaptionStyle}" />
-                            </StackPanel>
-                            <ToggleSwitch
-                                Grid.Column="1"
-                                IsOn="{x:Bind ViewModel.CloudProtection, Mode=TwoWay}"
-                                MinWidth="0"
-                                MinHeight="0"
-                                AutomationProperties.Name="Toggle cloud-delivered protection" />
-                        </Grid>
-
-                        <Rectangle Height="1" Fill="{StaticResource BorderSubtleBrush}" HorizontalAlignment="Stretch" />
-
-                        <!-- Automatic Sample Submission -->
-                        <Grid ColumnSpacing="12">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <StackPanel Grid.Column="0" Spacing="2" VerticalAlignment="Center">
-                                <TextBlock Text="Automatic Sample Submission" Style="{StaticResource BodyStyle}" />
-                                <TextBlock Text="Send suspicious files for analysis" Style="{StaticResource CaptionStyle}" />
-                            </StackPanel>
-                            <ToggleSwitch
-                                Grid.Column="1"
-                                IsOn="{x:Bind ViewModel.AutomaticSampleSubmission, Mode=TwoWay}"
-                                MinWidth="0"
-                                MinHeight="0"
-                                AutomationProperties.Name="Toggle automatic sample submission" />
-                        </Grid>
-
-                        <Rectangle Height="1" Fill="{StaticResource BorderSubtleBrush}" HorizontalAlignment="Stretch" />
-
-                        <!-- Tamper Protection -->
-                        <Grid ColumnSpacing="12">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <StackPanel Grid.Column="0" Spacing="2" VerticalAlignment="Center">
-                                <TextBlock Text="Tamper Protection" Style="{StaticResource BodyStyle}" />
-                                <TextBlock Text="Prevent changes to security settings" Style="{StaticResource CaptionStyle}" />
-                            </StackPanel>
-                            <ToggleSwitch
-                                Grid.Column="1"
-                                IsOn="{x:Bind ViewModel.TamperProtection, Mode=TwoWay}"
-                                MinWidth="0"
-                                MinHeight="0"
-                                AutomationProperties.Name="Toggle tamper protection" />
-                        </Grid>
-                    </StackPanel>
-                </Border>
-
-                <!-- Right: Advanced Protection -->
-                <Border
-                    Grid.Column="1"
-                    Style="{StaticResource DashboardCardStyle}"
-                    AutomationProperties.Name="Advanced protection settings">
-                    <StackPanel Spacing="16">
-                        <!-- Card Header -->
-                        <StackPanel Orientation="Horizontal" Spacing="10">
-                            <FontIcon
-                                Glyph="&#xE713;"
-                                FontFamily="Segoe Fluent Icons"
-                                FontSize="20"
-                                Foreground="{StaticResource AccentBrush}" />
-                            <TextBlock
-                                Text="Advanced Protection"
-                                Style="{StaticResource BodyLargeStyle}"
-                                FontWeight="SemiBold" />
-                        </StackPanel>
-
-                        <Rectangle Height="1" Fill="{StaticResource BorderSubtleBrush}" HorizontalAlignment="Stretch" />
-
-                        <!-- PUA Protection -->
-                        <Grid ColumnSpacing="12">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <StackPanel Grid.Column="0" Spacing="2" VerticalAlignment="Center">
-                                <TextBlock Text="PUA Protection" Style="{StaticResource BodyStyle}" />
-                                <TextBlock Text="Block potentially unwanted applications" Style="{StaticResource CaptionStyle}" />
-                            </StackPanel>
-                            <ToggleSwitch
-                                Grid.Column="1"
-                                IsOn="{x:Bind ViewModel.PuaProtection, Mode=TwoWay}"
-                                MinWidth="0"
-                                MinHeight="0"
-                                AutomationProperties.Name="Toggle PUA protection" />
-                        </Grid>
-
-                        <Rectangle Height="1" Fill="{StaticResource BorderSubtleBrush}" HorizontalAlignment="Stretch" />
-
-                        <!-- Exploit Protection -->
-                        <Grid ColumnSpacing="12">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <StackPanel Grid.Column="0" Spacing="2" VerticalAlignment="Center">
-                                <TextBlock Text="Exploit Protection" Style="{StaticResource BodyStyle}" />
-                                <TextBlock Text="Guard against exploit techniques" Style="{StaticResource CaptionStyle}" />
-                            </StackPanel>
-                            <ToggleSwitch
-                                Grid.Column="1"
-                                IsOn="{x:Bind ViewModel.ExploitProtection, Mode=TwoWay}"
-                                MinWidth="0"
-                                MinHeight="0"
-                                AutomationProperties.Name="Toggle exploit protection" />
-                        </Grid>
-
-                        <Rectangle Height="1" Fill="{StaticResource BorderSubtleBrush}" HorizontalAlignment="Stretch" />
-
-                        <!-- Network Inspection System -->
-                        <Grid ColumnSpacing="12">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <StackPanel Grid.Column="0" Spacing="2" VerticalAlignment="Center">
-                                <TextBlock Text="Network Inspection System" Style="{StaticResource BodyStyle}" />
-                                <TextBlock Text="Deep inspection of network packets" Style="{StaticResource CaptionStyle}" />
-                            </StackPanel>
-                            <ToggleSwitch
-                                Grid.Column="1"
-                                IsOn="{x:Bind ViewModel.NetworkInspection, Mode=TwoWay}"
-                                MinWidth="0"
-                                MinHeight="0"
-                                AutomationProperties.Name="Toggle network inspection system" />
-                        </Grid>
-                    </StackPanel>
-                </Border>
-            </Grid>
-
-            <!-- ════════════════════════════════════════════════════ -->
-            <!-- Section E - Firewall Status                         -->
-            <!-- ════════════════════════════════════════════════════ -->
-            <TextBlock
-                Text="Firewall"
-                Style="{StaticResource SubtitleStyle}"
-                Margin="0,8,0,0"
-                AutomationProperties.HeadingLevel="Level2" />
-
-            <Border
-                Style="{StaticResource DashboardCardStyle}"
-                AutomationProperties.Name="Firewall status">
-                <StackPanel Spacing="16">
-                    <!-- Card Header -->
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-
-                        <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="10">
-                            <FontIcon
+                                Grid.Column="0"
                                 Glyph="&#xE83D;"
-                                FontFamily="Segoe Fluent Icons"
+                                FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets"
                                 FontSize="20"
-                                Foreground="{StaticResource AccentBrush}" />
-                            <TextBlock
-                                Text="Firewall Status"
-                                Style="{StaticResource BodyLargeStyle}"
-                                FontWeight="SemiBold" />
-                        </StackPanel>
+                                Foreground="{ThemeResource AccentPrimaryBrush}"
+                                VerticalAlignment="Center" />
 
-                        <ToggleSwitch
-                            Grid.Column="1"
-                            IsOn="{x:Bind ViewModel.FirewallEnabled, Mode=TwoWay}"
-                            MinWidth="0"
-                            MinHeight="0"
-                            AutomationProperties.Name="Toggle firewall" />
-                    </Grid>
-
-                    <Rectangle Height="1" Fill="{StaticResource BorderSubtleBrush}" HorizontalAlignment="Stretch" />
-
-                    <!-- Firewall info grid -->
-                    <Grid ColumnSpacing="24" RowSpacing="12">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-
-                        <!-- Status -->
-                        <StackPanel Grid.Column="0" Grid.Row="0" Spacing="4">
-                            <TextBlock Text="Status" Style="{StaticResource CaptionStyle}" />
-                            <StackPanel Orientation="Horizontal" Spacing="6">
-                                <FontIcon
-                                    Glyph="&#xE73E;"
-                                    FontFamily="Segoe Fluent Icons"
-                                    FontSize="14"
-                                    Foreground="{StaticResource SuccessBrush}" />
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="2">
                                 <TextBlock
-                                    Text="Enabled"
-                                    Style="{StaticResource BodyStyle}"
-                                    Foreground="{StaticResource SuccessBrush}"
+                                    Text="Güvenlik Duvarı"
+                                    Style="{StaticResource BodyLargeTextStyle}"
+                                    FontWeight="SemiBold" />
+                                <TextBlock
+                                    Text="{x:Bind ViewModel.FirewallProfile, Mode=OneWay}"
+                                    Style="{StaticResource CaptionTextStyle}" />
+                            </StackPanel>
+
+                            <ToggleSwitch
+                                Grid.Column="2"
+                                IsOn="{x:Bind ViewModel.FirewallEnabled, Mode=TwoWay}"
+                                MinWidth="0"
+                                OnContent=""
+                                OffContent=""
+                                VerticalAlignment="Center" />
+                        </Grid>
+
+                        <Rectangle Height="1" Fill="{ThemeResource DividerBrush}" />
+
+                        <Grid ColumnSpacing="24">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0" Spacing="4">
+                                <TextBlock Text="BUGÜN ENGELLENEN" Style="{StaticResource OverlineTextStyle}" />
+                                <TextBlock
+                                    Text="{x:Bind ViewModel.BlockedConnectionsToday, Mode=OneWay}"
+                                    Style="{StaticResource TitleLargeTextStyle}"
                                     FontWeight="SemiBold" />
                             </StackPanel>
-                        </StackPanel>
 
-                        <!-- Profile -->
-                        <StackPanel Grid.Column="1" Grid.Row="0" Spacing="4">
-                            <TextBlock Text="Profile" Style="{StaticResource CaptionStyle}" />
-                            <TextBlock
-                                Text="{x:Bind ViewModel.FirewallProfile, Mode=OneWay}"
-                                Style="{StaticResource BodyStyle}"
-                                FontWeight="SemiBold" />
-                        </StackPanel>
-
-                        <!-- Blocked connections -->
-                        <StackPanel Grid.Column="2" Grid.Row="0" Spacing="4">
-                            <TextBlock Text="Blocked connections today" Style="{StaticResource CaptionStyle}" />
-                            <TextBlock
-                                Style="{StaticResource BodyStyle}"
-                                FontWeight="SemiBold">
-                                <Run Text="{x:Bind ViewModel.BlockedConnectionsToday, Mode=OneWay}" />
-                            </TextBlock>
-                        </StackPanel>
-
-                        <!-- Inbound Rules -->
-                        <StackPanel Grid.Column="0" Grid.Row="1" Spacing="4">
-                            <TextBlock Text="Inbound Rules" Style="{StaticResource CaptionStyle}" />
-                            <TextBlock Style="{StaticResource BodyStyle}">
-                                <Run Text="{x:Bind ViewModel.InboundRules, Mode=OneWay}" />
-                                <Run Text=" active" />
-                            </TextBlock>
-                        </StackPanel>
-
-                        <!-- Outbound Rules -->
-                        <StackPanel Grid.Column="1" Grid.Row="1" Spacing="4">
-                            <TextBlock Text="Outbound Rules" Style="{StaticResource CaptionStyle}" />
-                            <TextBlock Style="{StaticResource BodyStyle}">
-                                <Run Text="{x:Bind ViewModel.OutboundRules, Mode=OneWay}" />
-                                <Run Text=" active" />
-                            </TextBlock>
-                        </StackPanel>
-                    </Grid>
-
-                    <Rectangle Height="1" Fill="{StaticResource BorderSubtleBrush}" HorizontalAlignment="Stretch" />
-
-                    <!-- Action buttons -->
-                    <StackPanel Orientation="Horizontal" Spacing="12">
-                        <Button
-                            Style="{StaticResource SecondaryButtonStyle}"
-                            Command="{x:Bind ViewModel.ViewFirewallRulesCommand}"
-                            AutomationProperties.Name="View firewall rules">
-                            <StackPanel Orientation="Horizontal" Spacing="8">
-                                <FontIcon
-                                    Glyph="&#xE8A7;"
-                                    FontFamily="Segoe Fluent Icons"
-                                    FontSize="14" />
-                                <TextBlock Text="View Firewall Rules" />
+                            <StackPanel Grid.Column="1" Spacing="4">
+                                <TextBlock Text="GELEN KURALLARI" Style="{StaticResource OverlineTextStyle}" />
+                                <TextBlock
+                                    Text="{x:Bind ViewModel.InboundRules, Mode=OneWay}"
+                                    Style="{StaticResource TitleLargeTextStyle}"
+                                    FontWeight="SemiBold" />
                             </StackPanel>
-                        </Button>
-                        <Button
-                            Style="{StaticResource SecondaryButtonStyle}"
-                            Command="{x:Bind ViewModel.ResetFirewallCommand}"
-                            AutomationProperties.Name="Reset firewall settings">
-                            <StackPanel Orientation="Horizontal" Spacing="8">
-                                <FontIcon
-                                    Glyph="&#xE72C;"
-                                    FontFamily="Segoe Fluent Icons"
-                                    FontSize="14" />
-                                <TextBlock Text="Reset Firewall" />
-                            </StackPanel>
-                        </Button>
-                    </StackPanel>
-                </StackPanel>
-            </Border>
 
-            <!-- Reset to defaults button -->
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,8,0,16">
-                <Button
-                    Style="{StaticResource SecondaryButtonStyle}"
-                    Command="{x:Bind ViewModel.ResetToDefaultsCommand}"
-                    AutomationProperties.Name="Reset all settings to defaults">
-                    <StackPanel Orientation="Horizontal" Spacing="8">
-                        <FontIcon
-                            Glyph="&#xE777;"
-                            FontFamily="Segoe Fluent Icons"
-                            FontSize="14" />
-                        <TextBlock Text="Reset All to Defaults" />
+                            <StackPanel Grid.Column="2" Spacing="4">
+                                <TextBlock Text="GİDEN KURALLARI" Style="{StaticResource OverlineTextStyle}" />
+                                <TextBlock
+                                    Text="{x:Bind ViewModel.OutboundRules, Mode=OneWay}"
+                                    Style="{StaticResource TitleLargeTextStyle}"
+                                    FontWeight="SemiBold" />
+                            </StackPanel>
+                        </Grid>
+
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <Button
+                                Style="{StaticResource SecondaryActionButtonStyle}"
+                                Command="{x:Bind ViewModel.ViewFirewallRulesCommand}">
+                                <StackPanel Orientation="Horizontal" Spacing="6">
+                                    <FontIcon
+                                        Glyph="&#xE8A7;"
+                                        FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets"
+                                        FontSize="14" />
+                                    <TextBlock Text="Kuralları Göster" />
+                                </StackPanel>
+                            </Button>
+                            <Button
+                                Style="{StaticResource SubtleButtonStyle}"
+                                Command="{x:Bind ViewModel.ResetFirewallCommand}">
+                                <StackPanel Orientation="Horizontal" Spacing="6">
+                                    <FontIcon
+                                        Glyph="&#xE72C;"
+                                        FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets"
+                                        FontSize="14" />
+                                    <TextBlock Text="Sıfırla" />
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
                     </StackPanel>
-                </Button>
+                </Border>
+            </StackPanel>
+
+            <!-- ════════════════════════════════════════════════════════ -->
+            <!-- Son Koruma Olayları                                       -->
+            <!-- ════════════════════════════════════════════════════════ -->
+            <StackPanel Spacing="16">
+                <TextBlock
+                    Text="Son Koruma Olayları"
+                    Style="{StaticResource TitleLargeTextStyle}"
+                    AutomationProperties.HeadingLevel="Level2" />
+
+                <Border Style="{StaticResource SurfaceCardStyle}" Padding="0">
+                    <muxc:ItemsRepeater ItemsSource="{x:Bind ViewModel.RecentEvents, Mode=OneWay}">
+                        <muxc:ItemsRepeater.ItemTemplate>
+                            <DataTemplate x:DataType="models:ActivityLogItem">
+                                <controls:ActivityListItem
+                                    Glyph="{x:Bind local:ProtectionPage.GetActivityGlyph(Type)}"
+                                    Title="{x:Bind Title}"
+                                    Timestamp="{x:Bind local:ProtectionPage.FormatRelativeTime(Timestamp)}" />
+                            </DataTemplate>
+                        </muxc:ItemsRepeater.ItemTemplate>
+                    </muxc:ItemsRepeater>
+                </Border>
             </StackPanel>
 
         </StackPanel>

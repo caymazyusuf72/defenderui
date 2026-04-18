@@ -12,9 +12,31 @@ public partial class ProtectionViewModel : ObservableObject
 {
     private readonly MockDataService _mockDataService;
 
-    // Protection modules
+    // Protection modules (all)
     [ObservableProperty]
     private ObservableCollection<ProtectionModule> _protectionModules = [];
+
+    // Core modules (first 3 = Real-time, Web, File)
+    [ObservableProperty]
+    private ObservableCollection<ProtectionModule> _coreModules = [];
+
+    // Advanced modules (Ransomware, Email, Network)
+    [ObservableProperty]
+    private ObservableCollection<ProtectionModule> _advancedModules = [];
+
+    // Recent protection events
+    [ObservableProperty]
+    private ObservableCollection<ActivityLogItem> _recentEvents = [];
+
+    // Hero heading + subtitle
+    [ObservableProperty]
+    private string _heroTitle = "Tüm modüller aktif";
+
+    [ObservableProperty]
+    private string _heroSubTitle = "12 koruma özelliği çalışıyor";
+
+    [ObservableProperty]
+    private ProtectionState _overallSeverity = ProtectionState.Protected;
 
     // Overall protection status
     [ObservableProperty]
@@ -75,9 +97,30 @@ public partial class ProtectionViewModel : ObservableObject
     {
         var modules = _mockDataService.GetProtectionModules();
         ProtectionModules = new ObservableCollection<ProtectionModule>(modules);
+        CoreModules = new ObservableCollection<ProtectionModule>(modules.Take(3));
+        AdvancedModules = new ObservableCollection<ProtectionModule>(modules.Skip(3));
         TotalModulesCount = modules.Count;
         ActiveModulesCount = modules.Count(m => m.IsEnabled);
+
+        // Subscribe to IsEnabled changes so user toggles update status counts.
+        foreach (var m in modules)
+        {
+            m.PropertyChanged += OnModulePropertyChanged;
+        }
+
+        var events = _mockDataService.GetRecentActivity();
+        RecentEvents = new ObservableCollection<ActivityLogItem>(events.Take(6));
+
         UpdateOverallStatus();
+    }
+
+    private void OnModulePropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(ProtectionModule.IsEnabled))
+        {
+            ActiveModulesCount = ProtectionModules.Count(m => m.IsEnabled);
+            UpdateOverallStatus();
+        }
     }
 
     private void UpdateOverallStatus()
@@ -86,15 +129,25 @@ public partial class ProtectionViewModel : ObservableObject
 
         if (ActiveModulesCount == TotalModulesCount)
         {
-            OverallStatusText = "All protection features are active";
+            OverallStatusText = "Tüm koruma modülleri aktif";
+            HeroTitle = "Tüm modüller aktif";
+            HeroSubTitle = $"{TotalModulesCount} koruma özelliği çalışıyor";
+            OverallSeverity = ProtectionState.Protected;
         }
         else if (ActiveModulesCount == 0)
         {
-            OverallStatusText = "All protection features are disabled";
+            OverallStatusText = "Tüm koruma modülleri devre dışı";
+            HeroTitle = "Bilgisayarınız risk altında";
+            HeroSubTitle = "Hiçbir koruma modülü aktif değil";
+            OverallSeverity = ProtectionState.AtRisk;
         }
         else
         {
-            OverallStatusText = $"{TotalModulesCount - ActiveModulesCount} protection feature(s) need attention";
+            var off = TotalModulesCount - ActiveModulesCount;
+            OverallStatusText = $"{off} modül dikkat gerektiriyor";
+            HeroTitle = "Bazı modüller kapalı";
+            HeroSubTitle = $"{ActiveModulesCount} / {TotalModulesCount} modül çalışıyor";
+            OverallSeverity = ProtectionState.AttentionNeeded;
         }
     }
 
@@ -157,7 +210,19 @@ public partial class ProtectionViewModel : ObservableObject
 
         ActiveModulesCount = ProtectionModules.Count(m => m.IsEnabled);
         UpdateOverallStatus();
-        OnPropertyChanged(nameof(ProtectionModules));
+    }
+
+    [RelayCommand]
+    private void ConfigureModule(ProtectionModule? module)
+    {
+        // UI placeholder — ileride modal/page gösterir.
+        _ = module;
+    }
+
+    [RelayCommand]
+    private void ShowRecommendations()
+    {
+        // UI placeholder
     }
 
     [RelayCommand]
