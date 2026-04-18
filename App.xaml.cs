@@ -48,6 +48,8 @@ public partial class App : Application
         // Services
         services.AddSingleton<MockDataService>();
         services.AddSingleton<IThemeService, ThemeService>();
+        services.AddSingleton<INavigationService, NavigationService>();
+        services.AddSingleton<IToastService, ToastService>();
 
         // ViewModels
         services.AddTransient<DashboardViewModel>();
