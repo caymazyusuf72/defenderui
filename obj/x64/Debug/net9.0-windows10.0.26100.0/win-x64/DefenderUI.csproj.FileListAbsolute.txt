@@ -353,3 +353,11 @@ C:\Users\yusuf\Desktop\defenderui\bin\x64\Debug\net9.0-windows10.0.26100.0\win-x
 C:\Users\yusuf\Desktop\defenderui\obj\x64\Debug\net9.0-windows10.0.26100.0\win-x64\Styles\Animations.xaml
 C:\Users\yusuf\Desktop\defenderui\obj\x64\Debug\net9.0-windows10.0.26100.0\win-x64\Styles\Animations.xbf
 C:\Users\yusuf\Desktop\defenderui\obj\x64\Debug\net9.0-windows10.0.26100.0\win-x64\DefenderUI.sourcelink.json
+C:\Users\yusuf\Desktop\defenderui\bin\x64\Debug\net9.0-windows10.0.26100.0\win-x64\Assets\AppLogo-128.png
+C:\Users\yusuf\Desktop\defenderui\bin\x64\Debug\net9.0-windows10.0.26100.0\win-x64\Assets\AppLogo-256.png
+C:\Users\yusuf\Desktop\defenderui\bin\x64\Debug\net9.0-windows10.0.26100.0\win-x64\Assets\AppLogo-32.png
+C:\Users\yusuf\Desktop\defenderui\bin\x64\Debug\net9.0-windows10.0.26100.0\win-x64\Assets\AppLogo-64.png
+C:\Users\yusuf\Desktop\defenderui\bin\x64\Debug\net9.0-windows10.0.26100.0\win-x64\Assets\SplashScreen.png
+C:\Users\yusuf\Desktop\defenderui\bin\x64\Debug\net9.0-windows10.0.26100.0\win-x64\Assets\Square150x150Logo.png
+C:\Users\yusuf\Desktop\defenderui\bin\x64\Debug\net9.0-windows10.0.26100.0\win-x64\Assets\Square44x44Logo.png
+C:\Users\yusuf\Desktop\defenderui\bin\x64\Debug\net9.0-windows10.0.26100.0\win-x64\Assets\Wide310x150Logo.png

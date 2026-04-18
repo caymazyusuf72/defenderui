@@ -34,10 +34,11 @@
                 Orientation="Horizontal"
                 Spacing="8"
                 VerticalAlignment="Center">
-                <FontIcon
-                    Glyph="&#xE72E;"
-                    FontSize="16"
-                    Foreground="{StaticResource AccentBrush}" />
+                <Image
+                    Source="ms-appx:///Assets/AppLogo-32.png"
+                    Width="20"
+                    Height="20"
+                    VerticalAlignment="Center" />
                 <TextBlock
                     Text="DefenderUI"
                     Style="{StaticResource BodyStyle}"
@@ -63,19 +64,36 @@
 
             <!-- Navigation Header (Logo area in Pane) -->
             <NavigationView.PaneHeader>
-                <StackPanel Padding="12,16" Spacing="2">
-                    <TextBlock
-                        Text="DefenderUI"
-                        FontSize="18"
-                        FontWeight="SemiBold"
-                        Foreground="{StaticResource TextPrimaryBrush}"
-                        FontFamily="{StaticResource AppFontFamily}" />
-                    <TextBlock
-                        Text="Advanced Protection"
-                        FontSize="12"
-                        Foreground="{StaticResource TextSecondaryBrush}"
-                        FontFamily="{StaticResource AppFontFamily}" />
-                </StackPanel>
+                <Grid Padding="12,16" ColumnSpacing="12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Border
+                        Grid.Column="0"
+                        Width="40"
+                        Height="40"
+                        CornerRadius="8"
+                        VerticalAlignment="Center">
+                        <Image
+                            Source="ms-appx:///Assets/AppLogo-64.png"
+                            Width="40"
+                            Height="40" />
+                    </Border>
+                    <StackPanel Grid.Column="1" Spacing="2" VerticalAlignment="Center">
+                        <TextBlock
+                            Text="DefenderUI"
+                            FontSize="18"
+                            FontWeight="SemiBold"
+                            Foreground="{StaticResource TextPrimaryBrush}"
+                            FontFamily="{StaticResource AppFontFamily}" />
+                        <TextBlock
+                            Text="Advanced Protection"
+                            FontSize="12"
+                            Foreground="{StaticResource TextSecondaryBrush}"
+                            FontFamily="{StaticResource AppFontFamily}" />
+                    </StackPanel>
+                </Grid>
             </NavigationView.PaneHeader>
 
             <!-- Menu Items -->
