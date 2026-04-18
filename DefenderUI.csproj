@@ -14,6 +14,13 @@
     <WindowsPackageType>None</WindowsPackageType>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <!--
+      MVVMTK0045: CommunityToolkit.Mvvm AOT-partial-property migration uyarısı.
+      Proje WinUI 3 unpackaged + JIT çalışıyor; AOT hedefi yok. Partial property
+      migration daha büyük bir refactor gerektirdiği için Faz 7'de global olarak
+      bastırıyoruz. Gerektiğinde kaldırılabilir.
+    -->
+    <NoWarn>$(NoWarn);MVVMTK0045</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
