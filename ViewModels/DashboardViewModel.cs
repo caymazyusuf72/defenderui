@@ -11,7 +11,47 @@ namespace DefenderUI.ViewModels;
 public partial class DashboardViewModel : ObservableObject
 {
     private readonly MockDataService _mockDataService;
+    private readonly INavigationService? _navigationService;
 
+    // ═════════════════════════════════════════════════════════════════
+    // Hero (Faz 3)
+    // ═════════════════════════════════════════════════════════════════
+    [ObservableProperty]
+    private ProtectionState _overallStatus;
+
+    [ObservableProperty]
+    private string _heroTitle = "Bilgisayarınız Korunuyor";
+
+    [ObservableProperty]
+    private string _heroSubTitle = string.Empty;
+
+    // ═════════════════════════════════════════════════════════════════
+    // Stat Cards (Faz 3)
+    // ═════════════════════════════════════════════════════════════════
+    [ObservableProperty]
+    private string _filesScanned = "0";
+
+    [ObservableProperty]
+    private int _filesScannedValue;
+
+    [ObservableProperty]
+    private int _threatsBlocked;
+
+    [ObservableProperty]
+    private int _quarantinedCount;
+
+    [ObservableProperty]
+    private string _lastScanRelative = string.Empty;
+
+    // ═════════════════════════════════════════════════════════════════
+    // Feature tiles (Faz 3)
+    // ═════════════════════════════════════════════════════════════════
+    [ObservableProperty]
+    private ObservableCollection<FeatureTileData> _featureTiles = new();
+
+    // ═════════════════════════════════════════════════════════════════
+    // Legacy properties (geriye dönük uyumluluk - mevcut bindings için)
+    // ═════════════════════════════════════════════════════════════════
     [ObservableProperty]
     private ProtectionState _protectionState;
 
@@ -24,7 +64,6 @@ public partial class DashboardViewModel : ObservableObject
     [ObservableProperty]
     private string _statusDescription = string.Empty;
 
-    // KPI values
     [ObservableProperty]
     private int _threatsDetected;
 
@@ -40,7 +79,6 @@ public partial class DashboardViewModel : ObservableObject
     [ObservableProperty]
     private int _suspiciousActivity;
 
-    // Last scan info
     [ObservableProperty]
     private string _lastScanDate = string.Empty;
 
@@ -55,11 +93,11 @@ public partial class DashboardViewModel : ObservableObject
 
     // Protection Modules
     [ObservableProperty]
-    private ObservableCollection<ProtectionModule> _protectionModules = [];
+    private ObservableCollection<ProtectionModule> _protectionModules = new();
 
     // Activity Log
     [ObservableProperty]
-    private ObservableCollection<ActivityLogItem> _recentActivities = [];
+    private ObservableCollection<ActivityLogItem> _recentActivities = new();
 
     // Update Info
     [ObservableProperty]
@@ -90,13 +128,16 @@ public partial class DashboardViewModel : ObservableObject
     [ObservableProperty]
     private bool _backgroundProtection;
 
-    // Alerts
     [ObservableProperty]
-    private ObservableCollection<string> _alerts = [];
+    private ObservableCollection<string> _alerts = new();
 
-    public DashboardViewModel(MockDataService mockDataService)
+    // ═════════════════════════════════════════════════════════════════
+    // Ctor (INavigationService opsiyonel — Test/Designer için)
+    // ═════════════════════════════════════════════════════════════════
+    public DashboardViewModel(MockDataService mockDataService, INavigationService? navigationService = null)
     {
         _mockDataService = mockDataService;
+        _navigationService = navigationService;
         LoadData();
     }
 
@@ -104,6 +145,7 @@ public partial class DashboardViewModel : ObservableObject
     {
         var status = _mockDataService.GetProtectionStatus();
         ProtectionState = status.State;
+        OverallStatus = ComputeOverallStatus(status.State);
         SecurityScore = status.SecurityScore;
         StatusMessage = status.StatusMessage;
         StatusDescription = status.Description;
@@ -116,17 +158,26 @@ public partial class DashboardViewModel : ObservableObject
 
         ProtectedFiles = 128_457;
 
+        // Faz 3 — Stat Cards
+        FilesScannedValue = 12_345;
+        FilesScanned = FilesScannedValue.ToString("N0");
+        ThreatsBlocked = BlockedAttacks;
+        QuarantinedCount = QuarantinedItems;
+
         // Protection Modules
         ProtectionModules = new ObservableCollection<ProtectionModule>(_mockDataService.GetProtectionModules());
 
         // Recent Activities
         RecentActivities = new ObservableCollection<ActivityLogItem>(_mockDataService.GetRecentActivity());
 
+        // Feature Tiles (Faz 3)
+        FeatureTiles = new ObservableCollection<FeatureTileData>(_mockDataService.GetFeatureTiles());
+
         // Update Info
         var updateInfo = _mockDataService.GetUpdateInfo();
         VirusDefinitionVersion = updateInfo.VirusDefinitionVersion;
         AppVersion = updateInfo.AppVersion;
-        LastUpdateDate = updateInfo.LastUpdateDate.ToString("MMM dd, yyyy HH:mm");
+        LastUpdateDate = updateInfo.LastUpdateDate.ToString("dd MMM yyyy HH:mm");
         IsUpdateAvailable = updateInfo.IsUpdateAvailable;
 
         // System Health
@@ -138,43 +189,117 @@ public partial class DashboardViewModel : ObservableObject
         BackgroundProtection = healthInfo.BackgroundProtection;
 
         // Alerts
-        Alerts =
-        [
-            "Scheduled scan overdue - last scan was 3 days ago",
-            "2 items in quarantine require attention"
-        ];
+        Alerts = new ObservableCollection<string>
+        {
+            "Zamanlanmış tarama gecikti — son tarama 3 gün önce",
+            "Karantinada incelenmesi gereken 2 öğe var"
+        };
 
         var lastScan = _mockDataService.GetLastScanResult();
-        LastScanDate = lastScan.StartTime.ToString("MMM dd, yyyy HH:mm");
-        LastScanDuration = $"{lastScan.Duration.Minutes}m {lastScan.Duration.Seconds}s";
+        LastScanDate = lastScan.StartTime.ToString("dd MMM yyyy HH:mm");
+        LastScanDuration = $"{lastScan.Duration.Minutes}dk {lastScan.Duration.Seconds}sn";
         LastScanFilesChecked = lastScan.FilesScanned;
         LastScanThreatsFound = lastScan.ThreatsFound;
+
+        LastScanRelative = BuildRelativeTime(lastScan.StartTime);
+        HeroSubTitle = $"Son tarama: {LastScanRelative}";
+        HeroTitle = OverallStatus switch
+        {
+            ProtectionState.AtRisk => "Dikkat! Sisteminizde Risk Var",
+            ProtectionState.AttentionNeeded => "İlgilenilmesi Gereken Öğeler Var",
+            ProtectionState.Scanning => "Sistem Taranıyor",
+            _ => "Bilgisayarınız Korunuyor"
+        };
     }
+
+    private ProtectionState ComputeOverallStatus(ProtectionState baseState)
+    {
+        // Basit kural: karantinada çözülmemiş Critical tehdit → Risk;
+        // son 24 saatte engellenen tehdit → AttentionNeeded; aksi → Protected.
+        var threats = _mockDataService.GetRecentThreats();
+        var now = DateTime.Now;
+
+        var criticalQuarantined = threats.Any(t =>
+            t.IsQuarantined && t.RiskLevel == RiskLevel.Critical);
+        if (criticalQuarantined)
+        {
+            return ProtectionState.AtRisk;
+        }
+
+        var recentThreat = threats.Any(t => (now - t.DetectionDate).TotalHours <= 24);
+        if (recentThreat)
+        {
+            return ProtectionState.AttentionNeeded;
+        }
+
+        return baseState;
+    }
+
+    private static string BuildRelativeTime(DateTime time)
+    {
+        var delta = DateTime.Now - time;
+        if (delta.TotalMinutes < 1)
+        {
+            return "az önce";
+        }
+        if (delta.TotalMinutes < 60)
+        {
+            return $"{(int)delta.TotalMinutes} dakika önce";
+        }
+        if (delta.TotalHours < 24)
+        {
+            return $"{(int)delta.TotalHours} saat önce";
+        }
+        if (delta.TotalDays < 7)
+        {
+            return $"{(int)delta.TotalDays} gün önce";
+        }
+        return time.ToString("dd MMM yyyy");
+    }
+
+    // ═════════════════════════════════════════════════════════════════
+    // Commands (Faz 3)
+    // ═════════════════════════════════════════════════════════════════
+    [RelayCommand]
+    private void QuickScan() => _navigationService?.NavigateTo("scan", "quick");
 
     [RelayCommand]
-    private void QuickScan()
-    {
-        // UI placeholder
-    }
+    private void FullScan() => _navigationService?.NavigateTo("scan", "full");
 
     [RelayCommand]
-    private void FullScan()
-    {
-        // UI placeholder
-    }
+    private void CustomScan() => _navigationService?.NavigateTo("scan", "custom");
 
     [RelayCommand]
-    private void CustomScan()
-    {
-        // UI placeholder
-    }
+    private void UpdateNow() => _navigationService?.NavigateTo("update");
 
     [RelayCommand]
-    private void UpdateNow()
+    private void UpdateDatabase() => _navigationService?.NavigateTo("update");
+
+    [RelayCommand]
+    private void OpenQuarantine() => _navigationService?.NavigateTo("quarantine");
+
+    [RelayCommand]
+    private void OpenReports() => _navigationService?.NavigateTo("reports");
+
+    [RelayCommand]
+    private void OpenPrivacy() => _navigationService?.NavigateTo("protection");
+
+    [RelayCommand]
+    private void ViewAllActivities() => _navigationService?.NavigateTo("reports");
+
+    [RelayCommand]
+    private void FeatureTile(string? navigateKey)
     {
-        // UI placeholder
+        if (string.IsNullOrWhiteSpace(navigateKey))
+        {
+            return;
+        }
+        _navigationService?.NavigateTo(navigateKey);
     }
 
+    // ═════════════════════════════════════════════════════════════════
+    // Legacy Commands (Faz 2/erken Faz 3 — mevcut bindingler için korunuyor)
+    // ═════════════════════════════════════════════════════════════════
     [RelayCommand]
     private void FixIssues()
     {
@@ -182,28 +307,16 @@ public partial class DashboardViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private void CheckForUpdates()
-    {
-        // UI placeholder
-    }
+    private void CheckForUpdates() => _navigationService?.NavigateTo("update");
 
     [RelayCommand]
-    private void ViewAllActivity()
-    {
-        // UI placeholder
-    }
+    private void ViewAllActivity() => _navigationService?.NavigateTo("reports");
 
     [RelayCommand]
-    private void RunScanNow()
-    {
-        // UI placeholder
-    }
+    private void RunScanNow() => _navigationService?.NavigateTo("scan", "quick");
 
     [RelayCommand]
-    private void ViewQuarantine()
-    {
-        // UI placeholder
-    }
+    private void ViewQuarantine() => _navigationService?.NavigateTo("quarantine");
 }
 
 #pragma warning restore MVVMTK0045

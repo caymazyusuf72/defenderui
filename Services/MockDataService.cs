@@ -327,6 +327,49 @@ public class MockDataService
         ];
     }
 
+    public List<FeatureTileData> GetFeatureTiles()
+    {
+        return
+        [
+            new FeatureTileData(
+                Glyph: "\uE773",
+                Title: "Hızlı Tarama",
+                Description: "Kritik alanları saniyeler içinde kontrol edin.",
+                BadgeText: null,
+                NavigateKey: "scan"),
+            new FeatureTileData(
+                Glyph: "\uE72E",
+                Title: "Tam Sistem Taraması",
+                Description: "Tüm diskinizi kapsamlı olarak analiz edin.",
+                BadgeText: null,
+                NavigateKey: "scan"),
+            new FeatureTileData(
+                Glyph: "\uE895",
+                Title: "Veritabanını Güncelle",
+                Description: "Virüs tanımlarını en son sürüme alın.",
+                BadgeText: "Yeni",
+                NavigateKey: "update"),
+            new FeatureTileData(
+                Glyph: "\uE7B8",
+                Title: "Karantina",
+                Description: "İzole edilen tehditleri yönetin.",
+                BadgeText: null,
+                NavigateKey: "quarantine"),
+            new FeatureTileData(
+                Glyph: "\uE9D2",
+                Title: "Raporlar",
+                Description: "Güvenlik olaylarının geçmişini inceleyin.",
+                BadgeText: null,
+                NavigateKey: "reports"),
+            new FeatureTileData(
+                Glyph: "\uE72E",
+                Title: "Gizlilik Koruması",
+                Description: "Tarayıcı ve kimlik güvenliğini ayarlayın.",
+                BadgeText: null,
+                NavigateKey: "protection"),
+        ];
+    }
+
     public List<ScanResult> GetScanHistory()
     {
         return
