@@ -1,4 +1,8 @@
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
+using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using DefenderUI.Models;
@@ -7,51 +11,41 @@ using Microsoft.UI.Dispatching;
 
 namespace DefenderUI.ViewModels;
 
-public partial class ScanViewModel : ObservableObject
+#pragma warning disable MVVMTK0045
+
+/// <summary>
+/// Scan sayfası ViewModel'i (Faz 4).
+/// <see cref="IScanService"/> üzerinden async tarama simülasyonunu yönetir,
+/// event'leri UI thread'ine marshal ederek observable property'lere yansıtır.
+/// </summary>
+public partial class ScanViewModel : ObservableObject, IDisposable
 {
     private readonly MockDataService _mockDataService;
-    private DispatcherQueueTimer? _scanTimer;
-    private DispatcherQueueTimer? _elapsedTimer;
-    private DateTime _scanStartTime;
-    private readonly Random _random = new();
+    private readonly IScanService _scanService;
+    private readonly INavigationService? _navigationService;
+    private readonly IToastService? _toastService;
+    private readonly DispatcherQueue? _dispatcher;
 
-    private static readonly string[] MockFilePaths =
-    [
-        @"C:\Windows\System32\drivers\etc\hosts",
-        @"C:\Windows\System32\ntdll.dll",
-        @"C:\Windows\System32\kernel32.dll",
-        @"C:\Program Files\Common Files\System\msadc\msadce.dll",
-        @"C:\Program Files\Windows Defender\MpClient.dll",
-        @"C:\Users\Default\AppData\Local\Temp\setup.exe",
-        @"C:\Users\Default\Downloads\document.pdf",
-        @"C:\Program Files\Internet Explorer\iexplore.exe",
-        @"C:\Windows\System32\config\SAM",
-        @"C:\Windows\SysWOW64\msvcp140.dll",
-        @"C:\Program Files (x86)\Microsoft\Edge\msedge.dll",
-        @"C:\Windows\System32\svchost.exe",
-        @"C:\Windows\System32\taskmgr.exe",
-        @"C:\Program Files\dotnet\dotnet.exe",
-        @"C:\Users\Default\Documents\report.xlsx",
-        @"C:\Windows\System32\wbem\WmiPrvSE.exe",
-        @"C:\Program Files\WindowsApps\Microsoft.WindowsStore\WinStore.App.exe",
-        @"C:\Windows\System32\dxgi.dll",
-        @"C:\Windows\Fonts\segoeui.ttf",
-        @"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp\helper.lnk"
-    ];
-
-    // Scan type selection
+    // ═════════════════════════════════════════════════════════════════
+    // Mod seçimi
+    // ═════════════════════════════════════════════════════════════════
     [ObservableProperty]
-    private ScanType _selectedScanType = ScanType.Quick;
-
-    // Scan state
-    [ObservableProperty]
-    private ScanStatus _scanStatus = ScanStatus.NotStarted;
+    private ScanMode _selectedMode = ScanMode.Quick;
 
     [ObservableProperty]
-    private double _scanProgress;
+    private IReadOnlyList<ScanModeOption> _scanModes = [];
+
+    // ═════════════════════════════════════════════════════════════════
+    // Durum
+    // ═════════════════════════════════════════════════════════════════
+    [ObservableProperty]
+    private bool _isScanning;
 
     [ObservableProperty]
-    private string _currentFile = string.Empty;
+    private bool _isPaused;
+
+    [ObservableProperty]
+    private double _progress;
 
     [ObservableProperty]
     private int _filesScanned;
@@ -60,282 +54,282 @@ public partial class ScanViewModel : ObservableObject
     private int _threatsFound;
 
     [ObservableProperty]
-    private TimeSpan _elapsedTime;
+    private string _currentPath = string.Empty;
 
     [ObservableProperty]
-    private string _estimatedTimeRemaining = string.Empty;
-
-    // Scan results
-    [ObservableProperty]
-    private ObservableCollection<ThreatInfo> _detectedThreats = [];
-
-    // Scan history
-    [ObservableProperty]
-    private ObservableCollection<ScanResult> _scanHistory = [];
-
-    // UI state
-    [ObservableProperty]
-    private bool _isScanning;
+    private string _elapsedText = "00:00";
 
     [ObservableProperty]
-    private bool _isScanComplete;
+    private string _remainingText = "--:--";
 
     [ObservableProperty]
-    private string _scanStatusText = "Ready to scan";
+    private ScanCompletionInfo? _lastCompletionInfo;
 
+    // ═════════════════════════════════════════════════════════════════
+    // Custom paths
+    // ═════════════════════════════════════════════════════════════════
     [ObservableProperty]
-    private bool _isPaused;
+    private ObservableCollection<string> _customPaths = new();
 
-    public bool HasThreats => ThreatsFound > 0;
+    // ═════════════════════════════════════════════════════════════════
+    // Computed
+    // ═════════════════════════════════════════════════════════════════
+    public bool HasLastCompletion => LastCompletionInfo is not null;
 
-    // Formatted properties for display
-    public string ElapsedTimeFormatted => ElapsedTime.ToString(@"mm\:ss");
-    public string FilesScannedFormatted => FilesScanned.ToString("N0");
-    public string ScanProgressFormatted => ((int)System.Math.Round(ScanProgress)).ToString(System.Globalization.CultureInfo.InvariantCulture);
+    public string ProgressText => ((int)Math.Round(Progress)).ToString(CultureInfo.InvariantCulture) + "%";
 
-    partial void OnScanProgressChanged(double value) => OnPropertyChanged(nameof(ScanProgressFormatted));
-    partial void OnThreatsFoundChanged(int value) => OnPropertyChanged(nameof(HasThreats));
-    partial void OnFilesScannedChanged(int value) => OnPropertyChanged(nameof(FilesScannedFormatted));
-    partial void OnElapsedTimeChanged(System.TimeSpan value) => OnPropertyChanged(nameof(ElapsedTimeFormatted));
+    public string SelectedModeTitle =>
+        ScanModes.FirstOrDefault(m => m.Mode == SelectedMode)?.Title ?? SelectedMode.ToString();
 
-    public ScanViewModel(MockDataService mockDataService)
+    public string LastCompletionModeTitle
+    {
+        get
+        {
+            if (LastCompletionInfo is null) return string.Empty;
+            return ScanModes.FirstOrDefault(m => m.Mode == LastCompletionInfo.Mode)?.Title
+                ?? LastCompletionInfo.Mode.ToString();
+        }
+    }
+
+    public string LastCompletionDurationText
+    {
+        get
+        {
+            if (LastCompletionInfo is null) return string.Empty;
+            var d = LastCompletionInfo.Duration;
+            return d.TotalMinutes >= 1
+                ? $"{(int)d.TotalMinutes} dk {d.Seconds} sn"
+                : $"{d.Seconds} sn";
+        }
+    }
+
+    public string LastCompletionDateText =>
+        LastCompletionInfo?.CompletedAt.ToString("dd MMM yyyy HH:mm", CultureInfo.CurrentCulture) ?? string.Empty;
+
+    public bool IsCustomMode => SelectedMode == ScanMode.Custom;
+
+    public string PauseResumeText => IsPaused ? "Devam Ettir" : "Duraklat";
+
+    public string PauseResumeGlyph => IsPaused ? "\uE768" : "\uE769";
+
+    partial void OnProgressChanged(double value) => OnPropertyChanged(nameof(ProgressText));
+    partial void OnSelectedModeChanged(ScanMode value)
+    {
+        OnPropertyChanged(nameof(SelectedModeTitle));
+        OnPropertyChanged(nameof(IsCustomMode));
+    }
+    partial void OnScanModesChanged(IReadOnlyList<ScanModeOption> value)
+    {
+        OnPropertyChanged(nameof(SelectedModeTitle));
+        OnPropertyChanged(nameof(LastCompletionModeTitle));
+    }
+    partial void OnLastCompletionInfoChanged(ScanCompletionInfo? value)
+    {
+        OnPropertyChanged(nameof(HasLastCompletion));
+        OnPropertyChanged(nameof(LastCompletionModeTitle));
+        OnPropertyChanged(nameof(LastCompletionDurationText));
+        OnPropertyChanged(nameof(LastCompletionDateText));
+    }
+    partial void OnIsPausedChanged(bool value)
+    {
+        OnPropertyChanged(nameof(PauseResumeText));
+        OnPropertyChanged(nameof(PauseResumeGlyph));
+    }
+
+    // ═════════════════════════════════════════════════════════════════
+    // Ctor
+    // ═════════════════════════════════════════════════════════════════
+    public ScanViewModel(
+        MockDataService mockDataService,
+        IScanService scanService,
+        INavigationService? navigationService = null,
+        IToastService? toastService = null)
     {
         _mockDataService = mockDataService;
-        LoadData();
+        _scanService = scanService;
+        _navigationService = navigationService;
+        _toastService = toastService;
+        _dispatcher = DispatcherQueue.GetForCurrentThread();
+
+        ScanModes = _mockDataService.GetScanModeOptions();
+
+        _scanService.ProgressChanged += OnScanProgressChanged;
+        _scanService.ScanCompleted += OnScanCompleted;
+        _scanService.ScanCancelled += OnScanCancelled;
     }
 
-    public void LoadData()
+    /// <summary>
+    /// Navigation parametresine göre başlangıç modunu ayarlar ("quick" / "full" / "custom" / "removable").
+    /// </summary>
+    public void ApplyNavigationParameter(object? parameter)
     {
-        var history = _mockDataService.GetScanHistory();
-        ScanHistory = new ObservableCollection<ScanResult>(history);
+        if (parameter is string key && !string.IsNullOrWhiteSpace(key))
+        {
+            SelectedMode = key.ToLowerInvariant() switch
+            {
+                "quick" => ScanMode.Quick,
+                "full" => ScanMode.Full,
+                "custom" => ScanMode.Custom,
+                "removable" or "usb" => ScanMode.Removable,
+                _ => SelectedMode
+            };
+        }
+    }
+
+    // ═════════════════════════════════════════════════════════════════
+    // Commands
+    // ═════════════════════════════════════════════════════════════════
+    [RelayCommand]
+    private void SelectMode(ScanMode mode)
+    {
+        if (IsScanning) return;
+        SelectedMode = mode;
     }
 
     [RelayCommand]
-    private void StartScan()
+    private async System.Threading.Tasks.Task StartScanAsync()
     {
+        if (IsScanning) return;
+
         // Reset state
-        ScanProgress = 0;
+        Progress = 0;
         FilesScanned = 0;
         ThreatsFound = 0;
-        CurrentFile = string.Empty;
-        ElapsedTime = TimeSpan.Zero;
-        EstimatedTimeRemaining = "Calculating...";
-        DetectedThreats = [];
+        CurrentPath = string.Empty;
+        ElapsedText = "00:00";
+        RemainingText = "--:--";
+        IsPaused = false;
         IsScanning = true;
-        IsScanComplete = false;
-        IsPaused = false;
-        ScanStatus = ScanStatus.Running;
-        ScanStatusText = $"Scanning... {SelectedScanType} Scan";
-        _scanStartTime = DateTime.Now;
 
-        OnPropertyChanged(nameof(ElapsedTimeFormatted));
-        OnPropertyChanged(nameof(FilesScannedFormatted));
+        IEnumerable<string>? customPaths = SelectedMode == ScanMode.Custom && CustomPaths.Count > 0
+            ? CustomPaths.ToList()
+            : null;
 
-        // Create timers
-        var dispatcherQueue = DispatcherQueue.GetForCurrentThread();
-
-        _scanTimer = dispatcherQueue.CreateTimer();
-        _scanTimer.Interval = TimeSpan.FromMilliseconds(120);
-        _scanTimer.Tick += OnScanTimerTick;
-        _scanTimer.Start();
-
-        _elapsedTimer = dispatcherQueue.CreateTimer();
-        _elapsedTimer.Interval = TimeSpan.FromSeconds(1);
-        _elapsedTimer.Tick += OnElapsedTimerTick;
-        _elapsedTimer.Start();
+        try
+        {
+            await _scanService.StartScanAsync(SelectedMode, customPaths).ConfigureAwait(false);
+        }
+        catch
+        {
+            RunOnUi(() => IsScanning = false);
+        }
     }
 
     [RelayCommand]
-    private void PauseScan()
+    private void CancelScan()
     {
-        if (ScanStatus != ScanStatus.Running)
-        {
-            return;
-        }
-
-        IsPaused = true;
-        ScanStatus = ScanStatus.Paused;
-        ScanStatusText = "Scan paused";
-        _scanTimer?.Stop();
-        _elapsedTimer?.Stop();
+        if (!IsScanning) return;
+        _scanService.CancelScan();
     }
 
     [RelayCommand]
-    private void ResumeScan()
+    private void PauseResume()
     {
-        if (ScanStatus != ScanStatus.Paused)
-        {
-            return;
-        }
+        if (!IsScanning) return;
 
-        IsPaused = false;
-        ScanStatus = ScanStatus.Running;
-        ScanStatusText = $"Scanning... {SelectedScanType} Scan";
-        _scanTimer?.Start();
-        _elapsedTimer?.Start();
+        if (IsPaused)
+        {
+            _scanService.ResumeScan();
+            IsPaused = false;
+        }
+        else
+        {
+            _scanService.PauseScan();
+            IsPaused = true;
+        }
     }
 
     [RelayCommand]
-    private void StopScan()
+    private void AddCustomPath(string? path)
     {
-        StopTimers();
-        IsScanning = false;
-        IsPaused = false;
-        ScanStatus = ScanStatus.Cancelled;
-        ScanStatusText = "Scan cancelled";
+        if (string.IsNullOrWhiteSpace(path)) return;
+        if (CustomPaths.Contains(path)) return;
+        CustomPaths.Add(path);
     }
 
     [RelayCommand]
-    private void ScanAgain()
+    private void RemoveCustomPath(string? path)
     {
-        IsScanComplete = false;
-        ScanStatus = ScanStatus.NotStarted;
-        ScanStatusText = "Ready to scan";
-        ScanProgress = 0;
-        FilesScanned = 0;
-        ThreatsFound = 0;
-        CurrentFile = string.Empty;
-        ElapsedTime = TimeSpan.Zero;
-        EstimatedTimeRemaining = string.Empty;
-        DetectedThreats = [];
-
-        OnPropertyChanged(nameof(ElapsedTimeFormatted));
-        OnPropertyChanged(nameof(FilesScannedFormatted));
+        if (string.IsNullOrWhiteSpace(path)) return;
+        CustomPaths.Remove(path);
     }
 
-    private void OnScanTimerTick(DispatcherQueueTimer sender, object args)
+    [RelayCommand]
+    private void ViewResults() => _navigationService?.NavigateTo("reports");
+
+    // ═════════════════════════════════════════════════════════════════
+    // Scan service event handlers (background thread — dispatch to UI)
+    // ═════════════════════════════════════════════════════════════════
+    private void OnScanProgressChanged(object? sender, ScanProgressInfo e)
     {
-        // Increment progress
-        double increment = SelectedScanType switch
+        RunOnUi(() =>
         {
-            ScanType.Quick => _random.NextDouble() * 1.8 + 0.5,
-            ScanType.Full => _random.NextDouble() * 0.4 + 0.1,
-            ScanType.Custom => _random.NextDouble() * 0.8 + 0.3,
-            ScanType.USB => _random.NextDouble() * 1.2 + 0.4,
-            _ => 1.0
-        };
+            Progress = e.PercentComplete;
+            FilesScanned = e.FilesScanned;
+            ThreatsFound = e.ThreatsFound;
+            CurrentPath = e.CurrentPath;
+            ElapsedText = FormatTime(e.Elapsed);
+            RemainingText = FormatTime(e.EstimatedRemaining);
+        });
+    }
 
-        ScanProgress = Math.Min(100, ScanProgress + increment);
-
-        // Update files scanned
-        int fileIncrement = _random.Next(50, 200);
-        FilesScanned += fileIncrement;
-        OnPropertyChanged(nameof(FilesScannedFormatted));
-
-        // Update current file
-        CurrentFile = MockFilePaths[_random.Next(MockFilePaths.Length)];
-
-        // Calculate estimated time remaining
-        if (ScanProgress > 5)
+    private void OnScanCompleted(object? sender, ScanCompletionInfo e)
+    {
+        RunOnUi(() =>
         {
-            double elapsed = ElapsedTime.TotalSeconds;
-            double estimatedTotal = elapsed / (ScanProgress / 100.0);
-            double remaining = estimatedTotal - elapsed;
-            if (remaining > 0)
-            {
-                var remainingSpan = TimeSpan.FromSeconds(remaining);
-                EstimatedTimeRemaining = $"~{remainingSpan:mm\\:ss}";
-            }
+            IsScanning = false;
+            IsPaused = false;
+            Progress = 100;
+            LastCompletionInfo = e;
+
+            var body = e.ThreatsFound > 0
+                ? $"{e.FilesScanned:N0} dosya tarandı, {e.ThreatsFound} tehdit bulundu."
+                : $"{e.FilesScanned:N0} dosya tarandı, tehdit bulunamadı.";
+            _toastService?.Success("Tarama tamamlandı", body);
+        });
+    }
+
+    private void OnScanCancelled(object? sender, EventArgs e)
+    {
+        RunOnUi(() =>
+        {
+            IsScanning = false;
+            IsPaused = false;
+            _toastService?.Info("Tarama iptal edildi", "Tarama kullanıcı tarafından durduruldu.");
+        });
+    }
+
+    // ═════════════════════════════════════════════════════════════════
+    // Helpers
+    // ═════════════════════════════════════════════════════════════════
+    private void RunOnUi(Action action)
+    {
+        if (_dispatcher is null || _dispatcher.HasThreadAccess)
+        {
+            action();
         }
-
-        // Add mock threats at specific progress points
-        if (ScanProgress >= 30 && ScanProgress < 32 && ThreatsFound == 0)
+        else
         {
-            ThreatsFound = 1;
-            OnPropertyChanged(nameof(HasThreats));
-            DetectedThreats.Add(new ThreatInfo
-            {
-                ThreatName = "Trojan.Gen.2",
-                FilePath = @"C:\Users\Default\Downloads\setup.exe",
-                DetectionDate = DateTime.Now,
-                RiskLevel = RiskLevel.High,
-                ActionTaken = "Detected",
-                IsQuarantined = false
-            });
-        }
-
-        if (ScanProgress >= 65 && ScanProgress < 67 && ThreatsFound == 1)
-        {
-            ThreatsFound = 2;
-            OnPropertyChanged(nameof(HasThreats));
-            DetectedThreats.Add(new ThreatInfo
-            {
-                ThreatName = "PUP.Optional.BrowserHelper",
-                FilePath = @"C:\Program Files\FreeApp\helper.dll",
-                DetectionDate = DateTime.Now,
-                RiskLevel = RiskLevel.Medium,
-                ActionTaken = "Detected",
-                IsQuarantined = false
-            });
-        }
-
-        // Complete scan
-        if (ScanProgress >= 100)
-        {
-            CompleteScan();
+            _dispatcher.TryEnqueue(() => action());
         }
     }
 
-    private void OnElapsedTimerTick(DispatcherQueueTimer sender, object args)
+    private static string FormatTime(TimeSpan span)
     {
-        ElapsedTime = DateTime.Now - _scanStartTime;
-        OnPropertyChanged(nameof(ElapsedTimeFormatted));
+        if (span < TimeSpan.Zero) span = TimeSpan.Zero;
+        if (span.TotalHours >= 1)
+        {
+            return $"{(int)span.TotalHours:D2}:{span.Minutes:D2}:{span.Seconds:D2}";
+        }
+        return $"{span.Minutes:D2}:{span.Seconds:D2}";
     }
 
-    private void CompleteScan()
+    public void Dispose()
     {
-        StopTimers();
-        ScanProgress = 100;
-        IsScanning = false;
-        IsScanComplete = true;
-        IsPaused = false;
-        ScanStatus = ScanStatus.Completed;
-        CurrentFile = string.Empty;
-        EstimatedTimeRemaining = "00:00";
-
-        ScanStatusText = ThreatsFound > 0
-            ? $"{ThreatsFound} threats found and quarantined"
-            : "No threats found";
-
-        // Mark detected threats as quarantined
-        foreach (var threat in DetectedThreats)
-        {
-            threat.ActionTaken = "Quarantined";
-            threat.IsQuarantined = true;
-        }
-
-        // Add to scan history
-        var result = new ScanResult
-        {
-            Type = SelectedScanType,
-            Status = ScanStatus.Completed,
-            StartTime = _scanStartTime,
-            EndTime = DateTime.Now,
-            Duration = ElapsedTime,
-            FilesScanned = FilesScanned,
-            ThreatsFound = ThreatsFound,
-            Progress = 100
-        };
-        ScanHistory.Insert(0, result);
-
-        OnPropertyChanged(nameof(FilesScannedFormatted));
-        OnPropertyChanged(nameof(ElapsedTimeFormatted));
-    }
-
-    private void StopTimers()
-    {
-        if (_scanTimer is not null)
-        {
-            _scanTimer.Stop();
-            _scanTimer.Tick -= OnScanTimerTick;
-            _scanTimer = null;
-        }
-
-        if (_elapsedTimer is not null)
-        {
-            _elapsedTimer.Stop();
-            _elapsedTimer.Tick -= OnElapsedTimerTick;
-            _elapsedTimer = null;
-        }
+        _scanService.ProgressChanged -= OnScanProgressChanged;
+        _scanService.ScanCompleted -= OnScanCompleted;
+        _scanService.ScanCancelled -= OnScanCancelled;
     }
 }
+
+#pragma warning restore MVVMTK0045

@@ -370,6 +370,37 @@ public class MockDataService
         ];
     }
 
+    public List<ScanModeOption> GetScanModeOptions()
+    {
+        return
+        [
+            new ScanModeOption(
+                Mode: ScanMode.Quick,
+                Glyph: "\uE773",
+                Title: "Hızlı Tarama",
+                Description: "En yaygın enfeksiyon noktaları (belirli klasör + bellek) kontrol edilir.",
+                EstimatedDuration: "~1-2 dk"),
+            new ScanModeOption(
+                Mode: ScanMode.Full,
+                Glyph: "\uE72E",
+                Title: "Tam Sistem",
+                Description: "Tüm dosyalar ve klasörler derinlemesine taranır.",
+                EstimatedDuration: "~30-60 dk"),
+            new ScanModeOption(
+                Mode: ScanMode.Custom,
+                Glyph: "\uE8B7",
+                Title: "Özel Tarama",
+                Description: "Seçtiğiniz klasörleri tarayın.",
+                EstimatedDuration: "değişken"),
+            new ScanModeOption(
+                Mode: ScanMode.Removable,
+                Glyph: "\uE88E",
+                Title: "Çıkarılabilir",
+                Description: "USB bellek, harici disk ve optik sürücüler taranır.",
+                EstimatedDuration: "~5-10 dk"),
+        ];
+    }
+
     public List<ScanResult> GetScanHistory()
     {
         return
