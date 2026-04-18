@@ -12,7 +12,6 @@ updates:
       - "caymazyusuf72"
     labels:
       - "dependencies"
-      - "automated"
     commit-message:
       prefix: "chore(deps)"
       include: "scope"
@@ -31,9 +30,6 @@ updates:
       interval: "weekly"
       day: "monday"
     open-pull-requests-limit: 5
-    labels:
-      - "ci/cd"
-      - "automated"
     commit-message:
       prefix: "ci"
       include: "scope"
