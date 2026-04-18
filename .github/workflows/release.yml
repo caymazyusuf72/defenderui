@@ -29,28 +29,63 @@ jobs:
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v2
 
-      - name: Restore dependencies
-        run: dotnet restore -p:Platform=${{ matrix.platform }}
+      - name: Compute RID
+        id: rid
+        shell: pwsh
+        run: |
+          $rid = "${{ matrix.platform }}".ToLower()
+          "rid=$rid" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
 
-      - name: Build Release
-        run: dotnet build --no-restore -c Release -p:Platform=${{ matrix.platform }}
+      - name: Restore dependencies
+        run: dotnet restore -p:Platform=${{ matrix.platform }} -r win-${{ steps.rid.outputs.rid }}
+
+      - name: Publish single-file self-contained
+        shell: pwsh
+        run: |
+          dotnet publish DefenderUI.csproj `
+            -c Release `
+            -p:Platform=${{ matrix.platform }} `
+            -r win-${{ steps.rid.outputs.rid }} `
+            -p:PublishProfile=win-${{ steps.rid.outputs.rid }} `
+            --self-contained true `
+            -p:PublishSingleFile=true `
+            -p:IncludeNativeLibrariesForSelfExtract=true `
+            -p:IncludeAllContentForSelfExtract=true `
+            -p:EnableCompressionInSingleFile=true `
+            -p:WindowsPackageType=None
 
       - name: Package binaries
         shell: pwsh
         run: |
-          $rid = "${{ matrix.platform }}".ToLower()
-          $dir = "bin/${{ matrix.platform }}/Release/net9.0-windows10.0.26100.0/win-$rid"
-          if (-not (Test-Path $dir)) {
-            Write-Error "Build output directory not found: $dir"
+          $rid = "${{ steps.rid.outputs.rid }}"
+          # Publish profile writes to bin\Release\<TFM>\<RID>\publish (Platform is not in the path when PublishProfile overrides PublishDir)
+          $candidates = @(
+            "bin/Release/net9.0-windows10.0.26100.0/win-$rid/publish",
+            "bin/${{ matrix.platform }}/Release/net9.0-windows10.0.26100.0/win-$rid/publish"
+          )
+          $dir = $candidates | Where-Object { Test-Path $_ } | Select-Object -First 1
+          if (-not $dir) {
+            Write-Error "Publish output directory not found. Tried: $($candidates -join ', ')"
+            Get-ChildItem -Path bin -Recurse -Filter DefenderUI.exe -ErrorAction SilentlyContinue | ForEach-Object { Write-Host $_.FullName }
             exit 1
           }
+          Write-Host "Using publish directory: $dir"
+
+          # Copy single exe to root for convenience
+          Copy-Item "$dir/DefenderUI.exe" -Destination "DefenderUI-${{ matrix.platform }}.exe" -Force
+
+          # Also create a zip with the full publish directory (exe + pdb + any required sidecars)
           Compress-Archive -Path "$dir/*" -DestinationPath "DefenderUI-${{ matrix.platform }}.zip" -Force
+
+          Get-FileHash "DefenderUI-${{ matrix.platform }}.exe" -Algorithm SHA256 | Format-List
           Get-FileHash "DefenderUI-${{ matrix.platform }}.zip" -Algorithm SHA256 | Format-List
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
-          files: DefenderUI-${{ matrix.platform }}.zip
+          files: |
+            DefenderUI-${{ matrix.platform }}.exe
+            DefenderUI-${{ matrix.platform }}.zip
           generate_release_notes: true
           draft: false
           prerelease: false

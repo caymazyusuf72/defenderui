@@ -99,6 +99,22 @@ Or simply:
 dotnet run -c Debug -p:Platform=$Platform
 ```
 
+### 📦 Single-file self-contained build (.NET kurulu olmayan makineler için)
+
+Kullanıcıların **.NET Runtime kurmadan** çalıştırabileceği **tek bir `.exe` dosyası** üretmek için hazır publish profilleri mevcuttur ([`Properties/PublishProfiles/`](Properties/PublishProfiles/)):
+
+```powershell
+# Örn. x64 için tek exe üretimi
+dotnet publish -c Release -p:Platform=x64 -p:PublishProfile=win-x64
+
+# Üretilen tek dosyalık exe
+.\bin\x64\Release\net9.0-windows10.0.26100.0\win-x64\publish\DefenderUI.exe
+```
+
+Çıktı dizinindeki **`DefenderUI.exe`** kendi başına, dış bağımlılıksız çalışır (~150-200 MB, sıkıştırılmış). Aynı komut `x86` ve `ARM64` için de kullanılabilir (`-p:Platform=x86 -p:PublishProfile=win-x86` veya `-p:Platform=ARM64 -p:PublishProfile=win-arm64`).
+
+> **İpucu:** Yeni bir `v*.*.*` tag'i push ettiğinizde [`release.yml`](.github/workflows/release.yml) workflow'u her mimari için hem tek dosyalık `DefenderUI-<arch>.exe` hem de `DefenderUI-<arch>.zip` arşivini otomatik olarak GitHub Releases'e yükler.
+
 ---
 
 ## 🏗️ Tech Stack

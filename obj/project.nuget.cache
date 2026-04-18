@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "tNng7TjrEXU=",
+  "dgSpecHash": "YWfsG7Ye3gY=",
   "success": true,
   "projectFilePath": "C:\\Users\\yusuf\\Desktop\\defenderui\\DefenderUI.csproj",
   "expectedPackageFiles": [
@@ -21,6 +21,7 @@
     "C:\\Users\\yusuf\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\9.0.15\\microsoft.extensions.dependencyinjection.9.0.15.nupkg.sha512",
     "C:\\Users\\yusuf\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\9.0.15\\microsoft.extensions.dependencyinjection.abstractions.9.0.15.nupkg.sha512",
     "C:\\Users\\yusuf\\.nuget\\packages\\microsoft.graphics.win2d\\1.0.0.30\\microsoft.graphics.win2d.1.0.0.30.nupkg.sha512",
+    "C:\\Users\\yusuf\\.nuget\\packages\\microsoft.net.illink.tasks\\9.0.15\\microsoft.net.illink.tasks.9.0.15.nupkg.sha512",
     "C:\\Users\\yusuf\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
     "C:\\Users\\yusuf\\.nuget\\packages\\microsoft.netcore.targets\\1.1.0\\microsoft.netcore.targets.1.1.0.nupkg.sha512",
     "C:\\Users\\yusuf\\.nuget\\packages\\microsoft.web.webview2\\1.0.3179.45\\microsoft.web.webview2.1.0.3179.45.nupkg.sha512",
@@ -140,15 +141,16 @@
     "C:\\Users\\yusuf\\.nuget\\packages\\system.threading.timer\\4.3.0\\system.threading.timer.4.3.0.nupkg.sha512",
     "C:\\Users\\yusuf\\.nuget\\packages\\system.xml.readerwriter\\4.3.0\\system.xml.readerwriter.4.3.0.nupkg.sha512",
     "C:\\Users\\yusuf\\.nuget\\packages\\system.xml.xdocument\\4.3.0\\system.xml.xdocument.4.3.0.nupkg.sha512",
-    "C:\\Users\\yusuf\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x86\\9.0.15\\microsoft.netcore.app.runtime.win-x86.9.0.15.nupkg.sha512",
     "C:\\Users\\yusuf\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x64\\9.0.15\\microsoft.netcore.app.runtime.win-x64.9.0.15.nupkg.sha512",
+    "C:\\Users\\yusuf\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x86\\9.0.15\\microsoft.netcore.app.runtime.win-x86.9.0.15.nupkg.sha512",
     "C:\\Users\\yusuf\\.nuget\\packages\\microsoft.netcore.app.runtime.win-arm64\\9.0.15\\microsoft.netcore.app.runtime.win-arm64.9.0.15.nupkg.sha512",
-    "C:\\Users\\yusuf\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-x86\\9.0.15\\microsoft.windowsdesktop.app.runtime.win-x86.9.0.15.nupkg.sha512",
     "C:\\Users\\yusuf\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-x64\\9.0.15\\microsoft.windowsdesktop.app.runtime.win-x64.9.0.15.nupkg.sha512",
+    "C:\\Users\\yusuf\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-x86\\9.0.15\\microsoft.windowsdesktop.app.runtime.win-x86.9.0.15.nupkg.sha512",
     "C:\\Users\\yusuf\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-arm64\\9.0.15\\microsoft.windowsdesktop.app.runtime.win-arm64.9.0.15.nupkg.sha512",
-    "C:\\Users\\yusuf\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x86\\9.0.15\\microsoft.aspnetcore.app.runtime.win-x86.9.0.15.nupkg.sha512",
     "C:\\Users\\yusuf\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x64\\9.0.15\\microsoft.aspnetcore.app.runtime.win-x64.9.0.15.nupkg.sha512",
+    "C:\\Users\\yusuf\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x86\\9.0.15\\microsoft.aspnetcore.app.runtime.win-x86.9.0.15.nupkg.sha512",
     "C:\\Users\\yusuf\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-arm64\\9.0.15\\microsoft.aspnetcore.app.runtime.win-arm64.9.0.15.nupkg.sha512",
+    "C:\\Users\\yusuf\\.nuget\\packages\\microsoft.netcore.app.crossgen2.win-x64\\9.0.15\\microsoft.netcore.app.crossgen2.win-x64.9.0.15.nupkg.sha512",
     "C:\\Users\\yusuf\\.nuget\\packages\\microsoft.windows.sdk.net.ref\\10.0.26100.57\\microsoft.windows.sdk.net.ref.10.0.26100.57.nupkg.sha512"
   ],
   "logs": []

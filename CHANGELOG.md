@@ -10,7 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- Placeholder section — new changes land here before the next release tag.
+- 📦 **Single-file self-contained publish** — kullanıcılar artık .NET Runtime kurmadan tek bir `DefenderUI.exe` ile uygulamayı çalıştırabilir.
+  - Tüm mimariler için (`win-x86`, `win-x64`, `win-arm64`) [`Properties/PublishProfiles/`](Properties/PublishProfiles/) altında `PublishSingleFile=true`, `SelfContained=true`, `IncludeNativeLibrariesForSelfExtract=true`, `IncludeAllContentForSelfExtract=true` ve `EnableCompressionInSingleFile=true` ayarlarıyla hazır profiller.
+  - Lokal kullanım: `dotnet publish -c Release -p:Platform=x64 -p:PublishProfile=win-x64`.
+- 🚀 **Release workflow'u** ([`.github/workflows/release.yml`](.github/workflows/release.yml)) artık her mimari için hem tek dosyalık `DefenderUI-<arch>.exe` hem de tam içerikli `DefenderUI-<arch>.zip` arşivini GitHub Release'e otomatik olarak ekler.
 
 ---
 
