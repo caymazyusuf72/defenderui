@@ -1,16 +1,17 @@
-using DefenderUI.Helpers;
+using System;
+using System.Windows.Input;
+using DefenderUI.Models;
 using DefenderUI.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
 
 namespace DefenderUI.Views;
 
 public sealed partial class UpdatePage : Page
 {
-    private bool _hasAnimated;
-
     public UpdateViewModel ViewModel { get; }
 
     public UpdatePage()
@@ -20,53 +21,62 @@ public sealed partial class UpdatePage : Page
         ViewModel.SetDispatcherQueue(DispatcherQueue.GetForCurrentThread());
     }
 
-    private T? F<T>(string name) where T : class => this.FindName(name) as T;
-
     private void Page_Loaded(object sender, RoutedEventArgs e)
     {
-        if (_hasAnimated)
-        {
-            return;
-        }
+        // Sade stil; kart stilleri hover efektlerini zaten sağlıyor.
+    }
 
-        _hasAnimated = true;
+    // ═════════════════════════════════════════════════════════════════
+    // Static helpers — x:Bind DataTemplate / binding içinde kullanılır.
+    // ═════════════════════════════════════════════════════════════════
 
-        var header = F<FrameworkElement>("HeaderPanel");
-        if (header is not null)
-        {
-            AnimationHelper.AnimateEntrance(header, delayMs: 0, durationMs: 450, offsetY: -16f);
-        }
+    public static ProtectionState GetSeverity(bool isUpdateAvailable)
+        => isUpdateAvailable ? ProtectionState.AttentionNeeded : ProtectionState.Protected;
 
-        var hero = F<FrameworkElement>("HeroCard");
-        if (hero is not null)
-        {
-            AnimationHelper.AnimateScaleIn(hero, delayMs: 120, durationMs: 550);
+    public static string GetHeroTitle(bool isUpdateAvailable, bool isUpdating)
+    {
+        if (isUpdating) return "Güncelleme yükleniyor...";
+        if (isUpdateAvailable) return "Yeni güncelleme mevcut";
+        return "Tüm güncellemeler yüklü";
+    }
 
-            if (ViewModel.IsUpdateAvailable && !ViewModel.IsUpdating)
-            {
-                AnimationHelper.StartPulse(hero, minScale: 1.0f, maxScale: 1.015f, durationMs: 2400);
-            }
-        }
+    public static string GetPrimaryActionText(bool isUpdateAvailable, bool isUpdating)
+    {
+        if (isUpdating) return "Devam Ediyor...";
+        return isUpdateAvailable ? "Şimdi Güncelle" : "Yeniden Kontrol Et";
+    }
 
-        var virusCard = F<FrameworkElement>("VirusDefinitionsCard");
-        if (virusCard is not null)
+    public static ICommand? GetPrimaryCommand(UpdateViewModel vm, bool isUpdateAvailable)
+        => isUpdateAvailable ? vm.StartUpdateCommand : vm.CheckForUpdatesCommand;
+
+    public static string FormatRelative(DateTime dt)
+    {
+        var delta = DateTime.Now - dt;
+        if (delta.TotalMinutes < 1) return "az önce";
+        if (delta.TotalMinutes < 60) return $"{(int)delta.TotalMinutes} dk önce";
+        if (delta.TotalHours < 24) return $"{(int)delta.TotalHours} saat önce";
+        if (delta.TotalDays < 7) return $"{(int)delta.TotalDays} gün önce";
+        return dt.ToString("dd MMM yyyy");
+    }
+
+    public static string FormatDate(DateTime dt)
+        => dt.ToString("dd MMM yyyy · HH:mm");
+
+    public static string OnOff(bool on) => on ? "Açık" : "Kapalı";
+
+    public static string GetStatusGlyph(bool success) => success ? "\uE73E" : "\uE711";
+
+    public static string GetStatusText(bool success) => success ? "Başarılı" : "Başarısız";
+
+    public static Brush GetStatusBrush(bool success)
+    {
+        var key = success ? "StatusProtectedBrush" : "StatusRiskBrush";
+        if (Application.Current?.Resources is not null
+            && Application.Current.Resources.TryGetValue(key, out var b)
+            && b is Brush brush)
         {
-            AnimationHelper.AnimateEntrance(virusCard, delayMs: 280, durationMs: 500);
+            return brush;
         }
-        var appCard = F<FrameworkElement>("ApplicationCard");
-        if (appCard is not null)
-        {
-            AnimationHelper.AnimateEntrance(appCard, delayMs: 360, durationMs: 500);
-        }
-        var settingsCard = F<FrameworkElement>("UpdateSettingsCard");
-        if (settingsCard is not null)
-        {
-            AnimationHelper.AnimateEntrance(settingsCard, delayMs: 520, durationMs: 500);
-        }
-        var historyCard = F<FrameworkElement>("HistoryCard");
-        if (historyCard is not null)
-        {
-            AnimationHelper.AnimateEntrance(historyCard, delayMs: 700, durationMs: 550);
-        }
+        return new SolidColorBrush(Microsoft.UI.Colors.Gray);
     }
 }
