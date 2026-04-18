@@ -318,7 +318,7 @@
                             Style="{StaticResource BodyStyle}"
                             Foreground="{StaticResource AccentBrush}"
                             FontWeight="SemiBold">
-                            <Run Text="{x:Bind ViewModel.ScanProgress, Mode=OneWay}" />
+                            <Run Text="{x:Bind ViewModel.ScanProgressFormatted, Mode=OneWay}" />
                             <Run Text="%" />
                         </TextBlock>
                         </StackPanel>

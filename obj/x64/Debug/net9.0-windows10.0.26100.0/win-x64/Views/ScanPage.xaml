@@ -318,7 +318,7 @@
                             Style="{StaticResource BodyStyle}"
                             Foreground="{StaticResource AccentBrush}"
                             FontWeight="SemiBold">
-                            <Run x:ConnectionId='39'                                                     />
+                            <Run x:ConnectionId='39'                                                              />
                             <Run Text="%" />
                         </TextBlock>
                         </StackPanel>

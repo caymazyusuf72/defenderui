@@ -91,6 +91,12 @@ public partial class ScanViewModel : ObservableObject
     // Formatted properties for display
     public string ElapsedTimeFormatted => ElapsedTime.ToString(@"mm\:ss");
     public string FilesScannedFormatted => FilesScanned.ToString("N0");
+    public string ScanProgressFormatted => ((int)System.Math.Round(ScanProgress)).ToString(System.Globalization.CultureInfo.InvariantCulture);
+
+    partial void OnScanProgressChanged(double value) => OnPropertyChanged(nameof(ScanProgressFormatted));
+    partial void OnThreatsFoundChanged(int value) => OnPropertyChanged(nameof(HasThreats));
+    partial void OnFilesScannedChanged(int value) => OnPropertyChanged(nameof(FilesScannedFormatted));
+    partial void OnElapsedTimeChanged(System.TimeSpan value) => OnPropertyChanged(nameof(ElapsedTimeFormatted));
 
     public ScanViewModel(MockDataService mockDataService)
     {
