@@ -20,6 +20,11 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
+        <!--
+            NOT: ToastHost overlay'i Grid'in en son child'ı olarak aşağıda
+            tanımlıdır; böylece z-order olarak shell üzerinde kalır.
+        -->
+
         <!-- ═══════════════════════════════════════════════════════════ -->
         <!-- Custom Title Bar                                             -->
         <!-- Logo + DefenderUI + StatusPill  |  spacer  |  Theme/Notif   -->
@@ -252,7 +257,30 @@
             <Frame
                 x:Name="ContentFrame"
                 Padding="0"
-                Background="Transparent" />
+                Background="Transparent">
+                <Frame.ContentTransitions>
+                    <TransitionCollection>
+                        <NavigationThemeTransition>
+                            <NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                                <EntranceNavigationTransitionInfo />
+                            </NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                        </NavigationThemeTransition>
+                    </TransitionCollection>
+                </Frame.ContentTransitions>
+            </Frame>
         </NavigationView>
+
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <!-- Toast Host (Faz 7) — IToastService'i dinler, sağ-alt overlay -->
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <controls:ToastHost
+            x:Name="ToastHostOverlay"
+            Grid.Row="0"
+            Grid.RowSpan="2"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Margin="0,0,24,24"
+            Canvas.ZIndex="100"
+            IsHitTestVisible="True" />
     </Grid>
 </Window>
