@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using DefenderUI.Helpers;
 using DefenderUI.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
@@ -9,8 +7,6 @@ namespace DefenderUI.Views;
 
 public sealed partial class SettingsPage : Page
 {
-    private bool _hasAnimated;
-
     public SettingsViewModel ViewModel { get; }
 
     public SettingsPage()
@@ -19,50 +15,29 @@ public sealed partial class SettingsPage : Page
         InitializeComponent();
     }
 
-    private T? F<T>(string name) where T : class => this.FindName(name) as T;
-
     private void Page_Loaded(object sender, RoutedEventArgs e)
     {
-        if (_hasAnimated)
-        {
-            return;
-        }
-
-        _hasAnimated = true;
-
-        var header = F<FrameworkElement>("HeaderPanel");
-        if (header is not null)
-        {
-            AnimationHelper.AnimateEntrance(header, delayMs: 0, durationMs: 450, offsetY: -16f);
-        }
-
-        string[] categoryNames =
-        {
-            "CategoryGeneral",
-            "CategoryProtection",
-            "CategoryNotifications",
-            "CategoryScheduled",
-            "CategoryExclusions",
-            "CategoryAppearance",
-            "CategoryPrivacy",
-            "CategoryAbout",
-        };
-
-        var categories = new List<UIElement>();
-        foreach (var name in categoryNames)
-        {
-            var cat = F<UIElement>(name);
-            if (cat is not null)
-            {
-                categories.Add(cat);
-            }
-        }
-
-        AnimationHelper.AnimateStaggered(
-            categories,
-            staggerMs: 80,
-            initialDelayMs: 150,
-            durationMs: 500,
-            offsetY: 24f);
+        // Sade; kart stilleri hover'ı zaten sağlıyor.
     }
+
+    // ═════════════════════════════════════════════════════════════════
+    // Static helpers — x:Bind visibility kararları.
+    // ═════════════════════════════════════════════════════════════════
+
+    public static Visibility IsCategory(SettingsViewModel.SettingsCategory? category, string key)
+    {
+        return category?.Key == key ? Visibility.Visible : Visibility.Collapsed;
+    }
+
+    public static Visibility IsPlaceholder(SettingsViewModel.SettingsCategory? category)
+    {
+        if (category is null) return Visibility.Collapsed;
+        // general ve appearance gerçek içerikli
+        return category.Key is "general" or "appearance"
+            ? Visibility.Collapsed
+            : Visibility.Visible;
+    }
+
+    public static string GetCategoryTitle(SettingsViewModel.SettingsCategory? category)
+        => category?.Title ?? string.Empty;
 }

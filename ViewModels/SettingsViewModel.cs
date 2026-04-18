@@ -2,18 +2,37 @@ using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using DefenderUI.Services;
+using Microsoft.UI.Xaml;
 
 namespace DefenderUI.ViewModels;
 
 public partial class SettingsViewModel : ObservableObject
 {
     private readonly MockDataService _mockDataService;
+    private readonly IThemeService _themeService;
+
+    // Category model
+    public record SettingsCategory(string Key, string Title, string Glyph);
+
+    [ObservableProperty]
+    private ObservableCollection<SettingsCategory> _categories = [];
+
+    [ObservableProperty]
+    private SettingsCategory? _selectedCategory;
 
     // General
     [ObservableProperty] private bool _startWithWindows = true;
     [ObservableProperty] private bool _minimizeToTray = true;
     [ObservableProperty] private bool _showNotifications = true;
-    [ObservableProperty] private string _selectedLanguage = "English";
+    [ObservableProperty] private string _selectedLanguage = "Türkçe";
+    [ObservableProperty] private bool _telemetryEnabled;
+
+    // Appearance / Theme
+    [ObservableProperty] private ElementTheme _selectedElementTheme = ElementTheme.Default;
+    [ObservableProperty] private bool _isLightThemeSelected;
+    [ObservableProperty] private bool _isDarkThemeSelected;
+    [ObservableProperty] private bool _isSystemThemeSelected = true;
+    [ObservableProperty] private bool _compactMode;
 
     // Protection
     [ObservableProperty] private bool _realTimeProtection = true;
@@ -42,8 +61,8 @@ public partial class SettingsViewModel : ObservableObject
     [ObservableProperty] private ObservableCollection<string> _excludedFiles = [];
     [ObservableProperty] private ObservableCollection<string> _excludedFolders = [];
 
-    // Appearance
-    [ObservableProperty] private string _selectedTheme = "Dark";
+    // Legacy (geri uyumluluk için korunuyor)
+    [ObservableProperty] private string _selectedTheme = "System";
     [ObservableProperty] private string _accentColor = "Blue";
 
     // Privacy
@@ -58,18 +77,36 @@ public partial class SettingsViewModel : ObservableObject
     [ObservableProperty] private string _licenseExpiry = "Dec 31, 2027";
 
     // ComboBox item sources
-    public List<string> Languages { get; } = ["English", "Türkçe", "Deutsch", "Français", "Español", "日本語"];
+    public List<string> Languages { get; } = ["Türkçe", "English", "Deutsch", "Français", "Español", "日本語"];
     public List<string> ScanSensitivities { get; } = ["Low", "Balanced", "High", "Maximum"];
     public List<string> ScanFrequencies { get; } = ["Daily", "Weekly", "Monthly"];
     public List<string> ScanDays { get; } = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
     public List<string> ScanTimes { get; } = ["12:00 AM", "01:00 AM", "02:00 AM", "03:00 AM", "04:00 AM", "05:00 AM", "06:00 AM", "07:00 AM", "08:00 AM", "09:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "01:00 PM", "02:00 PM", "03:00 PM", "04:00 PM", "05:00 PM", "06:00 PM", "07:00 PM", "08:00 PM", "09:00 PM", "10:00 PM", "11:00 PM"];
     public List<string> ScanTypes { get; } = ["Quick Scan", "Full Scan"];
-    public List<string> Themes { get; } = ["Dark", "Light", "System"];
+    public List<string> Themes { get; } = ["System", "Light", "Dark"];
     public List<string> AccentColors { get; } = ["Blue", "Teal", "Green", "Purple"];
 
-    public SettingsViewModel(MockDataService mockDataService)
+    public SettingsViewModel(MockDataService mockDataService, IThemeService themeService)
     {
         _mockDataService = mockDataService;
+        _themeService = themeService;
+
+        SelectedElementTheme = _themeService.CurrentTheme;
+        SyncThemeRadios();
+
+        Categories =
+        [
+            new SettingsCategory("general", "Genel", "\uE713"),
+            new SettingsCategory("appearance", "Görünüm", "\uE790"),
+            new SettingsCategory("scan", "Tarama", "\uE773"),
+            new SettingsCategory("protection", "Koruma", "\uE72E"),
+            new SettingsCategory("notifications", "Bildirimler", "\uEA8F"),
+            new SettingsCategory("privacy", "Gizlilik", "\uE72E"),
+            new SettingsCategory("about", "Hakkında", "\uE946"),
+        ];
+
+        SelectedCategory = Categories[0];
+
         LoadData();
     }
 
@@ -86,6 +123,45 @@ public partial class SettingsViewModel : ObservableObject
             @"C:\Development\Projects",
             @"C:\Games\Steam",
         ];
+    }
+
+    private void SyncThemeRadios()
+    {
+        IsLightThemeSelected = SelectedElementTheme == ElementTheme.Light;
+        IsDarkThemeSelected = SelectedElementTheme == ElementTheme.Dark;
+        IsSystemThemeSelected = SelectedElementTheme == ElementTheme.Default;
+    }
+
+    partial void OnSelectedElementThemeChanged(ElementTheme value)
+    {
+        _themeService.SetTheme(value);
+        SyncThemeRadios();
+        SelectedTheme = value switch
+        {
+            ElementTheme.Light => "Light",
+            ElementTheme.Dark => "Dark",
+            _ => "System"
+        };
+    }
+
+    [RelayCommand]
+    private void SetTheme(string? themeKey)
+    {
+        SelectedElementTheme = themeKey switch
+        {
+            "Light" => ElementTheme.Light,
+            "Dark" => ElementTheme.Dark,
+            _ => ElementTheme.Default
+        };
+    }
+
+    [RelayCommand]
+    private void SelectCategory(SettingsCategory? category)
+    {
+        if (category is not null)
+        {
+            SelectedCategory = category;
+        }
     }
 
     [RelayCommand]
@@ -118,7 +194,8 @@ public partial class SettingsViewModel : ObservableObject
         StartWithWindows = true;
         MinimizeToTray = true;
         ShowNotifications = true;
-        SelectedLanguage = "English";
+        SelectedLanguage = "Türkçe";
+        TelemetryEnabled = false;
         RealTimeProtection = true;
         CloudProtection = true;
         AutomaticSampleSubmission = false;
@@ -136,7 +213,7 @@ public partial class SettingsViewModel : ObservableObject
         ScanDay = "Monday";
         ScanTime = "02:00 AM";
         ScheduledScanType = "Quick Scan";
-        SelectedTheme = "Dark";
+        SelectedElementTheme = ElementTheme.Default;
         AccentColor = "Blue";
         SendUsageData = false;
         SendCrashReports = true;
@@ -146,18 +223,18 @@ public partial class SettingsViewModel : ObservableObject
     [RelayCommand]
     private void ExportSettings()
     {
-        // Mock: In real app, would export to JSON file
+        // Mock
     }
 
     [RelayCommand]
     private void ImportSettings()
     {
-        // Mock: In real app, would import from JSON file
+        // Mock
     }
 
     [RelayCommand]
     private void CheckForUpdates()
     {
-        // Mock: In real app, would check for updates
+        // Mock
     }
 }
