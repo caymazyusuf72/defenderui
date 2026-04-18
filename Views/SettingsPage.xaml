@@ -211,6 +211,18 @@
                                     OffContent="" />
                             </controls:SettingsRow>
                         </Border>
+
+                        <Border Style="{StaticResource SurfaceCardStyle}">
+                            <controls:SettingsRow
+                                Title="Animasyonları Azalt"
+                                Description="Hover, fade ve pulse gibi dekoratif animasyonları kapatır. Erişilebilirlik / düşük performanslı cihazlar için önerilir.">
+                                <ToggleSwitch
+                                    IsOn="{x:Bind ViewModel.ReduceMotion, Mode=TwoWay}"
+                                    MinWidth="0"
+                                    OnContent=""
+                                    OffContent="" />
+                            </controls:SettingsRow>
+                        </Border>
                     </StackPanel>
 
                     <!-- Placeholder kategoriler -->

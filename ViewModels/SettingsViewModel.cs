@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using DefenderUI.Helpers;
 using DefenderUI.Services;
 using Microsoft.UI.Xaml;
 
@@ -32,6 +33,7 @@ public partial class SettingsViewModel : ObservableObject
     [ObservableProperty] private bool _isDarkThemeSelected;
     [ObservableProperty] private bool _isSystemThemeSelected = true;
     [ObservableProperty] private bool _compactMode;
+    [ObservableProperty] private bool _reduceMotion;
 
     // Protection
     [ObservableProperty] private bool _realTimeProtection = true;
@@ -93,6 +95,9 @@ public partial class SettingsViewModel : ObservableObject
         SelectedElementTheme = _themeService.CurrentTheme;
         SyncThemeRadios();
 
+        // MotionPreferences ile iki yönlü senkron başlangıçta.
+        ReduceMotion = !MotionPreferences.Enabled;
+
         Categories =
         [
             new SettingsCategory("general", "Genel", "\uE713"),
@@ -141,6 +146,16 @@ public partial class SettingsViewModel : ObservableObject
             ElementTheme.Dark => "Dark",
             _ => "System"
         };
+    }
+
+    /// <summary>
+    /// Faz 7: "Animasyonları Azalt" toggle → MotionPreferences.Enabled'ı set eder.
+    /// Animasyon helper'ları ve hover efektleri bu flag'i kontrol ederek
+    /// continuous/decorative efektleri atlar.
+    /// </summary>
+    partial void OnReduceMotionChanged(bool value)
+    {
+        MotionPreferences.Enabled = !value;
     }
 
     [RelayCommand]
