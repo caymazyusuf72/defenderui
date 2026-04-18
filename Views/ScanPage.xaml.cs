@@ -2,6 +2,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using DefenderUI.Controls;
+using DefenderUI.Helpers;
 using DefenderUI.Services;
 using DefenderUI.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,6 +28,15 @@ public sealed partial class ScanPage : Page
         DataContext = ViewModel;
 
         ViewModel.PropertyChanged += OnViewModelPropertyChanged;
+    }
+
+    private void Page_Loaded(object sender, RoutedEventArgs e)
+    {
+        // Faz 7: Sayfa yüklendiğinde root content için yumuşak fade+slide.
+        if (RootContent is not null)
+        {
+            AnimationHelper.FadeInSlide(RootContent, durationMs: 280, offsetY: 16f);
+        }
     }
 
     protected override void OnNavigatedTo(NavigationEventArgs e)

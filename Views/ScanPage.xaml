@@ -13,6 +13,7 @@
     xmlns:services="using:DefenderUI.Services"
     xmlns:local="using:DefenderUI.Views"
     mc:Ignorable="d"
+    Loaded="Page_Loaded"
     Background="{ThemeResource SurfaceBackgroundBrush}">
 
     <Page.Resources>
@@ -23,7 +24,7 @@
         VerticalScrollBarVisibility="Auto"
         HorizontalScrollBarVisibility="Disabled">
 
-        <Grid Padding="{StaticResource PaddingPage}">
+        <Grid x:Name="RootContent" Padding="{StaticResource PaddingPage}">
 
             <!-- ════════════════════════════════════════════════════════ -->
             <!-- IDLE STATE — mod seçim + başlat                          -->

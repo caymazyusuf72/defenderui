@@ -11,6 +11,7 @@
     xmlns:models="using:DefenderUI.Models"
     xmlns:local="using:DefenderUI.Views"
     mc:Ignorable="d"
+    Loaded="Page_Loaded"
     Background="{ThemeResource SurfaceBackgroundBrush}">
 
     <ScrollViewer
@@ -18,6 +19,7 @@
         HorizontalScrollBarVisibility="Disabled">
 
         <StackPanel
+            x:Name="RootStack"
             Padding="{StaticResource PaddingPage}"
             Spacing="{StaticResource Space2xl}">
 

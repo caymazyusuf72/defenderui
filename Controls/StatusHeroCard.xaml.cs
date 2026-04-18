@@ -1,4 +1,5 @@
 using System.Windows.Input;
+using DefenderUI.Helpers;
 using DefenderUI.Models;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
@@ -136,7 +137,49 @@ public sealed partial class StatusHeroCard : UserControl
             SubTitleText.Text = SubTitle;
             PrimaryButton.Content = PrimaryActionText;
             SecondaryButton.Content = SecondaryActionText;
+            UpdateShieldPulse();
         };
+        Unloaded += (_, _) =>
+        {
+            AnimationHelper.StopAnimation(HeroIcon, "Scale");
+            MotionPreferences.Changed -= OnMotionPreferencesChanged;
+        };
+        MotionPreferences.Changed += OnMotionPreferencesChanged;
+    }
+
+    private void OnMotionPreferencesChanged(object? sender, System.EventArgs e)
+    {
+        if (DispatcherQueue is null)
+        {
+            return;
+        }
+        DispatcherQueue.TryEnqueue(UpdateShieldPulse);
+    }
+
+    /// <summary>
+    /// Severity "Protected" ise büyük shield ikonuna yumuşak ve yavaş bir
+    /// nefes (scale 1.0 → 1.05 → 1.0) animasyonu uygular. Diğer severity'lerde
+    /// animasyon durdurulur. <see cref="MotionPreferences.Enabled"/> false ise
+    /// çalışmaz.
+    /// </summary>
+    private void UpdateShieldPulse()
+    {
+        if (HeroIcon is null)
+        {
+            return;
+        }
+
+        AnimationHelper.StopAnimation(HeroIcon, "Scale");
+
+        if (!MotionPreferences.Enabled)
+        {
+            return;
+        }
+
+        if (Severity == ProtectionState.Protected)
+        {
+            AnimationHelper.StartPulse(HeroIcon, 1.0f, 1.05f, durationMs: 3000);
+        }
     }
 
     private static void OnSeverityChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -144,6 +187,7 @@ public sealed partial class StatusHeroCard : UserControl
         if (d is StatusHeroCard card)
         {
             card.ApplySeverity();
+            card.UpdateShieldPulse();
         }
     }
 

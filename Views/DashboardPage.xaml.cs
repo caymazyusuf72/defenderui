@@ -1,8 +1,10 @@
 using System;
 using DefenderUI.Controls;
+using DefenderUI.Helpers;
 using DefenderUI.Models;
 using DefenderUI.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
 namespace DefenderUI.Views;
@@ -19,6 +21,16 @@ public sealed partial class DashboardPage : Page
     {
         ViewModel = App.Current.Services.GetRequiredService<DashboardViewModel>();
         InitializeComponent();
+    }
+
+    private void Page_Loaded(object sender, RoutedEventArgs e)
+    {
+        // Sayfa yüklendikten hemen sonra root StackPanel'i yumuşak bir
+        // fade+slide ile göster (Faz 7). Reduced motion açıksa skip edilir.
+        if (RootStack is not null)
+        {
+            AnimationHelper.FadeInSlide(RootStack, durationMs: 280, offsetY: 16f);
+        }
     }
 
     // ═════════════════════════════════════════════════════════════════
