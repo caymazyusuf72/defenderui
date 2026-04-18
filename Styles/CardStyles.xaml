@@ -65,6 +65,8 @@
         <Setter Property="Padding" Value="{StaticResource ThicknessLg}" />
         <Setter Property="MinWidth" Value="160" />
         <Setter Property="MinHeight" Value="96" />
+        <!-- Faz 7: Hover elevation — StatCard'lar da hafifçe yukarı kalksın. -->
+        <Setter Property="helpers:CardHoverEffect.IsEnabled" Value="True" />
     </Style>
 
     <!-- ═══════════════════════════════════════════════════════════ -->

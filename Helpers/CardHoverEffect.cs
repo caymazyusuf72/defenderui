@@ -64,6 +64,13 @@ public static class CardHoverEffect
             return;
         }
 
+        // Reduced motion tercihi: hover skip, yalnızca parlak arkaplan / default
+        // davranışın devamı için sessizce geri dön.
+        if (!MotionPreferences.Enabled)
+        {
+            return;
+        }
+
         var visual = ElementCompositionPreview.GetElementVisual(element);
         var compositor = visual.Compositor;
 
@@ -107,6 +114,8 @@ public static class CardHoverEffect
         offsetAnim.InsertKeyFrame(1f, Vector3.Zero, easing);
         offsetAnim.Duration = System.TimeSpan.FromMilliseconds(HoverDurationMs);
 
+        // Her durumda (reduced motion içinde bile) state'i nötre çek; kısa
+        // animasyon verir ve pointer leave sırasında "asılı kalma" riskini önler.
         visual.StartAnimation("Scale", scaleAnim);
         visual.StartAnimation("Translation", offsetAnim);
     }

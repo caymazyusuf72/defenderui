@@ -33,6 +33,15 @@ public static class AnimationHelper
             return;
         }
 
+        // Reduced motion: skip the animation, keep element fully visible.
+        if (!MotionPreferences.Enabled)
+        {
+            var staticVisual = ElementCompositionPreview.GetElementVisual(element);
+            staticVisual.Opacity = 1f;
+            staticVisual.Offset = Vector3.Zero;
+            return;
+        }
+
         var visual = ElementCompositionPreview.GetElementVisual(element);
         var compositor = visual.Compositor;
 
@@ -195,6 +204,19 @@ public static class AnimationHelper
     }
 
     /// <summary>
+    /// Fades in an element with a small upward slide. MVVM-friendly one-liner
+    /// intended for page Loaded handlers.
+    /// </summary>
+    public static void FadeInSlide(
+        UIElement element,
+        double durationMs = 300,
+        float offsetY = 16f,
+        double delayMs = 0)
+    {
+        AnimateEntrance(element, delayMs, durationMs, offsetY);
+    }
+
+    /// <summary>
     /// Starts a continuous pulse (scale breathing) effect.
     /// </summary>
     public static void StartPulse(
@@ -204,6 +226,12 @@ public static class AnimationHelper
         double durationMs = 1600)
     {
         if (element is null)
+        {
+            return;
+        }
+
+        // Reduced motion: skip infinite pulse.
+        if (!MotionPreferences.Enabled)
         {
             return;
         }
