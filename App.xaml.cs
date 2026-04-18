@@ -50,6 +50,7 @@ public partial class App : Application
         services.AddSingleton<IThemeService, ThemeService>();
         services.AddSingleton<INavigationService, NavigationService>();
         services.AddSingleton<IToastService, ToastService>();
+        services.AddSingleton<IScanService, ScanService>();
 
         // ViewModels
         services.AddTransient<DashboardViewModel>();
