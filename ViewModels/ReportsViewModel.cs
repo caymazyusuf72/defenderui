@@ -100,6 +100,12 @@ public partial class ReportsViewModel : ObservableObject
     }
 
     [RelayCommand]
+    private void ExportCsv()
+    {
+        // UI placeholder — ileride gerçek dosya yazma.
+    }
+
+    [RelayCommand]
     private void ChangePeriod(string period)
     {
         SelectedPeriod = period;
