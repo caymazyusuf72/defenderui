@@ -1,55 +1,67 @@
 using System;
 using System.Collections.Generic;
 using DefenderUI.Helpers;
+using DefenderUI.Services;
 using DefenderUI.Views;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media.Animation;
 
 namespace DefenderUI;
 
+/// <summary>
+/// Uygulamanın ana Shell penceresi.
+///
+/// Faz 2 itibarıyla:
+///   • Custom title bar (logo + app adı + <see cref="Controls.StatusPill"/> +
+///     theme toggle + bildirim butonu).
+///   • <see cref="NavigationView"/> sol menüsü ile sayfa geçişleri
+///     <see cref="INavigationService"/> üzerinden yönetilir.
+///   • Tema geçişi <see cref="IThemeService"/> aracılığıyla yapılır.
+/// </summary>
 public sealed partial class MainWindow : Window
 {
-    private readonly Dictionary<string, Type> _pageMap = new()
-    {
-        { "dashboard", typeof(DashboardPage) },
-        { "scan", typeof(ScanPage) },
-        { "protection", typeof(ProtectionPage) },
-        { "quarantine", typeof(QuarantinePage) },
-        { "reports", typeof(ReportsPage) },
-        { "update", typeof(UpdatePage) },
-        { "settings", typeof(SettingsPage) },
-    };
-
-    // Defines navigation order so we can pick a direction for slide transitions.
-    private static readonly Dictionary<string, int> _pageOrder = new()
-    {
-        { "dashboard", 0 },
-        { "scan", 1 },
-        { "protection", 2 },
-        { "quarantine", 3 },
-        { "reports", 4 },
-        { "update", 5 },
-        { "settings", 6 },
-    };
-
-    private string? _currentTag;
+    private readonly INavigationService _navigationService;
+    private readonly IThemeService _themeService;
 
     public MainWindow()
     {
         InitializeComponent();
 
-        ExtendsContentIntoTitleBar = true;
-        SetTitleBar(AppTitleBarGrid);
-        AppWindow.SetIcon("Assets/AppIcon.ico");
+        // ── DI resolve ────────────────────────────────────────────────
+        _navigationService = App.Current.Services.GetRequiredService<INavigationService>();
+        _themeService = App.Current.Services.GetRequiredService<IThemeService>();
 
-        ContentFrame.Navigate(typeof(DashboardPage), null, new EntranceNavigationTransitionInfo());
-        _currentTag = "dashboard";
+        // ── Title bar ────────────────────────────────────────────────
+        ExtendsContentIntoTitleBar = true;
+        SetTitleBar(TitleBarDragRegion);
+        try
+        {
+            AppWindow.SetIcon("Assets/AppIcon.ico");
+        }
+        catch
+        {
+            // Unpackaged çalışmada fail olabilir; kritik değil.
+        }
+
+        // ── Navigation ────────────────────────────────────────────────
+        _navigationService.Frame = ContentFrame;
+        _navigationService.NavigateTo("dashboard");
+
+        // ── Theme ─────────────────────────────────────────────────────
+        if (RootGrid is not null)
+        {
+            _themeService.ApplyTheme(RootGrid);
+        }
+        UpdateThemeToggleIcon();
     }
 
+    // ═════════════════════════════════════════════════════════════════
+    // NavigationView
+    // ═════════════════════════════════════════════════════════════════
     private void NavView_Loaded(object sender, RoutedEventArgs e)
     {
-        // Staggered entrance for all visible NavigationViewItems.
+        // Sol menü item'ları için staggered giriş animasyonu.
         var items = new List<UIElement>();
         foreach (var menuItem in NavView.MenuItems)
         {
@@ -66,12 +78,19 @@ public sealed partial class MainWindow : Window
             }
         }
 
-        AnimationHelper.AnimateStaggered(
-            items,
-            staggerMs: 60,
-            initialDelayMs: 120,
-            durationMs: 380,
-            offsetY: 10f);
+        try
+        {
+            AnimationHelper.AnimateStaggered(
+                items,
+                staggerMs: 60,
+                initialDelayMs: 120,
+                durationMs: 380,
+                offsetY: 10f);
+        }
+        catch
+        {
+            // Animasyon başarısız olursa sessiz geç — shell çalışmaya devam etsin.
+        }
     }
 
     private void NavView_SelectionChanged(
@@ -79,36 +98,50 @@ public sealed partial class MainWindow : Window
         NavigationViewSelectionChangedEventArgs args)
     {
         if (args.SelectedItemContainer is not NavigationViewItem selectedItem
-            || selectedItem.Tag is not string tag
-            || !_pageMap.TryGetValue(tag, out var pageType))
+            || selectedItem.Tag is not string tag)
         {
             return;
         }
 
-        // Avoid re-navigating to the same page.
-        if (tag == _currentTag)
+        _navigationService.NavigateTo(tag);
+    }
+
+    // ═════════════════════════════════════════════════════════════════
+    // Theme toggle
+    // ═════════════════════════════════════════════════════════════════
+    private void ThemeToggleButton_Click(object sender, RoutedEventArgs e)
+    {
+        // Sıralı döngü: Light → Dark → Default → Light …
+        var next = _themeService.CurrentTheme switch
+        {
+            ElementTheme.Light => ElementTheme.Dark,
+            ElementTheme.Dark => ElementTheme.Default,
+            _ => ElementTheme.Light,
+        };
+
+        _themeService.SetTheme(next);
+
+        if (RootGrid is not null)
+        {
+            _themeService.ApplyTheme(RootGrid);
+        }
+
+        UpdateThemeToggleIcon();
+    }
+
+    private void UpdateThemeToggleIcon()
+    {
+        if (ThemeToggleIcon is null)
         {
             return;
         }
 
-        // Decide slide direction based on navigation order for a natural feel.
-        NavigationTransitionInfo transition;
-        if (_currentTag is not null
-            && _pageOrder.TryGetValue(_currentTag, out var fromIndex)
-            && _pageOrder.TryGetValue(tag, out var toIndex))
+        // Güneş (E706) = light, Ay (E708) = dark, PC/monitor (E770) = system.
+        ThemeToggleIcon.Glyph = _themeService.CurrentTheme switch
         {
-            var effect = toIndex >= fromIndex
-                ? SlideNavigationTransitionEffect.FromRight
-                : SlideNavigationTransitionEffect.FromLeft;
-
-            transition = new SlideNavigationTransitionInfo { Effect = effect };
-        }
-        else
-        {
-            transition = new EntranceNavigationTransitionInfo();
-        }
-
-        ContentFrame.Navigate(pageType, null, transition);
-        _currentTag = tag;
+            ElementTheme.Light => "\uE706",
+            ElementTheme.Dark => "\uE708",
+            _ => "\uE770",
+        };
     }
 }
