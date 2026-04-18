@@ -47,6 +47,7 @@ public partial class App : Application
 
         // Services
         services.AddSingleton<MockDataService>();
+        services.AddSingleton<IThemeService, ThemeService>();
 
         // ViewModels
         services.AddTransient<DashboardViewModel>();
