@@ -60,7 +60,7 @@
                         </Style>
                     </ListView.ItemContainerStyle>
                     <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="vm:SettingsViewModel+SettingsCategory">
+                        <DataTemplate x:DataType="vm:SettingsCategory">
                             <Grid Padding="12,10" ColumnSpacing="10">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto" />

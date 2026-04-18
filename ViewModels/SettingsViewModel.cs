@@ -6,13 +6,12 @@ using Microsoft.UI.Xaml;
 
 namespace DefenderUI.ViewModels;
 
+public record SettingsCategory(string Key, string Title, string Glyph);
+
 public partial class SettingsViewModel : ObservableObject
 {
     private readonly MockDataService _mockDataService;
     private readonly IThemeService _themeService;
-
-    // Category model
-    public record SettingsCategory(string Key, string Title, string Glyph);
 
     [ObservableProperty]
     private ObservableCollection<SettingsCategory> _categories = [];

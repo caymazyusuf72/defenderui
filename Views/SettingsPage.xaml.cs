@@ -24,12 +24,12 @@ public sealed partial class SettingsPage : Page
     // Static helpers — x:Bind visibility kararları.
     // ═════════════════════════════════════════════════════════════════
 
-    public static Visibility IsCategory(SettingsViewModel.SettingsCategory? category, string key)
+    public static Visibility IsCategory(SettingsCategory? category, string key)
     {
         return category?.Key == key ? Visibility.Visible : Visibility.Collapsed;
     }
 
-    public static Visibility IsPlaceholder(SettingsViewModel.SettingsCategory? category)
+    public static Visibility IsPlaceholder(SettingsCategory? category)
     {
         if (category is null) return Visibility.Collapsed;
         // general ve appearance gerçek içerikli
@@ -38,6 +38,6 @@ public sealed partial class SettingsPage : Page
             : Visibility.Visible;
     }
 
-    public static string GetCategoryTitle(SettingsViewModel.SettingsCategory? category)
+    public static string GetCategoryTitle(SettingsCategory? category)
         => category?.Title ?? string.Empty;
 }
