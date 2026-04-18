@@ -60,6 +60,18 @@ public partial class App : Application
         services.AddTransient<ReportsViewModel>();
         services.AddTransient<UpdateViewModel>();
         services.AddTransient<SettingsViewModel>();
+        services.AddTransient<PrivacyViewModel>();
+        services.AddTransient<FirewallViewModel>();
+        services.AddTransient<ToolsViewModel>();
+        services.AddTransient<PasswordManagerViewModel>();
+        services.AddTransient<VpnViewModel>();
+
+        // Pages (DI tarafından NavigationService / test'ler için opsiyonel resolve)
+        services.AddTransient<Views.PrivacyPage>();
+        services.AddTransient<Views.FirewallPage>();
+        services.AddTransient<Views.ToolsPage>();
+        services.AddTransient<Views.PasswordManagerPage>();
+        services.AddTransient<Views.VpnPage>();
 
         return services.BuildServiceProvider();
     }

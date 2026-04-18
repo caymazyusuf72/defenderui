@@ -10,42 +10,54 @@ namespace DefenderUI.Services;
 /// <see cref="INavigationService"/>'in Shell-bağımsız implementasyonu.
 ///
 /// Sayfa kayıtları (<see cref="PageMap"/>):
-///   • dashboard   → <see cref="DashboardPage"/>
-///   • scan        → <see cref="ScanPage"/>
-///   • protection  → <see cref="ProtectionPage"/>
-///   • quarantine  → <see cref="QuarantinePage"/>
-///   • reports     → <see cref="ReportsPage"/>
-///   • update      → <see cref="UpdatePage"/>
-///   • settings    → <see cref="SettingsPage"/>
-///
-/// NOT: privacy / firewall / tools gibi henüz uygulanmamış sayfalar
-/// kasıtlı olarak kayıt edilmemiştir; Faz 6'da eklenecektir.
+///   • dashboard        → <see cref="DashboardPage"/>
+///   • scan             → <see cref="ScanPage"/>
+///   • protection       → <see cref="ProtectionPage"/>
+///   • privacy          → <see cref="PrivacyPage"/>
+///   • firewall         → <see cref="FirewallPage"/>
+///   • quarantine       → <see cref="QuarantinePage"/>
+///   • reports          → <see cref="ReportsPage"/>
+///   • tools            → <see cref="ToolsPage"/>
+///   • passwordmanager  → <see cref="PasswordManagerPage"/>
+///   • vpn              → <see cref="VpnPage"/>
+///   • update           → <see cref="UpdatePage"/>
+///   • settings         → <see cref="SettingsPage"/>
 /// </summary>
 public sealed class NavigationService : INavigationService
 {
     private static readonly IReadOnlyDictionary<string, Type> PageMap =
         new Dictionary<string, Type>(StringComparer.OrdinalIgnoreCase)
         {
-            { "dashboard",  typeof(DashboardPage) },
-            { "scan",       typeof(ScanPage) },
-            { "protection", typeof(ProtectionPage) },
-            { "quarantine", typeof(QuarantinePage) },
-            { "reports",    typeof(ReportsPage) },
-            { "update",     typeof(UpdatePage) },
-            { "settings",   typeof(SettingsPage) },
+            { "dashboard",       typeof(DashboardPage) },
+            { "scan",            typeof(ScanPage) },
+            { "protection",      typeof(ProtectionPage) },
+            { "privacy",         typeof(PrivacyPage) },
+            { "firewall",        typeof(FirewallPage) },
+            { "quarantine",      typeof(QuarantinePage) },
+            { "reports",         typeof(ReportsPage) },
+            { "tools",           typeof(ToolsPage) },
+            { "passwordmanager", typeof(PasswordManagerPage) },
+            { "vpn",             typeof(VpnPage) },
+            { "update",          typeof(UpdatePage) },
+            { "settings",        typeof(SettingsPage) },
         };
 
     // Sayfa sıralaması — Slide transition yönünü belirlemek için.
     private static readonly IReadOnlyDictionary<string, int> PageOrder =
         new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase)
         {
-            { "dashboard",  0 },
-            { "scan",       1 },
-            { "protection", 2 },
-            { "quarantine", 3 },
-            { "reports",    4 },
-            { "update",     5 },
-            { "settings",   6 },
+            { "dashboard",       0 },
+            { "scan",            1 },
+            { "protection",      2 },
+            { "privacy",         3 },
+            { "firewall",        4 },
+            { "quarantine",      5 },
+            { "reports",         6 },
+            { "tools",           7 },
+            { "passwordmanager", 8 },
+            { "vpn",             9 },
+            { "update",          10 },
+            { "settings",        11 },
         };
 
     private string? _currentKey;

@@ -153,6 +153,26 @@
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem
+                    Content="Gizlilik"
+                    Tag="privacy"
+                    AutomationProperties.Name="Privacy">
+                    <NavigationViewItem.Icon>
+                        <FontIcon
+                            Glyph="&#xE727;"
+                            FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem
+                    Content="Güvenlik Duvarı"
+                    Tag="firewall"
+                    AutomationProperties.Name="Firewall">
+                    <NavigationViewItem.Icon>
+                        <FontIcon
+                            Glyph="&#xE785;"
+                            FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem
                     Content="Quarantine"
                     Tag="quarantine"
                     AutomationProperties.Name="Quarantine">
@@ -169,6 +189,36 @@
                     <NavigationViewItem.Icon>
                         <FontIcon
                             Glyph="&#xE9D2;"
+                            FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem
+                    Content="Araçlar"
+                    Tag="tools"
+                    AutomationProperties.Name="Tools">
+                    <NavigationViewItem.Icon>
+                        <FontIcon
+                            Glyph="&#xE90F;"
+                            FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem
+                    Content="Parola Yön."
+                    Tag="passwordmanager"
+                    AutomationProperties.Name="Password Manager">
+                    <NavigationViewItem.Icon>
+                        <FontIcon
+                            Glyph="&#xE8D7;"
+                            FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem
+                    Content="VPN"
+                    Tag="vpn"
+                    AutomationProperties.Name="VPN">
+                    <NavigationViewItem.Icon>
+                        <FontIcon
+                            Glyph="&#xE839;"
                             FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
