@@ -46,6 +46,7 @@
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
 
+
   <!--
     Defining the "Msix" ProjectCapability here allows the Single-project MSIX Packaging
     Tools extension to be activated for this project even if the Windows App SDK Nuget
@@ -59,8 +60,6 @@
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="*" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="*" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.*" />
-    <PackageReference Include="CommunityToolkit.WinUI.UI.Controls" Version="7.*" />
-    <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.*" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.*" />
   </ItemGroup>
 
@@ -77,7 +76,42 @@
   <PropertyGroup>
     <PublishReadyToRun Condition="'$(Configuration)' == 'Debug'">False</PublishReadyToRun>
     <PublishReadyToRun Condition="'$(Configuration)' != 'Debug'">True</PublishReadyToRun>
-    <PublishTrimmed Condition="'$(Configuration)' == 'Debug'">False</PublishTrimmed>
-    <PublishTrimmed Condition="'$(Configuration)' != 'Debug'">True</PublishTrimmed>
+    <!--
+      NOTE: PublishTrimmed WinUI 3 (WindowsAppSDK 1.8) ile pek çok "IL trim" uyarisi
+      uretir ve XAML tip cozumlemesini bozabilir. Guvenli olmasi icin Release'te de
+      kapali tutuyoruz. Single-file publish basarisiz olursa buradan acilabilir.
+    -->
+    <PublishTrimmed>false</PublishTrimmed>
+  </PropertyGroup>
+
+  <!--
+    Single-file publish konfigurasyonu (sadece Release icin).
+    Hedef: `dotnet publish -c Release -r win-x64 -p:Platform=x64 -o publish`
+    komutu ile tek bir DefenderUI.exe uretmek.
+
+    - PublishSingleFile=true                        => yonetilen DLL'ler exe icine gomulur
+    - SelfContained=true                            => .NET runtime exe icine dahil edilir
+    - IncludeNativeLibrariesForSelfExtract=true     => native DLL'ler calisma aninda temp'e acilir
+    - IncludeAllContentForSelfExtract=true          => tum icerik dosyalari da gomulur
+    - EnableCompressionInSingleFile=true            => exe sikistirilir
+    - WindowsAppSDKSelfContained=true               => WinAppSDK runtime bagimliligi kaldirilir
+    - WindowsPackageType=None                       => unpackaged desktop app
+    - DebugType=embedded                            => PDB exe icine gomulur (yan .pdb yok)
+
+    Onemli: WinUI 3 / WindowsAppSDK 1.8 bazi native bootstrap DLL'lerini hala
+    yaninda tasimak zorunda kalabilir; detaylar icin SINGLE_FILE_PUBLISH.md.
+  -->
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <PublishSingleFile>true</PublishSingleFile>
+    <SelfContained>true</SelfContained>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
+    <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+    <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+    <WindowsPackageType>None</WindowsPackageType>
+    <DebugType>embedded</DebugType>
+    <!-- Single-file ile trim birlikte WinUI'de riskli; acik bicimde kapatiyoruz. -->
+    <PublishTrimmed>false</PublishTrimmed>
   </PropertyGroup>
 </Project>
