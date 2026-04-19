@@ -73,7 +73,10 @@ public static class RippleEffect
         {
             Width = diameter,
             Height = diameter,
-            Fill = new SolidColorBrush(Color.FromArgb(96, 255, 255, 255)),
+            // Faz B #9: Ripple tema-aware. Application.Resources'ta tanımlı
+            // RippleOverlayBrush (Light: #40000000 / Dark: #40FFFFFF / HC: sarı)
+            // kullanılır; bulunamazsa eski beyaz varsayılana düşer.
+            Fill = ResolveRippleBrush(),
             IsHitTestVisible = false,
             Opacity = 0,
             HorizontalAlignment = HorizontalAlignment.Left,
@@ -126,6 +129,21 @@ public static class RippleEffect
             RemoveRipple(fe, ripple);
         };
         cleanup.Start();
+    }
+
+    /// <summary>
+    /// Application.Resources'taki <c>RippleOverlayBrush</c>'ı çözümler; yoksa
+    /// yarı-saydam beyaz fallback döner.
+    /// </summary>
+    private static Brush ResolveRippleBrush()
+    {
+        if (Application.Current?.Resources is { } res
+            && res.TryGetValue("RippleOverlayBrush", out var v)
+            && v is Brush b)
+        {
+            return b;
+        }
+        return new SolidColorBrush(Color.FromArgb(96, 255, 255, 255));
     }
 
     private static bool TryHostRipple(FrameworkElement fe, Ellipse ripple)

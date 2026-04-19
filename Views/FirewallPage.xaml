@@ -12,7 +12,7 @@
     xmlns:vm="using:DefenderUI.ViewModels"
     xmlns:local="using:DefenderUI.Views"
     mc:Ignorable="d"
-    Background="{ThemeResource SurfaceBackgroundBrush}">
+    Background="Transparent">
 
     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
         <StackPanel Padding="{StaticResource PaddingPage}" Spacing="{StaticResource Space2xl}">
@@ -173,7 +173,7 @@
                             <TextBlock Grid.Column="5" Text="DURUM" Style="{StaticResource OverlineTextStyle}" Margin="0,0,16,0" />
                         </Grid>
                         <Rectangle Height="1" Fill="{ThemeResource DividerBrush}" />
-                        <muxc:ItemsRepeater ItemsSource="{x:Bind ViewModel.ApplicationRules, Mode=OneWay}">
+                        <muxc:ItemsRepeater x:Name="RulesRepeater" ItemsSource="{x:Bind ViewModel.ApplicationRules, Mode=OneWay}">
                             <muxc:ItemsRepeater.ItemTemplate>
                                 <DataTemplate x:DataType="vm:FirewallRuleItem">
                                     <Grid Padding="16,12" ColumnSpacing="12"
@@ -253,7 +253,7 @@
                            Style="{StaticResource TitleLargeTextStyle}"
                            AutomationProperties.HeadingLevel="Level2" />
                 <Border Style="{StaticResource SurfaceCardStyle}" Padding="0">
-                    <muxc:ItemsRepeater ItemsSource="{x:Bind ViewModel.RecentBlocks, Mode=OneWay}">
+                    <muxc:ItemsRepeater x:Name="RecentBlocksRepeater" ItemsSource="{x:Bind ViewModel.RecentBlocks, Mode=OneWay}">
                         <muxc:ItemsRepeater.ItemTemplate>
                             <DataTemplate x:DataType="models:ActivityLogItem">
                                 <controls:ActivityListItem

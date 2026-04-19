@@ -11,7 +11,7 @@
     xmlns:models="using:DefenderUI.Models"
     xmlns:vm="using:DefenderUI.ViewModels"
     mc:Ignorable="d"
-    Background="{ThemeResource SurfaceBackgroundBrush}">
+    Background="Transparent">
 
     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
         <StackPanel Padding="{StaticResource PaddingPage}" Spacing="{StaticResource Space2xl}">

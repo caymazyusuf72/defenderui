@@ -402,7 +402,10 @@ public static class AnimationHelper
             return;
         }
 
-        Brush? originalBrush = GetBackground(element);
+        // Faz B #11: Orijinal Background değerini ReadLocalValue ile kaydet;
+        // eğer değer ThemeResource binding'i üzerinden geliyorsa UnsetValue
+        // döner ve geri yüklerken ClearValue ile binding korunur.
+        var originalLocal = ReadBackgroundLocalValue(element);
         var flashBrush = new SolidColorBrush(color);
         ApplyBackground(element, flashBrush);
 
@@ -421,7 +424,7 @@ public static class AnimationHelper
             }
             else
             {
-                ApplyBackground(element, originalBrush);
+                RestoreBackground(element, originalLocal);
                 timer.Stop();
             }
         };
@@ -430,15 +433,34 @@ public static class AnimationHelper
         Shake(element, intensity: 4f, durationMs: durationMs);
     }
 
-    private static Brush? GetBackground(FrameworkElement element)
+    private static object? ReadBackgroundLocalValue(FrameworkElement element)
     {
         return element switch
         {
-            Border b => b.Background,
-            Panel p => p.Background,
-            Control c => c.Background,
+            Border b => b.ReadLocalValue(Border.BackgroundProperty),
+            Panel p => p.ReadLocalValue(Panel.BackgroundProperty),
+            Control c => c.ReadLocalValue(Control.BackgroundProperty),
             _ => null,
         };
+    }
+
+    private static void RestoreBackground(FrameworkElement element, object? originalLocal)
+    {
+        // Faz B #11: UnsetValue ise ClearValue çağır; böylece XAML'deki
+        // {ThemeResource} binding geri yüklenir ve tema değişimi yansır.
+        if (originalLocal == DependencyProperty.UnsetValue)
+        {
+            switch (element)
+            {
+                case Border b: b.ClearValue(Border.BackgroundProperty); break;
+                case Panel p: p.ClearValue(Panel.BackgroundProperty); break;
+                case Control c: c.ClearValue(Control.BackgroundProperty); break;
+            }
+        }
+        else
+        {
+            ApplyBackground(element, originalLocal as Brush);
+        }
     }
 
     private static void ApplyBackground(FrameworkElement element, Brush? brush)
@@ -706,16 +728,21 @@ public static class AnimationHelper
             Opacity = 0.55,
         };
 
+        // Faz B #10: Shimmer parıltısı host'un tema rengine göre uyarlansın.
+        // Light'ta koyu gri, Dark'ta beyaz — aksi halde Light temada beyaz
+        // zeminde shimmer görünmez.
+        var baseColor = GetShimmerBaseColor(host);
+
         var gradient = new LinearGradientBrush
         {
             StartPoint = new Windows.Foundation.Point(0, 0.5),
             EndPoint = new Windows.Foundation.Point(1, 0.5),
         };
-        gradient.GradientStops.Add(new GradientStop { Color = Color.FromArgb(0, 255, 255, 255), Offset = 0.0 });
-        gradient.GradientStops.Add(new GradientStop { Color = Color.FromArgb(60, 255, 255, 255), Offset = 0.45 });
-        gradient.GradientStops.Add(new GradientStop { Color = Color.FromArgb(120, 255, 255, 255), Offset = 0.5 });
-        gradient.GradientStops.Add(new GradientStop { Color = Color.FromArgb(60, 255, 255, 255), Offset = 0.55 });
-        gradient.GradientStops.Add(new GradientStop { Color = Color.FromArgb(0, 255, 255, 255), Offset = 1.0 });
+        gradient.GradientStops.Add(new GradientStop { Color = Color.FromArgb(0, baseColor.R, baseColor.G, baseColor.B), Offset = 0.0 });
+        gradient.GradientStops.Add(new GradientStop { Color = Color.FromArgb(60, baseColor.R, baseColor.G, baseColor.B), Offset = 0.45 });
+        gradient.GradientStops.Add(new GradientStop { Color = Color.FromArgb(120, baseColor.R, baseColor.G, baseColor.B), Offset = 0.5 });
+        gradient.GradientStops.Add(new GradientStop { Color = Color.FromArgb(60, baseColor.R, baseColor.G, baseColor.B), Offset = 0.55 });
+        gradient.GradientStops.Add(new GradientStop { Color = Color.FromArgb(0, baseColor.R, baseColor.G, baseColor.B), Offset = 1.0 });
         highlight.Fill = gradient;
 
         host.Children.Add(highlight);
@@ -790,7 +817,9 @@ public static class AnimationHelper
 
         StopScanLinePass(host);
 
-        var lineColor = color ?? Color.FromArgb(180, 88, 166, 255);
+        // Faz B #10: Tema-aware default — Application.Resources AccentPrimaryBrush
+        // renginden al; bulunamazsa eski açık mavi varsayılan.
+        var lineColor = color ?? GetAccentColor(alpha: 180);
 
         var line = new Rectangle
         {
@@ -960,5 +989,38 @@ public static class AnimationHelper
         }
 
         ElementCompositionPreview.SetElementChildVisual(element, null);
+    }
+
+    // ──────────────────────────────────────────────────────────────
+    //  Faz B #10 — Theme-aware helpers
+    // ──────────────────────────────────────────────────────────────
+
+    /// <summary>
+    /// Host'un fiili temasına göre shimmer parıltı rengini belirler.
+    /// Light temada koyu gri (%100), Dark temada beyaz — amaç her iki
+    /// zeminde de fark edilebilir bir parıltı sağlamak.
+    /// </summary>
+    private static Color GetShimmerBaseColor(FrameworkElement host)
+    {
+        var theme = host.ActualTheme;
+        return theme == ElementTheme.Light
+            ? Color.FromArgb(0xFF, 0x1C, 0x1C, 0x1C)
+            : Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF);
+    }
+
+    /// <summary>
+    /// <c>AccentPrimaryBrush</c>'tan accent rengini çıkarır; SolidColorBrush
+    /// değilse ya da resource yoksa Defender mavisine düşer.
+    /// </summary>
+    private static Color GetAccentColor(byte alpha)
+    {
+        if (Application.Current?.Resources is { } res
+            && res.TryGetValue("AccentPrimaryBrush", out var v)
+            && v is SolidColorBrush scb)
+        {
+            var c = scb.Color;
+            return Color.FromArgb(alpha, c.R, c.G, c.B);
+        }
+        return Color.FromArgb(alpha, 0x00, 0x78, 0xD4);
     }
 }

@@ -11,7 +11,7 @@
     xmlns:vm="using:DefenderUI.ViewModels"
     xmlns:local="using:DefenderUI.Views"
     mc:Ignorable="d"
-    Background="{ThemeResource SurfaceBackgroundBrush}">
+    Background="Transparent">
 
     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
         <StackPanel Padding="{StaticResource PaddingPage}" Spacing="{StaticResource Space2xl}">
@@ -151,7 +151,7 @@
                             <TextBlock Grid.Column="3" Text="PING" Style="{StaticResource OverlineTextStyle}" Margin="0,0,16,0" />
                         </Grid>
                         <Rectangle Height="1" Fill="{ThemeResource DividerBrush}" />
-                        <muxc:ItemsRepeater ItemsSource="{x:Bind ViewModel.Servers, Mode=OneWay}">
+                        <muxc:ItemsRepeater x:Name="ServersRepeater" ItemsSource="{x:Bind ViewModel.Servers, Mode=OneWay}">
                             <muxc:ItemsRepeater.ItemTemplate>
                                 <DataTemplate x:DataType="vm:VpnServerItem">
                                     <Grid Padding="16,12" ColumnSpacing="12"
@@ -319,11 +319,14 @@
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
+                    <!-- Faz D #23: AccentSoftBrush zemini üzerinde Dark temada
+                         kontrast sınırda kalıyordu; AccentOnSoftBrush tema-aware
+                         (Light: AccentPrimary, Dark: AccentSecondary) kullanılır. -->
                     <FontIcon Grid.Column="0"
                               Glyph="&#xE734;"
                               FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets"
                               FontSize="40"
-                              Foreground="{ThemeResource AccentPrimaryBrush}"
+                              Foreground="{ThemeResource AccentOnSoftBrush}"
                               VerticalAlignment="Center" />
                     <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="4">
                         <TextBlock Text="Sınırsız VPN için Premium'a Yükselt"

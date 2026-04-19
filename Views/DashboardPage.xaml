@@ -12,7 +12,7 @@
     xmlns:local="using:DefenderUI.Views"
     mc:Ignorable="d"
     Loaded="Page_Loaded"
-    Background="{ThemeResource SurfaceBackgroundBrush}">
+    Background="Transparent">
 
     <ScrollViewer
         VerticalScrollBarVisibility="Auto"

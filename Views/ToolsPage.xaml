@@ -10,7 +10,7 @@
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:models="using:DefenderUI.Models"
     mc:Ignorable="d"
-    Background="{ThemeResource SurfaceBackgroundBrush}">
+    Background="Transparent">
 
     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
         <StackPanel Padding="{StaticResource PaddingPage}" Spacing="{StaticResource Space2xl}">

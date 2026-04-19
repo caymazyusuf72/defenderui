@@ -73,7 +73,8 @@
     <!-- ═══════════════════════════════════════════════════════════ -->
     <Style x:Key="DangerButtonStyle" TargetType="Button" BasedOn="{StaticResource DefaultButtonStyle}">
         <Setter Property="Background" Value="{ThemeResource StatusRiskBrush}" />
-        <Setter Property="Foreground" Value="#FFFFFF" />
+        <!-- Faz B #8: Hard-coded #FFFFFF yerine semantic TextOnAccentBrush. -->
+        <Setter Property="Foreground" Value="{ThemeResource TextOnAccentBrush}" />
         <Setter Property="BorderBrush" Value="{ThemeResource StatusRiskBrush}" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="CornerRadius" Value="{StaticResource CornerRadiusButton}" />
