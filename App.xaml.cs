@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System;
+using System.IO;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using DefenderUI.Services;
 using DefenderUI.ViewModels;
@@ -29,6 +31,60 @@ public partial class App : Application
     {
         Services = ConfigureServices();
         InitializeComponent();
+
+        // ── Tanı amaçlı: tüm unhandled exception'ları dosyaya yaz ───────
+        this.UnhandledException += (s, e) =>
+        {
+            LogCrash("App.UnhandledException", e.Exception);
+            e.Handled = true; // uygulama kapanmasın ki mesajı görelim
+        };
+        AppDomain.CurrentDomain.UnhandledException += (s, e) =>
+        {
+            LogCrash("AppDomain.UnhandledException", e.ExceptionObject as Exception);
+        };
+        TaskScheduler.UnobservedTaskException += (s, e) =>
+        {
+            LogCrash("TaskScheduler.UnobservedTaskException", e.Exception);
+            e.SetObserved();
+        };
+    }
+
+    private static void LogCrash(string source, Exception? ex)
+    {
+        try
+        {
+            var path = Path.Combine(AppContext.BaseDirectory, "crash.log");
+            var sb = new System.Text.StringBuilder();
+            sb.AppendLine($"[{DateTime.Now:O}] {source}");
+            if (ex is not null)
+            {
+                sb.AppendLine($"Type: {ex.GetType().FullName}");
+                sb.AppendLine($"HResult: 0x{ex.HResult:X8}");
+                sb.AppendLine($"Message: {ex.Message}");
+                if (ex is System.Runtime.InteropServices.COMException com)
+                {
+                    sb.AppendLine($"COM ErrorCode: 0x{com.ErrorCode:X8}");
+                }
+                sb.AppendLine($"StackTrace: {ex.StackTrace}");
+                var inner = ex.InnerException;
+                int depth = 0;
+                while (inner is not null && depth < 5)
+                {
+                    sb.AppendLine($"---- InnerException[{depth}] ----");
+                    sb.AppendLine($"Type: {inner.GetType().FullName}");
+                    sb.AppendLine($"Message: {inner.Message}");
+                    sb.AppendLine($"StackTrace: {inner.StackTrace}");
+                    inner = inner.InnerException;
+                    depth++;
+                }
+            }
+            sb.AppendLine();
+            File.AppendAllText(path, sb.ToString());
+        }
+        catch
+        {
+            // son çare — sessiz geç
+        }
     }
 
     /// <summary>
@@ -54,7 +110,10 @@ public partial class App : Application
 
         // ViewModels
         services.AddTransient<DashboardViewModel>();
-        services.AddTransient<ScanViewModel>();
+        // ScanViewModel Singleton: IScanService event'lerine abone olur; Transient
+        // yapıldığında her sayfa ziyaretinde yeni bir abone eklenir ve
+        // Dispose edilmediğinden leak olur (tek iptalde N toast vb.).
+        services.AddSingleton<ScanViewModel>();
         services.AddTransient<ProtectionViewModel>();
         services.AddTransient<QuarantineViewModel>();
         services.AddTransient<ReportsViewModel>();
