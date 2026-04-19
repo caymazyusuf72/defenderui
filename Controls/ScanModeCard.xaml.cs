@@ -136,6 +136,8 @@ public sealed partial class ScanModeCard : UserControl
             DurationLabel.Text = EstimatedDuration;
             ApplySelection();
         };
+        // Tema değişince (Light↔Dark) local-set brush'lar eski temada kalmasın.
+        ActualThemeChanged += (_, _) => ApplySelection();
     }
 
     private static void OnGlyphChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -199,15 +201,12 @@ public sealed partial class ScanModeCard : UserControl
         }
         else
         {
-            if (TryGetBrush("BorderSubtleBrush", out var border))
-            {
-                CardRoot.BorderBrush = border;
-            }
-            if (TryGetBrush("SurfaceCardBrush", out var surface))
-            {
-                CardRoot.Background = surface;
-            }
-            CardRoot.BorderThickness = new Thickness(1);
+            // Unselected: local-set değerleri temizle ki Style'daki
+            // {ThemeResource SurfaceCardBrush} / {ThemeResource BorderSubtleBrush}
+            // binding'leri yeniden aktif olsun ve tema değişimine tepki versin.
+            CardRoot.ClearValue(Microsoft.UI.Xaml.Controls.Border.BackgroundProperty);
+            CardRoot.ClearValue(Microsoft.UI.Xaml.Controls.Border.BorderBrushProperty);
+            CardRoot.ClearValue(Microsoft.UI.Xaml.Controls.Border.BorderThicknessProperty);
         }
     }
 

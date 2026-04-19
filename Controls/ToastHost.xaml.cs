@@ -31,6 +31,8 @@ public sealed partial class ToastHost : UserControl
     private static readonly TimeSpan DefaultDuration = TimeSpan.FromSeconds(4);
     private static readonly TimeSpan InAnimationDuration = TimeSpan.FromMilliseconds(200);
     private static readonly TimeSpan OutAnimationDuration = TimeSpan.FromMilliseconds(150);
+    // Ekranda aynı anda gösterilebilecek maksimum toast sayısı (birikmeyi önler).
+    private const int MaxVisibleToasts = 4;
 
     private readonly Dictionary<InfoBar, DispatcherTimer> _timers = new();
     private IToastService? _toastService;
@@ -97,6 +99,41 @@ public sealed partial class ToastHost : UserControl
         if (ToastContainer is null || message is null)
         {
             return;
+        }
+
+        // Kapasite aşımı: birikmeyi önlemek için en eski toast'ları hemen kaldır.
+        while (ToastContainer.Children.Count >= MaxVisibleToasts)
+        {
+            if (ToastContainer.Children[0] is InfoBar oldest)
+            {
+                if (_timers.TryGetValue(oldest, out var oldTimer))
+                {
+                    oldTimer.Stop();
+                    _timers.Remove(oldest);
+                }
+                ToastContainer.Children.Remove(oldest);
+            }
+            else
+            {
+                ToastContainer.Children.RemoveAt(0);
+            }
+        }
+
+        // Aynı başlık + gövde ile zaten görünen bir toast varsa duplike
+        // eklemek yerine onun timer'ını sıfırla (deduplication).
+        foreach (var child in ToastContainer.Children)
+        {
+            if (child is InfoBar existing
+                && string.Equals(existing.Title ?? string.Empty, message.Title ?? string.Empty, StringComparison.Ordinal)
+                && string.Equals(existing.Message ?? string.Empty, message.Body ?? string.Empty, StringComparison.Ordinal))
+            {
+                if (_timers.TryGetValue(existing, out var t))
+                {
+                    t.Stop();
+                    t.Start();
+                }
+                return;
+            }
         }
 
         var infoBar = new InfoBar

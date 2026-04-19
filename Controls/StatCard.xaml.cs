@@ -101,6 +101,8 @@ public sealed partial class StatCard : UserControl
             ValueText.Text = Value;
             ApplyTrend();
         };
+        // Tema değişince trend rozeti brush'larını yeniden uygula.
+        ActualThemeChanged += (_, _) => ApplyTrend();
     }
 
     private static void OnGlyphChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

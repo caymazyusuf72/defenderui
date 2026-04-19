@@ -28,6 +28,14 @@ public sealed partial class ScanPage : Page
         DataContext = ViewModel;
 
         ViewModel.PropertyChanged += OnViewModelPropertyChanged;
+        Unloaded += OnUnloaded;
+    }
+
+    private void OnUnloaded(object sender, RoutedEventArgs e)
+    {
+        // Sayfa kaldırılınca event aboneliklerini sök — leak önlemi.
+        ViewModel.PropertyChanged -= OnViewModelPropertyChanged;
+        Unloaded -= OnUnloaded;
     }
 
     private void Page_Loaded(object sender, RoutedEventArgs e)

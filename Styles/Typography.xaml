@@ -144,6 +144,12 @@
         <Setter Property="Foreground" Value="{ThemeResource TextSecondaryBrush}" />
     </Style>
 
+    <!-- BodySmallTextStyle alias — bazı sayfalar (UpdatePage, QuarantinePage eski sürümü)
+         tarafından referanslanıyordu ama tanımlı değildi. Caption ile aynı semantiği kullanır. -->
+    <Style x:Key="BodySmallTextStyle" TargetType="TextBlock" BasedOn="{StaticResource CaptionTextStyle}">
+        <Setter Property="Foreground" Value="{ThemeResource TextPrimaryBrush}" />
+    </Style>
+
     <!-- Display number / hero number (KPI cards) -->
     <Style x:Key="DisplayNumberStyle" TargetType="TextBlock">
         <Setter Property="FontFamily" Value="{StaticResource AppFontFamily}" />

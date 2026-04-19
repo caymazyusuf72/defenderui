@@ -86,6 +86,9 @@ public sealed partial class ActivityListItem : UserControl
             TimestampLabel.Text = Timestamp;
             ApplySeverity();
         };
+        // Tema değişince brush'ları re-apply et — aksi halde local-set değerler
+        // eski tema snapshot'ında kalır (koyu/siyah görünüm hatası).
+        ActualThemeChanged += (_, _) => ApplySeverity();
     }
 
     private static void OnGlyphChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -188,7 +191,9 @@ public sealed partial class ActivityListItem : UserControl
 
     private void RowRoot_PointerExited(object sender, PointerRoutedEventArgs e)
     {
-        RowRoot.Background = new SolidColorBrush(Colors.Transparent);
+        // Local-set değeri temizle; XAML'deki Background="Transparent"
+        // ya da ThemeResource binding'i tekrar etkin olsun.
+        RowRoot.ClearValue(Grid.BackgroundProperty);
     }
 }
 

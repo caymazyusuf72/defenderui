@@ -46,6 +46,8 @@ public sealed partial class StatusPill : UserControl
     {
         InitializeComponent();
         Loaded += (_, _) => ApplySeverity();
+        // Tema değişince (Light↔Dark) brush'ları yeniden uygula.
+        ActualThemeChanged += (_, _) => ApplySeverity();
     }
 
     private static void OnSeverityChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
