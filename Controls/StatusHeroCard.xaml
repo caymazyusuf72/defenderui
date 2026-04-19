@@ -17,86 +17,100 @@
           • SecondaryActionText    : ikincil CTA
           • PrimaryActionCommand   : ICommand
           • SecondaryActionCommand : ICommand
+
+        NOT (Faz A #6): Gradient dekoratif katman ayrı bir iç Border olarak
+        tutulur; dış Border'ın SurfaceElevatedBrush tema-aware arkaplanı
+        böylece korunur ve Dark temada kart yüzeyi kaybolmaz.
     -->
 
     <Border
         x:Name="RootCard"
-        Style="{StaticResource HeroStatusCardStyle}">
-        <Border.Background>
-            <LinearGradientBrush x:Name="HeroGradient" StartPoint="0,0" EndPoint="1,1">
-                <GradientStop x:Name="GradientStop1" Color="#1A107C10" Offset="0.0" />
-                <GradientStop x:Name="GradientStop2" Color="#00107C10" Offset="0.55" />
-            </LinearGradientBrush>
-        </Border.Background>
+        Style="{StaticResource HeroStatusCardStyle}"
+        Padding="0">
+        <Grid>
+            <!-- Dekoratif gradient katmanı — içerik arkası -->
+            <Border
+                x:Name="GradientLayer"
+                CornerRadius="{StaticResource CornerRadiusHero}"
+                IsHitTestVisible="False">
+                <Border.Background>
+                    <LinearGradientBrush x:Name="HeroGradient" StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop x:Name="GradientStop1" Color="Transparent" Offset="0.0" />
+                        <GradientStop x:Name="GradientStop2" Color="Transparent" Offset="0.55" />
+                    </LinearGradientBrush>
+                </Border.Background>
+            </Border>
 
-        <Grid ColumnSpacing="24">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
+            <!-- İçerik katmanı -->
+            <Grid ColumnSpacing="24" Padding="{StaticResource Thickness2xl}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
 
-            <!-- Sol: Büyük shield ikonu -->
-            <Grid
-                Grid.Column="0"
-                Width="112"
-                Height="112"
-                VerticalAlignment="Center">
-                <Ellipse
-                    x:Name="IconHalo"
-                    Fill="{ThemeResource StatusProtectedSoftBrush}"
+                <!-- Sol: Büyük shield ikonu -->
+                <Grid
+                    Grid.Column="0"
                     Width="112"
-                    Height="112" />
-                <FontIcon
-                    x:Name="HeroIcon"
-                    Glyph="&#xE72E;"
-                    FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets"
-                    FontSize="72"
-                    Foreground="{ThemeResource StatusProtectedBrush}"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center" />
+                    Height="112"
+                    VerticalAlignment="Center">
+                    <Ellipse
+                        x:Name="IconHalo"
+                        Fill="{ThemeResource StatusProtectedSoftBrush}"
+                        Width="112"
+                        Height="112" />
+                    <FontIcon
+                        x:Name="HeroIcon"
+                        Glyph="&#xE72E;"
+                        FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets"
+                        FontSize="72"
+                        Foreground="{ThemeResource StatusProtectedBrush}"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center" />
+                </Grid>
+
+                <!-- Orta: Title + SubTitle -->
+                <StackPanel
+                    Grid.Column="1"
+                    VerticalAlignment="Center"
+                    Spacing="8">
+                    <TextBlock
+                        x:Name="TitleText"
+                        Text="Bilgisayarınız Korunuyor"
+                        Style="{StaticResource DisplayMediumTextStyle}"
+                        TextWrapping="Wrap"
+                        TextTrimming="None" />
+                    <TextBlock
+                        x:Name="SubTitleText"
+                        Text="Son tarama: bugün 14:30"
+                        Style="{StaticResource BodyLargeTextStyle}"
+                        Foreground="{ThemeResource TextSecondaryBrush}"
+                        TextWrapping="Wrap" />
+                </StackPanel>
+
+                <!-- Sağ: iki dikey buton -->
+                <StackPanel
+                    Grid.Column="2"
+                    VerticalAlignment="Center"
+                    Spacing="12"
+                    MinWidth="200">
+                    <Button
+                        x:Name="PrimaryButton"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Center"
+                        Style="{StaticResource PrimaryActionButtonStyle}"
+                        Content="Hızlı Tarama"
+                        Click="PrimaryButton_Click" />
+                    <Button
+                        x:Name="SecondaryButton"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Center"
+                        Style="{StaticResource SecondaryActionButtonStyle}"
+                        Content="Tüm Sistemi Tara"
+                        Click="SecondaryButton_Click" />
+                </StackPanel>
             </Grid>
-
-            <!-- Orta: Title + SubTitle -->
-            <StackPanel
-                Grid.Column="1"
-                VerticalAlignment="Center"
-                Spacing="8">
-                <TextBlock
-                    x:Name="TitleText"
-                    Text="Bilgisayarınız Korunuyor"
-                    Style="{StaticResource DisplayMediumTextStyle}"
-                    TextWrapping="Wrap"
-                    TextTrimming="None" />
-                <TextBlock
-                    x:Name="SubTitleText"
-                    Text="Son tarama: bugün 14:30"
-                    Style="{StaticResource BodyLargeTextStyle}"
-                    Foreground="{ThemeResource TextSecondaryBrush}"
-                    TextWrapping="Wrap" />
-            </StackPanel>
-
-            <!-- Sağ: iki dikey buton -->
-            <StackPanel
-                Grid.Column="2"
-                VerticalAlignment="Center"
-                Spacing="12"
-                MinWidth="200">
-                <Button
-                    x:Name="PrimaryButton"
-                    HorizontalAlignment="Stretch"
-                    HorizontalContentAlignment="Center"
-                    Style="{StaticResource PrimaryActionButtonStyle}"
-                    Content="Hızlı Tarama"
-                    Click="PrimaryButton_Click" />
-                <Button
-                    x:Name="SecondaryButton"
-                    HorizontalAlignment="Stretch"
-                    HorizontalContentAlignment="Center"
-                    Style="{StaticResource SecondaryActionButtonStyle}"
-                    Content="Tüm Sistemi Tara"
-                    Click="SecondaryButton_Click" />
-            </StackPanel>
         </Grid>
     </Border>
 </UserControl>

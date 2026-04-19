@@ -16,11 +16,24 @@ public sealed partial class QuarantinePage : Page
     {
         ViewModel = App.Current.Services.GetRequiredService<QuarantineViewModel>();
         InitializeComponent();
+        // Faz A #4: Tema değişiminde x:Bind static brush helper'ları otomatik
+        // yeniden değerlendirilmez; ListView ItemsSource'u reset ederek tüm
+        // DataTemplate'ları yeniden üretip brush'ların yeni temayı almasını
+        // sağlıyoruz.
+        ActualThemeChanged += (_, _) => RefreshList();
     }
 
     private void Page_Loaded(object sender, RoutedEventArgs e)
     {
         // Animasyonlar minimize; kart stilleri hover efektlerini zaten sağlıyor.
+    }
+
+    private void RefreshList()
+    {
+        if (QuarantineList is null) return;
+        var src = QuarantineList.ItemsSource;
+        QuarantineList.ItemsSource = null;
+        QuarantineList.ItemsSource = src;
     }
 
     // ═════════════════════════════════════════════════════════════════

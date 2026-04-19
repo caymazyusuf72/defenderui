@@ -152,6 +152,10 @@ public sealed partial class FeatureTileCard : UserControl
             ApplyAccent();
             ApplyBadge();
         };
+        // Faz A #3: Tema değişiminde accent brush'u yeniden uygula. AccentBrush DP
+        // set edilmemişse ApplyAccent ClearValue çağırarak XAML'deki ThemeResource
+        // binding'ini geri yükler — bu da otomatik olarak yeni tema rengine geçer.
+        ActualThemeChanged += (_, _) => ApplyAccent();
     }
 
     private static void OnGlyphChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -209,19 +213,19 @@ public sealed partial class FeatureTileCard : UserControl
             return;
         }
 
-        Brush? brush = AccentBrush;
-        if (brush is null
-            && Application.Current?.Resources is not null
-            && Application.Current.Resources.TryGetValue("AccentPrimaryBrush", out var v)
-            && v is Brush b)
+        // Faz A #3: AccentBrush DP açıkça set edilmişse override uygula.
+        // Aksi halde XAML'deki {ThemeResource AccentPrimaryBrush} binding'ini
+        // geri yükle (ClearValue) — böylece tema değişimi otomatik yansır ve
+        // local-set snapshot binding'i kalıcı olarak kırmaz.
+        if (AccentBrush is not null)
         {
-            brush = b;
+            IconGlyph.Foreground = AccentBrush;
+            ActionTextLabel.Foreground = AccentBrush;
         }
-
-        if (brush is not null)
+        else
         {
-            IconGlyph.Foreground = brush;
-            ActionTextLabel.Foreground = brush;
+            IconGlyph.ClearValue(FontIcon.ForegroundProperty);
+            ActionTextLabel.ClearValue(TextBlock.ForegroundProperty);
         }
     }
 

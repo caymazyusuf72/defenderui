@@ -145,6 +145,8 @@ public sealed partial class StatusHeroCard : UserControl
             MotionPreferences.Changed -= OnMotionPreferencesChanged;
         };
         MotionPreferences.Changed += OnMotionPreferencesChanged;
+        // Faz A #1: Tema değişiminde brush'ları ve gradient alpha'sını yeniden uygula.
+        ActualThemeChanged += (_, _) => ApplySeverity();
     }
 
     private void OnMotionPreferencesChanged(object? sender, System.EventArgs e)
@@ -276,8 +278,10 @@ public sealed partial class StatusHeroCard : UserControl
             IconHalo.Fill = softBrush;
         }
 
-        // Gradient: accent'in yumuşak (0x1A alpha) tonundan card brush'una fade.
-        GradientStop1.Color = Color.FromArgb(0x26, accentColor.R, accentColor.G, accentColor.B);
+        // Faz A #17: Dark temada gradient tonu daha belirgin olmalı (koyu
+        // yüzey üzerinde %15 alpha neredeyse görünmezdir).
+        var startAlpha = ActualTheme == ElementTheme.Dark ? (byte)0x40 : (byte)0x26;
+        GradientStop1.Color = Color.FromArgb(startAlpha, accentColor.R, accentColor.G, accentColor.B);
         GradientStop2.Color = Color.FromArgb(0x00, accentColor.R, accentColor.G, accentColor.B);
     }
 

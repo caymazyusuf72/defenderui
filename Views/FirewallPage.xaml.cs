@@ -18,6 +18,22 @@ public sealed partial class FirewallPage : Page
     {
         ViewModel = App.Current.Services.GetRequiredService<FirewallViewModel>();
         InitializeComponent();
+        // Faz A #4: Tema değişiminde x:Bind static brush helper'ları otomatik
+        // yeniden değerlendirilmez; ItemsSource reset ile DataTemplate'ları
+        // yeniden üretip brush'ların yeni temayı almasını sağlıyoruz.
+        ActualThemeChanged += (_, _) =>
+        {
+            RefreshRepeater(RulesRepeater);
+            RefreshRepeater(RecentBlocksRepeater);
+        };
+    }
+
+    private static void RefreshRepeater(Microsoft.UI.Xaml.Controls.ItemsRepeater? rep)
+    {
+        if (rep is null) return;
+        var src = rep.ItemsSource;
+        rep.ItemsSource = null;
+        rep.ItemsSource = src;
     }
 
     /// <summary>

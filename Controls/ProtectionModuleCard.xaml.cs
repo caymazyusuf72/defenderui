@@ -187,6 +187,8 @@ public sealed partial class ProtectionModuleCard : UserControl
             ModuleToggle.IsOn = IsModuleEnabled;
             ApplyStatus();
         };
+        // Faz A #2: Tema değişince status dot + "Aktif/Kapalı" rengini yeniden uygula.
+        ActualThemeChanged += (_, _) => ApplyStatus();
     }
 
     private void ApplyStatus()

@@ -19,6 +19,17 @@ public sealed partial class UpdatePage : Page
         ViewModel = App.Current.Services.GetRequiredService<UpdateViewModel>();
         InitializeComponent();
         ViewModel.SetDispatcherQueue(DispatcherQueue.GetForCurrentThread());
+        // Faz A #4: Tema değişiminde x:Bind static brush helper'ları otomatik
+        // yeniden değerlendirilmez; ListView ItemsSource'u reset ederek
+        // DataTemplate'ları yeniden üretip brush'ların yeni temayı almasını
+        // sağlıyoruz.
+        ActualThemeChanged += (_, _) =>
+        {
+            if (HistoryList is null) return;
+            var src = HistoryList.ItemsSource;
+            HistoryList.ItemsSource = null;
+            HistoryList.ItemsSource = src;
+        };
     }
 
     private void Page_Loaded(object sender, RoutedEventArgs e)

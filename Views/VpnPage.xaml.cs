@@ -19,6 +19,16 @@ public sealed partial class VpnPage : Page
     {
         ViewModel = App.Current.Services.GetRequiredService<VpnViewModel>();
         InitializeComponent();
+        // Faz A #4: Tema değişiminde x:Bind static brush helper'ları otomatik
+        // yeniden değerlendirilmez; ItemsSource reset ile DataTemplate'ları
+        // yeniden üretip brush'ların yeni temayı almasını sağlıyoruz.
+        ActualThemeChanged += (_, _) =>
+        {
+            if (ServersRepeater is null) return;
+            var src = ServersRepeater.ItemsSource;
+            ServersRepeater.ItemsSource = null;
+            ServersRepeater.ItemsSource = src;
+        };
     }
 
     // ═══════════════════════════════════════════════════════════════════

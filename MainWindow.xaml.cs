@@ -4,8 +4,10 @@ using DefenderUI.Helpers;
 using DefenderUI.Services;
 using DefenderUI.Views;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Windows.UI;
 
 namespace DefenderUI;
 
@@ -54,6 +56,60 @@ public sealed partial class MainWindow : Window
             _themeService.ApplyTheme(RootGrid);
         }
         UpdateThemeToggleIcon();
+        // Faz A #5 + #14: Title bar caption butonları tema-aware olmalı.
+        UpdateTitleBarColors();
+        if (RootGrid is not null)
+        {
+            RootGrid.ActualThemeChanged += (_, _) => UpdateTitleBarColors();
+        }
+    }
+
+    /// <summary>
+    /// AppWindow.TitleBar caption (min/max/close) butonlarının rengini
+    /// <see cref="IThemeService.CurrentTheme"/>'ye göre ayarlar.
+    /// Mica backdrop kullanıldığında butonların arkaplanı transparent bırakılır.
+    /// </summary>
+    private void UpdateTitleBarColors()
+    {
+        if (AppWindow?.TitleBar is not { } tb)
+        {
+            return;
+        }
+
+        try
+        {
+            // Fiili tema Default ise sistem tercihine göre seç.
+            var theme = _themeService.CurrentTheme;
+            if (theme == ElementTheme.Default && RootGrid is not null)
+            {
+                theme = RootGrid.ActualTheme;
+            }
+
+            var fg = theme == ElementTheme.Dark
+                ? Colors.White
+                : Colors.Black;
+
+            tb.ButtonBackgroundColor = Colors.Transparent;
+            tb.ButtonInactiveBackgroundColor = Colors.Transparent;
+            tb.ButtonForegroundColor = fg;
+            tb.ButtonHoverForegroundColor = fg;
+            tb.ButtonPressedForegroundColor = fg;
+            tb.ButtonInactiveForegroundColor = theme == ElementTheme.Dark
+                ? Color.FromArgb(0xFF, 0x8A, 0x8A, 0x8A)
+                : Color.FromArgb(0xFF, 0x60, 0x60, 0x60);
+
+            // Hover/pressed background'ları tema yüzeyine benzet.
+            tb.ButtonHoverBackgroundColor = theme == ElementTheme.Dark
+                ? Color.FromArgb(0x20, 0xFF, 0xFF, 0xFF)
+                : Color.FromArgb(0x20, 0x00, 0x00, 0x00);
+            tb.ButtonPressedBackgroundColor = theme == ElementTheme.Dark
+                ? Color.FromArgb(0x30, 0xFF, 0xFF, 0xFF)
+                : Color.FromArgb(0x30, 0x00, 0x00, 0x00);
+        }
+        catch
+        {
+            // Unpackaged çalışmada bazı AppWindow property'leri desteklenmeyebilir.
+        }
     }
 
     // ═════════════════════════════════════════════════════════════════
@@ -127,6 +183,7 @@ public sealed partial class MainWindow : Window
         }
 
         UpdateThemeToggleIcon();
+        UpdateTitleBarColors();
     }
 
     private void UpdateThemeToggleIcon()
