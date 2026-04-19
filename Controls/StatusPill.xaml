@@ -14,11 +14,18 @@
           • Text     : görünen yazı                        (default "Protected")
     -->
 
+    <!--
+        Faz C #19: Default Background/Foreground değerleri nötr (Transparent /
+        TextPrimaryBrush) bırakıldı. Severity'ye özgü brush'lar Loaded event'inde
+        ve ActualThemeChanged sinyalinde ApplySeverity() tarafından uygulanır.
+        Bu, Severity="Risk" ile başlatılan pill'in ilk frame'de yeşil görünme
+        flicker'ını önler.
+    -->
     <Border
         x:Name="PillRoot"
         CornerRadius="{StaticResource CornerRadiusPill}"
         Padding="{StaticResource PaddingButtonPill}"
-        Background="{ThemeResource StatusProtectedSoftBrush}"
+        Background="Transparent"
         VerticalAlignment="Center">
         <StackPanel
             Orientation="Horizontal"
@@ -29,13 +36,13 @@
                 Glyph="&#xE73E;"
                 FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets"
                 FontSize="12"
-                Foreground="{ThemeResource StatusProtectedBrush}"
+                Foreground="{ThemeResource TextPrimaryBrush}"
                 VerticalAlignment="Center" />
             <TextBlock
                 x:Name="TextLabel"
                 Text="Protected"
                 Style="{StaticResource CaptionTextStyle}"
-                Foreground="{ThemeResource StatusProtectedBrush}"
+                Foreground="{ThemeResource TextPrimaryBrush}"
                 FontWeight="SemiBold"
                 VerticalAlignment="Center" />
         </StackPanel>

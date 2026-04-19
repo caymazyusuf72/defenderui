@@ -13,7 +13,7 @@
     xmlns:local="using:DefenderUI.Views"
     mc:Ignorable="d"
     Loaded="Page_Loaded"
-    Background="{ThemeResource SurfaceBackgroundBrush}">
+    Background="Transparent">
 
     <Page.Resources>
         <helpers:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
@@ -237,9 +237,14 @@
                         </Grid>
 
                         <ListView
+                            x:Name="HistoryList"
                             ItemsSource="{x:Bind ViewModel.UpdateHistory, Mode=OneWay}"
                             SelectionMode="None"
-                            Background="Transparent">
+                            Background="Transparent"
+                            ScrollViewer.VerticalScrollMode="Disabled"
+                            ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                            ScrollViewer.HorizontalScrollMode="Disabled"
+                            ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                             <ListView.ItemContainerStyle>
                                 <Style TargetType="ListViewItem">
                                     <Setter Property="Padding" Value="0" />
@@ -292,7 +297,7 @@
                                         <TextBlock
                                             Grid.Column="3"
                                             Text="{x:Bind Size}"
-                                            Style="{StaticResource BodySmallTextStyle}"
+                                            Style="{StaticResource BodyMediumTextStyle}"
                                             VerticalAlignment="Center" />
 
                                         <StackPanel

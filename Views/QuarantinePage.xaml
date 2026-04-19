@@ -13,7 +13,7 @@
     xmlns:local="using:DefenderUI.Views"
     mc:Ignorable="d"
     Loaded="Page_Loaded"
-    Background="{ThemeResource SurfaceBackgroundBrush}">
+    Background="Transparent">
 
     <Page.Resources>
         <helpers:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
@@ -100,7 +100,12 @@
                             VerticalAlignment="Center">
                             <TextBox.Resources>
                                 <ResourceDictionary>
+                                    <!-- Faz C #18: Tüm Background varyantları override — hover/focus/disabled
+                                         durumunda Fluent default'ı SurfaceCardBrush ile kontrast oluşturmasın. -->
                                     <SolidColorBrush x:Key="TextControlBackground" Color="Transparent" />
+                                    <SolidColorBrush x:Key="TextControlBackgroundPointerOver" Color="Transparent" />
+                                    <SolidColorBrush x:Key="TextControlBackgroundFocused" Color="Transparent" />
+                                    <SolidColorBrush x:Key="TextControlBackgroundDisabled" Color="Transparent" />
                                 </ResourceDictionary>
                             </TextBox.Resources>
                         </TextBox>
@@ -181,6 +186,10 @@
                             ItemsSource="{x:Bind ViewModel.FilteredItems, Mode=OneWay}"
                             SelectionMode="None"
                             Background="Transparent"
+                            ScrollViewer.VerticalScrollMode="Disabled"
+                            ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                            ScrollViewer.HorizontalScrollMode="Disabled"
+                            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                             Visibility="{x:Bind ViewModel.HasFilteredItems, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
                             <ListView.ItemContainerStyle>
                                 <Style TargetType="ListViewItem">
@@ -236,7 +245,7 @@
                                         <TextBlock
                                             Grid.Column="3"
                                             Text="{x:Bind ActionTaken}"
-                                            Style="{StaticResource BodySmallTextStyle}"
+                                            Style="{StaticResource BodyMediumTextStyle}"
                                             VerticalAlignment="Center" />
 
                                         <TextBlock
@@ -262,6 +271,7 @@
                                         <Button
                                             Grid.Column="6"
                                             Style="{StaticResource IconButtonStyle}"
+                                            helpers:ThemeHelper.SyncFlyoutTheme="True"
                                             Width="32"
                                             Height="32"
                                             VerticalAlignment="Center">

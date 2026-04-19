@@ -57,27 +57,36 @@
             <SolidColorBrush x:Key="StatusWarningSoftBrush" Color="#FFF4CE" />
             <SolidColorBrush x:Key="StatusRiskSoftBrush" Color="#FDE7E9" />
 
+            <!-- ═══ Faz B #9: Ripple overlay (tema-aware) ═══ -->
+            <SolidColorBrush x:Key="RippleOverlayBrush" Color="#40000000" />
+
+            <!-- ═══ Faz D #23: AccentSoftBrush üstünde WCAG-uyumlu accent ═══ -->
+            <SolidColorBrush x:Key="AccentOnSoftBrush" Color="#0078D4" />
+
             <!-- ══════════════════════════════════════════════════════ -->
             <!-- BACK-COMPAT ALIASES (eski isimlendirme)                -->
+            <!-- Faz D #21: Tekilleştirme — legacy brush'lar semantic   -->
+            <!-- token'lara StaticResource ile bağlı. Semantic renk     -->
+            <!-- güncellendiğinde alias otomatik takip eder.            -->
             <!-- ══════════════════════════════════════════════════════ -->
-            <SolidColorBrush x:Key="AppBackgroundBrush" Color="#F3F3F3" />
-            <SolidColorBrush x:Key="CardBackgroundBrush" Color="#FFFFFF" />
-            <SolidColorBrush x:Key="CardBackgroundHoverBrush" Color="#FAFAFA" />
-            <SolidColorBrush x:Key="SurfaceBrush" Color="#F3F3F3" />
-            <SolidColorBrush x:Key="BorderBrush" Color="#CCCCCC" />
-            <SolidColorBrush x:Key="AccentBrush" Color="#0078D4" />
-            <SolidColorBrush x:Key="AccentLightBrush" Color="#2B88D8" />
-            <SolidColorBrush x:Key="AccentDarkBrush" Color="#005A9E" />
-            <SolidColorBrush x:Key="SuccessBrush" Color="#107C10" />
-            <SolidColorBrush x:Key="SuccessBackgroundBrush" Color="#DFF6DD" />
-            <SolidColorBrush x:Key="WarningBrush" Color="#F7B500" />
-            <SolidColorBrush x:Key="WarningBackgroundBrush" Color="#FFF4CE" />
-            <SolidColorBrush x:Key="DangerBrush" Color="#D13438" />
-            <SolidColorBrush x:Key="DangerBackgroundBrush" Color="#FDE7E9" />
-            <SolidColorBrush x:Key="InfoBrush" Color="#0078D4" />
+            <StaticResource x:Key="AppBackgroundBrush" ResourceKey="SurfaceBackgroundBrush" />
+            <StaticResource x:Key="CardBackgroundBrush" ResourceKey="SurfaceCardBrush" />
+            <StaticResource x:Key="CardBackgroundHoverBrush" ResourceKey="SurfaceCardHoverBrush" />
+            <StaticResource x:Key="SurfaceBrush" ResourceKey="SurfaceBackgroundBrush" />
+            <StaticResource x:Key="BorderBrush" ResourceKey="BorderStrongBrush" />
+            <StaticResource x:Key="AccentBrush" ResourceKey="AccentPrimaryBrush" />
+            <StaticResource x:Key="AccentLightBrush" ResourceKey="AccentSecondaryBrush" />
+            <StaticResource x:Key="AccentDarkBrush" ResourceKey="AccentTertiaryBrush" />
+            <StaticResource x:Key="SuccessBrush" ResourceKey="StatusProtectedBrush" />
+            <StaticResource x:Key="SuccessBackgroundBrush" ResourceKey="StatusProtectedSoftBrush" />
+            <StaticResource x:Key="WarningBrush" ResourceKey="StatusWarningBrush" />
+            <StaticResource x:Key="WarningBackgroundBrush" ResourceKey="StatusWarningSoftBrush" />
+            <StaticResource x:Key="DangerBrush" ResourceKey="StatusRiskBrush" />
+            <StaticResource x:Key="DangerBackgroundBrush" ResourceKey="StatusRiskSoftBrush" />
+            <StaticResource x:Key="InfoBrush" ResourceKey="StatusInfoBrush" />
             <SolidColorBrush x:Key="NavigationBackgroundBrush" Color="#FAFAFA" />
             <SolidColorBrush x:Key="NavigationItemHoverBrush" Color="#EDEBE9" />
-            <SolidColorBrush x:Key="NavigationItemSelectedBrush" Color="#E5F1FB" />
+            <StaticResource x:Key="NavigationItemSelectedBrush" ResourceKey="AccentSoftBrush" />
 
             <!-- Color key aliases (some legacy code-behind or SolidColorBrush chains
                  may still reference Color x:Key="..."; we keep them available) -->
@@ -139,27 +148,35 @@
             <SolidColorBrush x:Key="StatusWarningSoftBrush" Color="#332A12" />
             <SolidColorBrush x:Key="StatusRiskSoftBrush" Color="#3D1618" />
 
+            <!-- ═══ Faz B #9: Ripple overlay (tema-aware) ═══ -->
+            <SolidColorBrush x:Key="RippleOverlayBrush" Color="#40FFFFFF" />
+
+            <!-- ═══ Faz D #23: Dark'ta AccentSoftBrush (#1A2B3C) üstünde mavi
+                                 ikon zemin ile benzer tonda kalıyor; daha parlak
+                                 AccentSecondaryBrush tonunu kullan. ═══ -->
+            <SolidColorBrush x:Key="AccentOnSoftBrush" Color="#2B88D8" />
+
             <!-- ══════════════════════════════════════════════════════ -->
-            <!-- BACK-COMPAT ALIASES                                    -->
+            <!-- BACK-COMPAT ALIASES (Faz D #21: StaticResource alias'lar) -->
             <!-- ══════════════════════════════════════════════════════ -->
-            <SolidColorBrush x:Key="AppBackgroundBrush" Color="#1C1C1C" />
-            <SolidColorBrush x:Key="CardBackgroundBrush" Color="#2B2B2B" />
-            <SolidColorBrush x:Key="CardBackgroundHoverBrush" Color="#333333" />
-            <SolidColorBrush x:Key="SurfaceBrush" Color="#323232" />
-            <SolidColorBrush x:Key="BorderBrush" Color="#555555" />
-            <SolidColorBrush x:Key="AccentBrush" Color="#0078D4" />
-            <SolidColorBrush x:Key="AccentLightBrush" Color="#2B88D8" />
-            <SolidColorBrush x:Key="AccentDarkBrush" Color="#005A9E" />
-            <SolidColorBrush x:Key="SuccessBrush" Color="#107C10" />
-            <SolidColorBrush x:Key="SuccessBackgroundBrush" Color="#0D2818" />
-            <SolidColorBrush x:Key="WarningBrush" Color="#F7B500" />
-            <SolidColorBrush x:Key="WarningBackgroundBrush" Color="#332A12" />
-            <SolidColorBrush x:Key="DangerBrush" Color="#D13438" />
-            <SolidColorBrush x:Key="DangerBackgroundBrush" Color="#3D1618" />
-            <SolidColorBrush x:Key="InfoBrush" Color="#0078D4" />
+            <StaticResource x:Key="AppBackgroundBrush" ResourceKey="SurfaceBackgroundBrush" />
+            <StaticResource x:Key="CardBackgroundBrush" ResourceKey="SurfaceCardBrush" />
+            <StaticResource x:Key="CardBackgroundHoverBrush" ResourceKey="SurfaceCardHoverBrush" />
+            <StaticResource x:Key="SurfaceBrush" ResourceKey="SurfaceElevatedBrush" />
+            <StaticResource x:Key="BorderBrush" ResourceKey="BorderStrongBrush" />
+            <StaticResource x:Key="AccentBrush" ResourceKey="AccentPrimaryBrush" />
+            <StaticResource x:Key="AccentLightBrush" ResourceKey="AccentSecondaryBrush" />
+            <StaticResource x:Key="AccentDarkBrush" ResourceKey="AccentTertiaryBrush" />
+            <StaticResource x:Key="SuccessBrush" ResourceKey="StatusProtectedBrush" />
+            <StaticResource x:Key="SuccessBackgroundBrush" ResourceKey="StatusProtectedSoftBrush" />
+            <StaticResource x:Key="WarningBrush" ResourceKey="StatusWarningBrush" />
+            <StaticResource x:Key="WarningBackgroundBrush" ResourceKey="StatusWarningSoftBrush" />
+            <StaticResource x:Key="DangerBrush" ResourceKey="StatusRiskBrush" />
+            <StaticResource x:Key="DangerBackgroundBrush" ResourceKey="StatusRiskSoftBrush" />
+            <StaticResource x:Key="InfoBrush" ResourceKey="StatusInfoBrush" />
             <SolidColorBrush x:Key="NavigationBackgroundBrush" Color="#1C1C1C" />
             <SolidColorBrush x:Key="NavigationItemHoverBrush" Color="#2B2B2B" />
-            <SolidColorBrush x:Key="NavigationItemSelectedBrush" Color="#1A2B3C" />
+            <StaticResource x:Key="NavigationItemSelectedBrush" ResourceKey="AccentSoftBrush" />
 
             <Color x:Key="AccentColor">#0078D4</Color>
             <Color x:Key="AccentLightColor">#2B88D8</Color>
@@ -227,27 +244,33 @@
             <SolidColorBrush x:Key="StatusWarningSoftBrush" Color="#000000" />
             <SolidColorBrush x:Key="StatusRiskSoftBrush" Color="#000000" />
 
+            <!-- ═══ Faz B #9: Ripple overlay (HC: sarı highlight) ═══ -->
+            <SolidColorBrush x:Key="RippleOverlayBrush" Color="#80FFFF00" />
+
+            <!-- ═══ Faz D #23: HighContrast accent ═══ -->
+            <SolidColorBrush x:Key="AccentOnSoftBrush" Color="#FFFF00" />
+
             <!-- ══════════════════════════════════════════════════════ -->
-            <!-- BACK-COMPAT ALIASES                                    -->
+            <!-- BACK-COMPAT ALIASES (Faz D #21: StaticResource alias'lar) -->
             <!-- ══════════════════════════════════════════════════════ -->
-            <SolidColorBrush x:Key="AppBackgroundBrush" Color="#000000" />
-            <SolidColorBrush x:Key="CardBackgroundBrush" Color="#000000" />
-            <SolidColorBrush x:Key="CardBackgroundHoverBrush" Color="#FFFF00" />
-            <SolidColorBrush x:Key="SurfaceBrush" Color="#000000" />
-            <SolidColorBrush x:Key="BorderBrush" Color="#FFFFFF" />
-            <SolidColorBrush x:Key="AccentBrush" Color="#FFFF00" />
-            <SolidColorBrush x:Key="AccentLightBrush" Color="#FFFF00" />
-            <SolidColorBrush x:Key="AccentDarkBrush" Color="#FFFF00" />
-            <SolidColorBrush x:Key="SuccessBrush" Color="#00FF00" />
-            <SolidColorBrush x:Key="SuccessBackgroundBrush" Color="#000000" />
-            <SolidColorBrush x:Key="WarningBrush" Color="#FFFF00" />
-            <SolidColorBrush x:Key="WarningBackgroundBrush" Color="#000000" />
-            <SolidColorBrush x:Key="DangerBrush" Color="#FF0000" />
-            <SolidColorBrush x:Key="DangerBackgroundBrush" Color="#000000" />
-            <SolidColorBrush x:Key="InfoBrush" Color="#FFFF00" />
+            <StaticResource x:Key="AppBackgroundBrush" ResourceKey="SurfaceBackgroundBrush" />
+            <StaticResource x:Key="CardBackgroundBrush" ResourceKey="SurfaceCardBrush" />
+            <StaticResource x:Key="CardBackgroundHoverBrush" ResourceKey="SurfaceCardHoverBrush" />
+            <StaticResource x:Key="SurfaceBrush" ResourceKey="SurfaceElevatedBrush" />
+            <StaticResource x:Key="BorderBrush" ResourceKey="BorderStrongBrush" />
+            <StaticResource x:Key="AccentBrush" ResourceKey="AccentPrimaryBrush" />
+            <StaticResource x:Key="AccentLightBrush" ResourceKey="AccentSecondaryBrush" />
+            <StaticResource x:Key="AccentDarkBrush" ResourceKey="AccentTertiaryBrush" />
+            <StaticResource x:Key="SuccessBrush" ResourceKey="StatusProtectedBrush" />
+            <StaticResource x:Key="SuccessBackgroundBrush" ResourceKey="StatusProtectedSoftBrush" />
+            <StaticResource x:Key="WarningBrush" ResourceKey="StatusWarningBrush" />
+            <StaticResource x:Key="WarningBackgroundBrush" ResourceKey="StatusWarningSoftBrush" />
+            <StaticResource x:Key="DangerBrush" ResourceKey="StatusRiskBrush" />
+            <StaticResource x:Key="DangerBackgroundBrush" ResourceKey="StatusRiskSoftBrush" />
+            <StaticResource x:Key="InfoBrush" ResourceKey="StatusInfoBrush" />
             <SolidColorBrush x:Key="NavigationBackgroundBrush" Color="#000000" />
             <SolidColorBrush x:Key="NavigationItemHoverBrush" Color="#FFFF00" />
-            <SolidColorBrush x:Key="NavigationItemSelectedBrush" Color="#FFFF00" />
+            <StaticResource x:Key="NavigationItemSelectedBrush" ResourceKey="AccentSoftBrush" />
 
         </ResourceDictionary>
 
