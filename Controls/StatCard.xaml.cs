@@ -94,16 +94,29 @@ public sealed partial class StatCard : UserControl
     public StatCard()
     {
         InitializeComponent();
-        Loaded += (_, _) =>
-        {
-            IconGlyph.Glyph = Glyph;
-            LabelText.Text = Label;
-            ValueText.Text = Value;
-            ApplyTrend();
-        };
-        // Tema değişince trend rozeti brush'larını yeniden uygula.
-        ActualThemeChanged += (_, _) => ApplyTrend();
+        Loaded += OnLoaded;
+        Unloaded += OnUnloaded;
     }
+
+    private void OnLoaded(object sender, RoutedEventArgs e)
+    {
+        IconGlyph.Glyph = Glyph;
+        LabelText.Text = Label;
+        ValueText.Text = Value;
+        ApplyTrend();
+
+        // K12: Çift abonelik korumasıyla tema değişim handler'ını bağla.
+        this.ActualThemeChanged -= OnActualThemeChanged;
+        this.ActualThemeChanged += OnActualThemeChanged;
+    }
+
+    private void OnUnloaded(object sender, RoutedEventArgs e)
+    {
+        this.ActualThemeChanged -= OnActualThemeChanged;
+    }
+
+    // Tema değişince trend rozeti brush'larını yeniden uygula.
+    private void OnActualThemeChanged(FrameworkElement sender, object args) => ApplyTrend();
 
     private static void OnGlyphChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {

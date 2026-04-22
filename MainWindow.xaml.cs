@@ -198,7 +198,24 @@ public sealed partial class MainWindow : Window
         {
             ElementTheme.Light => "\uE706",
             ElementTheme.Dark => "\uE708",
-            _ => "\uE770",
-        };
+            _ => "\uE770"};
+    }
+
+    // ═════════════════════════════════════════════════════════════════
+    // Notifications
+    // ═════════════════════════════════════════════════════════════════
+    // U26: NotificationsButton artık yetim değil — basit bir bilgi toast'u
+    // gösterir. İleride gerçek bildirim panelinin yeri burası olacak.
+    private void NotificationsButton_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            var toast = App.Current.Services.GetService<IToastService>();
+            toast?.Info("Bildirimler", "Şu anda yeni bildirim yok.");
+        }
+        catch
+        {
+            // Servis resolve edilemezse sessizce yut.
+        }
     }
 }

@@ -304,13 +304,23 @@ public partial class ScanViewModel : ObservableObject, IDisposable
     // ═════════════════════════════════════════════════════════════════
     private void RunOnUi(Action action)
     {
-        if (_dispatcher is null || _dispatcher.HasThreadAccess)
+        // K3: _dispatcher ctor sırasında UI thread dışında resolve edilirse null döner.
+        // Bu durumda fallback olarak çağrı anında tekrar dene; yine yoksa doğrudan çalıştır
+        // (çağıran thread zaten UI olabilir) ve hataları yut.
+        var dispatcher = _dispatcher ?? Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread();
+        if (dispatcher is null)
+        {
+            try { action(); }
+            catch (Exception ex) { System.Diagnostics.Debug.WriteLine(ex); }
+            return;
+        }
+        if (dispatcher.HasThreadAccess)
         {
             action();
         }
         else
         {
-            _dispatcher.TryEnqueue(() => action());
+            dispatcher.TryEnqueue(() => action());
         }
     }
 

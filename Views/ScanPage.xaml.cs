@@ -89,10 +89,11 @@ public sealed partial class ScanPage : Page
         }
     }
 
-    private async void AddPathButton_Click(object sender, RoutedEventArgs e)
+    private void AddPathButton_Click(object sender, RoutedEventArgs e)
     {
         // Not: FolderPicker host Window gerektirir; basitleştirmek adına
         // MVP'de örnek bir path ekleyelim. İleri fazda FolderPicker entegre edilecek.
+        // K8: Gerçek bir await yok — gereksiz async void kaldırıldı.
         var samples = new[]
         {
             @"C:\Users",
@@ -109,7 +110,6 @@ public sealed partial class ScanPage : Page
         {
             ViewModel.AddCustomPathCommand.Execute(candidate);
         }
-        await System.Threading.Tasks.Task.CompletedTask;
     }
 
     /// <summary>

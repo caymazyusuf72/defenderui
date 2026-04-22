@@ -97,6 +97,7 @@
                 <Button
                     x:Name="NotificationsButton"
                     Style="{StaticResource IconButtonStyle}"
+                    Click="NotificationsButton_Click"
                     ToolTipService.ToolTip="Notifications"
                     AutomationProperties.Name="Notifications">
                     <FontIcon

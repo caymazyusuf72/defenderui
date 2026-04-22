@@ -143,20 +143,33 @@ public sealed partial class FeatureTileCard : UserControl
     public FeatureTileCard()
     {
         InitializeComponent();
-        Loaded += (_, _) =>
-        {
-            IconGlyph.Glyph = Glyph;
-            TitleLabel.Text = Title;
-            DescriptionLabel.Text = Description;
-            ActionTextLabel.Text = ActionText;
-            ApplyAccent();
-            ApplyBadge();
-        };
-        // Faz A #3: Tema değişiminde accent brush'u yeniden uygula. AccentBrush DP
-        // set edilmemişse ApplyAccent ClearValue çağırarak XAML'deki ThemeResource
-        // binding'ini geri yükler — bu da otomatik olarak yeni tema rengine geçer.
-        ActualThemeChanged += (_, _) => ApplyAccent();
+        Loaded += OnLoaded;
+        Unloaded += OnUnloaded;
     }
+
+    private void OnLoaded(object sender, RoutedEventArgs e)
+    {
+        IconGlyph.Glyph = Glyph;
+        TitleLabel.Text = Title;
+        DescriptionLabel.Text = Description;
+        ActionTextLabel.Text = ActionText;
+        ApplyAccent();
+        ApplyBadge();
+
+        // K12: Çift abonelik korumasıyla tema değişim handler'ını bağla.
+        this.ActualThemeChanged -= OnActualThemeChanged;
+        this.ActualThemeChanged += OnActualThemeChanged;
+    }
+
+    private void OnUnloaded(object sender, RoutedEventArgs e)
+    {
+        this.ActualThemeChanged -= OnActualThemeChanged;
+    }
+
+    // Faz A #3: Tema değişiminde accent brush'u yeniden uygula. AccentBrush DP
+    // set edilmemişse ApplyAccent ClearValue çağırarak XAML'deki ThemeResource
+    // binding'ini geri yükler — bu da otomatik olarak yeni tema rengine geçer.
+    private void OnActualThemeChanged(FrameworkElement sender, object args) => ApplyAccent();
 
     private static void OnGlyphChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {

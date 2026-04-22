@@ -190,6 +190,9 @@
                                             Text="{x:Bind Description}"
                                             Style="{StaticResource CaptionTextStyle}" />
                                     </StackPanel>
+                                    <!-- U27: Disabled ToggleSwitch UX — kullanıcıya
+                                         ayarın burada yönetilemeyeceğini ToolTip ile
+                                         açıkla. Asıl konfigürasyon Protection sayfasında. -->
                                     <ToggleSwitch
                                         Grid.Column="2"
                                         IsOn="{x:Bind IsEnabled, Mode=OneWay}"
@@ -197,7 +200,9 @@
                                         MinWidth="0"
                                         VerticalAlignment="Center"
                                         OnContent=""
-                                        OffContent="" />
+                                        OffContent=""
+                                        Opacity="0.8"
+                                        ToolTipService.ToolTip="Bu ayar yalnızca özetleme amaçlıdır; değiştirmek için Koruma sayfasını açın." />
                                 </Grid>
                             </DataTemplate>
                         </muxc:ItemsRepeater.ItemTemplate>

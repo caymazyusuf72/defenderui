@@ -272,6 +272,28 @@
             <SolidColorBrush x:Key="NavigationItemHoverBrush" Color="#FFFF00" />
             <StaticResource x:Key="NavigationItemSelectedBrush" ResourceKey="AccentSoftBrush" />
 
+            <!-- K11: Color x:Key tanımları — Light/Dark ile aynı isimlerde,
+                 HighContrast uyumlu sistem renkleriyle. Bazı code-behind
+                 helper'ları (AnimationHelper, FlashAccentColor vb.) direkt
+                 Color resource'u üzerinden çalışabildiği için bu tanımlar
+                 HighContrast'ta da mevcut olmalı. -->
+            <Color x:Key="AccentColor">#FFFF00</Color>
+            <Color x:Key="AccentLightColor">#FFFF00</Color>
+            <Color x:Key="AccentDarkColor">#FFFF00</Color>
+            <Color x:Key="SuccessColor">#00FF00</Color>
+            <Color x:Key="WarningColor">#FFFF00</Color>
+            <Color x:Key="DangerColor">#FF0000</Color>
+            <Color x:Key="InfoColor">#FFFF00</Color>
+            <Color x:Key="TextPrimaryColor">#FFFFFF</Color>
+            <Color x:Key="TextSecondaryColor">#FFFFFF</Color>
+            <Color x:Key="TextTertiaryColor">#A6A6A6</Color>
+            <Color x:Key="AppBackgroundColor">#000000</Color>
+            <Color x:Key="CardBackgroundColor">#000000</Color>
+            <Color x:Key="CardBackgroundHoverColor">#FFFF00</Color>
+            <Color x:Key="SurfaceColor">#000000</Color>
+            <Color x:Key="BorderColor">#FFFFFF</Color>
+            <Color x:Key="BorderSubtleColor">#FFFFFF</Color>
+
         </ResourceDictionary>
 
     </ResourceDictionary.ThemeDictionaries>

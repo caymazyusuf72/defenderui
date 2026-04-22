@@ -128,17 +128,30 @@ public sealed partial class ScanModeCard : UserControl
     public ScanModeCard()
     {
         InitializeComponent();
-        Loaded += (_, _) =>
-        {
-            IconGlyph.Glyph = Glyph;
-            TitleLabel.Text = Title;
-            DescriptionLabel.Text = Description;
-            DurationLabel.Text = EstimatedDuration;
-            ApplySelection();
-        };
-        // Tema değişince (Light↔Dark) local-set brush'lar eski temada kalmasın.
-        ActualThemeChanged += (_, _) => ApplySelection();
+        Loaded += OnLoaded;
+        Unloaded += OnUnloaded;
     }
+
+    private void OnLoaded(object sender, RoutedEventArgs e)
+    {
+        IconGlyph.Glyph = Glyph;
+        TitleLabel.Text = Title;
+        DescriptionLabel.Text = Description;
+        DurationLabel.Text = EstimatedDuration;
+        ApplySelection();
+
+        // K12: Çift abonelik korumasıyla tema değişim handler'ını bağla.
+        this.ActualThemeChanged -= OnActualThemeChanged;
+        this.ActualThemeChanged += OnActualThemeChanged;
+    }
+
+    private void OnUnloaded(object sender, RoutedEventArgs e)
+    {
+        this.ActualThemeChanged -= OnActualThemeChanged;
+    }
+
+    // Tema değişince (Light↔Dark) local-set brush'lar eski temada kalmasın.
+    private void OnActualThemeChanged(FrameworkElement sender, object args) => ApplySelection();
 
     private static void OnGlyphChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {

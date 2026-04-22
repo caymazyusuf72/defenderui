@@ -45,10 +45,26 @@ public sealed partial class StatusPill : UserControl
     public StatusPill()
     {
         InitializeComponent();
-        Loaded += (_, _) => ApplySeverity();
-        // Tema değişince (Light↔Dark) brush'ları yeniden uygula.
-        ActualThemeChanged += (_, _) => ApplySeverity();
+        Loaded += OnLoaded;
+        Unloaded += OnUnloaded;
     }
+
+    private void OnLoaded(object sender, RoutedEventArgs e)
+    {
+        ApplySeverity();
+
+        // K12: Çift abonelik korumasıyla tema değişim handler'ını bağla.
+        this.ActualThemeChanged -= OnActualThemeChanged;
+        this.ActualThemeChanged += OnActualThemeChanged;
+    }
+
+    private void OnUnloaded(object sender, RoutedEventArgs e)
+    {
+        this.ActualThemeChanged -= OnActualThemeChanged;
+    }
+
+    // Tema değişince (Light↔Dark) brush'ları yeniden uygula.
+    private void OnActualThemeChanged(FrameworkElement sender, object args) => ApplySeverity();
 
     private static void OnSeverityChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {

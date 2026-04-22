@@ -79,17 +79,30 @@ public sealed partial class ActivityListItem : UserControl
     public ActivityListItem()
     {
         InitializeComponent();
-        Loaded += (_, _) =>
-        {
-            IconGlyph.Glyph = Glyph;
-            TitleLabel.Text = Title;
-            TimestampLabel.Text = Timestamp;
-            ApplySeverity();
-        };
-        // Tema değişince brush'ları re-apply et — aksi halde local-set değerler
-        // eski tema snapshot'ında kalır (koyu/siyah görünüm hatası).
-        ActualThemeChanged += (_, _) => ApplySeverity();
+        Loaded += OnLoaded;
+        Unloaded += OnUnloaded;
     }
+
+    private void OnLoaded(object sender, RoutedEventArgs e)
+    {
+        IconGlyph.Glyph = Glyph;
+        TitleLabel.Text = Title;
+        TimestampLabel.Text = Timestamp;
+        ApplySeverity();
+
+        // K12: Çift abonelik korumasıyla tema değişim handler'ını bağla.
+        this.ActualThemeChanged -= OnActualThemeChanged;
+        this.ActualThemeChanged += OnActualThemeChanged;
+    }
+
+    private void OnUnloaded(object sender, RoutedEventArgs e)
+    {
+        this.ActualThemeChanged -= OnActualThemeChanged;
+    }
+
+    // Tema değişince brush'ları re-apply et — aksi halde local-set değerler
+    // eski tema snapshot'ında kalır (koyu/siyah görünüm hatası).
+    private void OnActualThemeChanged(FrameworkElement sender, object args) => ApplySeverity();
 
     private static void OnGlyphChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {

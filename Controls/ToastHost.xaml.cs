@@ -46,6 +46,10 @@ public sealed partial class ToastHost : UserControl
 
     private void OnLoaded(object sender, RoutedEventArgs e)
     {
+        // K6: Çift subscribe koruması — aynı kontrol başka bir visual tree'ye
+        // taşınıp tekrar Loaded alırsa _toastService'e iki kez abone olmayalım.
+        this.Loaded -= OnLoaded;
+
         if (_toastService is not null)
         {
             return;

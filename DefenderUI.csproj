@@ -56,11 +56,16 @@
     <ProjectCapability Include="Msix"/>
   </ItemGroup>
 
+  <!--
+    U22: Paket sürümleri somut versiyonlara pinlendi (floating '*' kaldırıldı).
+    Değerler obj/project.assets.json restore cache'inden alınmıştır. Reproducible
+    build için bu pin'ler sürdürülmelidir; bilinçli yükseltme dışında değişmemeli.
+  -->
   <ItemGroup>
-    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="*" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="*" />
-    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.*" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.*" />
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.28000.1721" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.260317003" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.15" />
   </ItemGroup>
 
   <!--

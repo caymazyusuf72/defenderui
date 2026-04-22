@@ -130,24 +130,35 @@ public sealed partial class StatusHeroCard : UserControl
     public StatusHeroCard()
     {
         InitializeComponent();
-        Loaded += (_, _) =>
-        {
-            ApplySeverity();
-            TitleText.Text = Title;
-            SubTitleText.Text = SubTitle;
-            PrimaryButton.Content = PrimaryActionText;
-            SecondaryButton.Content = SecondaryActionText;
-            UpdateShieldPulse();
-        };
-        Unloaded += (_, _) =>
-        {
-            AnimationHelper.StopAnimation(HeroIcon, "Scale");
-            MotionPreferences.Changed -= OnMotionPreferencesChanged;
-        };
-        MotionPreferences.Changed += OnMotionPreferencesChanged;
-        // Faz A #1: Tema değişiminde brush'ları ve gradient alpha'sını yeniden uygula.
-        ActualThemeChanged += (_, _) => ApplySeverity();
+        Loaded += OnLoaded;
+        Unloaded += OnUnloaded;
     }
+
+    private void OnLoaded(object sender, RoutedEventArgs e)
+    {
+        ApplySeverity();
+        TitleText.Text = Title;
+        SubTitleText.Text = SubTitle;
+        PrimaryButton.Content = PrimaryActionText;
+        SecondaryButton.Content = SecondaryActionText;
+        UpdateShieldPulse();
+
+        // K12: Abonelikleri Loaded'da kur ve çift abonelik korumasıyla ekle.
+        MotionPreferences.Changed -= OnMotionPreferencesChanged;
+        MotionPreferences.Changed += OnMotionPreferencesChanged;
+        this.ActualThemeChanged -= OnActualThemeChanged;
+        this.ActualThemeChanged += OnActualThemeChanged;
+    }
+
+    private void OnUnloaded(object sender, RoutedEventArgs e)
+    {
+        AnimationHelper.StopAnimation(HeroIcon, "Scale");
+        MotionPreferences.Changed -= OnMotionPreferencesChanged;
+        this.ActualThemeChanged -= OnActualThemeChanged;
+    }
+
+    // Faz A #1: Tema değişiminde brush'ları ve gradient alpha'sını yeniden uygula.
+    private void OnActualThemeChanged(FrameworkElement sender, object args) => ApplySeverity();
 
     private void OnMotionPreferencesChanged(object? sender, System.EventArgs e)
     {

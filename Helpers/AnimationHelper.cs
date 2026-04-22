@@ -627,6 +627,17 @@ public static class AnimationHelper
     /// Anchors the composition transform origin to the element's center so
     /// scale and rotation animations rotate around the middle.
     /// </summary>
+    // U8: CenterAnchor her çağrıldığında element'e yeni bir SizeChanged handler
+    // ekliyordu — aynı element defalarca animate edilirse handler leak oluşuyordu.
+    // Attached property ile mevcut handler cache'lenir ve tekrar atanırken
+    // önce detach edilir.
+    private static readonly DependencyProperty CenterAnchorHandlerProperty =
+        DependencyProperty.RegisterAttached(
+            "CenterAnchorHandler",
+            typeof(SizeChangedEventHandler),
+            typeof(AnimationHelper),
+            new PropertyMetadata(null));
+
     private static void CenterAnchor(UIElement element, Visual visual)
     {
         if (element is FrameworkElement fe)
@@ -639,13 +650,21 @@ public static class AnimationHelper
                     0f);
             }
 
-            fe.SizeChanged += (_, args) =>
+            var existing = (SizeChangedEventHandler?)fe.GetValue(CenterAnchorHandlerProperty);
+            if (existing is not null)
+            {
+                fe.SizeChanged -= existing;
+            }
+
+            SizeChangedEventHandler handler = (_, args) =>
             {
                 visual.CenterPoint = new Vector3(
                     (float)(args.NewSize.Width / 2),
                     (float)(args.NewSize.Height / 2),
                     0f);
             };
+            fe.SizeChanged += handler;
+            fe.SetValue(CenterAnchorHandlerProperty, handler);
         }
     }
 
@@ -950,10 +969,20 @@ public static class AnimationHelper
         // Insert the shadow behind the element so it becomes its glow.
         ElementCompositionPreview.SetElementChildVisual(element, spriteVisual);
 
-        element.SizeChanged += (_, args) =>
+        // U7: StartGlowPulse aynı element için tekrar çağrılırsa önceki
+        // SizeChanged handler leak olmasın — attached property ile cache'le
+        // ve yeniden bağlamadan önce mevcut handler'ı detach et.
+        var existing = (SizeChangedEventHandler?)element.GetValue(GlowSizeChangedHandlerProperty);
+        if (existing is not null)
+        {
+            element.SizeChanged -= existing;
+        }
+        SizeChangedEventHandler glowHandler = (_, args) =>
         {
             spriteVisual.Size = new Vector2((float)args.NewSize.Width, (float)args.NewSize.Height);
         };
+        element.SizeChanged += glowHandler;
+        element.SetValue(GlowSizeChangedHandlerProperty, glowHandler);
 
         var easing = compositor.CreateCubicBezierEasingFunction(
             new Vector2(0.4f, 0f),
@@ -978,6 +1007,16 @@ public static class AnimationHelper
     }
 
     /// <summary>
+    /// U7: StartGlowPulse'un ResizeHandler'ını cache'lemek için attached DP.
+    /// </summary>
+    private static readonly DependencyProperty GlowSizeChangedHandlerProperty =
+        DependencyProperty.RegisterAttached(
+            "GlowSizeChangedHandler",
+            typeof(SizeChangedEventHandler),
+            typeof(AnimationHelper),
+            new PropertyMetadata(null));
+
+    /// <summary>
     /// Removes any child composition visual (including a pulsing glow)
     /// previously set on the element.
     /// </summary>
@@ -986,6 +1025,14 @@ public static class AnimationHelper
         if (element is null)
         {
             return;
+        }
+
+        // U7: SizeChanged handler'ı da temizle.
+        var existing = (SizeChangedEventHandler?)element.GetValue(GlowSizeChangedHandlerProperty);
+        if (existing is not null)
+        {
+            element.SizeChanged -= existing;
+            element.ClearValue(GlowSizeChangedHandlerProperty);
         }
 
         ElementCompositionPreview.SetElementChildVisual(element, null);

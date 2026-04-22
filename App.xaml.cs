@@ -29,14 +29,23 @@ public partial class App : Application
     /// </summary>
     public App()
     {
-        Services = ConfigureServices();
+        // K1: Önce InitializeComponent(), sonra ConfigureServices().
+        // Bazı ViewModel ctor'larında (örn. ScanViewModel) DispatcherQueue.GetForCurrentThread()
+        // UI dispatcher'ı gerektirebilir; Application ctor'ı sırasında hazır olmayabilir
+        // ama InitializeComponent sonrası Application.Current güvenle ayarlanmış olur.
         InitializeComponent();
+        Services = ConfigureServices();
 
         // ── Tanı amaçlı: tüm unhandled exception'ları dosyaya yaz ───────
         this.UnhandledException += (s, e) =>
         {
             LogCrash("App.UnhandledException", e.Exception);
-            e.Handled = true; // uygulama kapanmasın ki mesajı görelim
+#if DEBUG
+            // K2: Debug'ta exception'ları yutma — debugger'da yakalansın.
+            e.Handled = false;
+#else
+            e.Handled = true; // Release'te uygulama kapanmasın, mesaj log'lansın.
+#endif
         };
         AppDomain.CurrentDomain.UnhandledException += (s, e) =>
         {
@@ -94,6 +103,19 @@ public partial class App : Application
     protected override void OnLaunched(LaunchActivatedEventArgs args)
     {
         _window = new MainWindow();
+
+        // K5: MainWindow kapandığında DI ServiceProvider'ı dispose et; aksi
+        // halde singleton service'lerin IDisposable'ları çağrılmaz ve
+        // process sonlanana kadar event abonelikleri / timer'lar sızabilir.
+        _window.Closed += (_, _) =>
+        {
+            if (Services is IDisposable disposable)
+            {
+                try { disposable.Dispose(); }
+                catch (Exception ex) { System.Diagnostics.Debug.WriteLine(ex); }
+            }
+        };
+
         _window.Activate();
     }
 

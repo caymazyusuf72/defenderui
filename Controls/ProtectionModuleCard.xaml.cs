@@ -179,17 +179,30 @@ public sealed partial class ProtectionModuleCard : UserControl
     public ProtectionModuleCard()
     {
         InitializeComponent();
-        Loaded += (_, _) =>
-        {
-            IconGlyph.Glyph = Glyph;
-            TitleLabel.Text = Title;
-            DescriptionLabel.Text = Description;
-            ModuleToggle.IsOn = IsModuleEnabled;
-            ApplyStatus();
-        };
-        // Faz A #2: Tema değişince status dot + "Aktif/Kapalı" rengini yeniden uygula.
-        ActualThemeChanged += (_, _) => ApplyStatus();
+        Loaded += OnLoaded;
+        Unloaded += OnUnloaded;
     }
+
+    private void OnLoaded(object sender, RoutedEventArgs e)
+    {
+        IconGlyph.Glyph = Glyph;
+        TitleLabel.Text = Title;
+        DescriptionLabel.Text = Description;
+        ModuleToggle.IsOn = IsModuleEnabled;
+        ApplyStatus();
+
+        // K12: Çift abonelik korumasıyla tema değişim handler'ını bağla.
+        this.ActualThemeChanged -= OnActualThemeChanged;
+        this.ActualThemeChanged += OnActualThemeChanged;
+    }
+
+    private void OnUnloaded(object sender, RoutedEventArgs e)
+    {
+        this.ActualThemeChanged -= OnActualThemeChanged;
+    }
+
+    // Faz A #2: Tema değişince status dot + "Aktif/Kapalı" rengini yeniden uygula.
+    private void OnActualThemeChanged(FrameworkElement sender, object args) => ApplyStatus();
 
     private void ApplyStatus()
     {
