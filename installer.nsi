@@ -52,11 +52,11 @@ Section "DefenderUI (required)"
   WriteUninstaller "uninstall.exe"
   
   ; Masaüstü kısayolu oluştur
-  CreateShortCut "$DESKTOP\DefenderUI.lnk" "$INSTDIR\DefenderUI.exe" "" "$INSTDIR\DefenderUI.exe" 0
+  CreateShortCut "$DESKTOP\DefenderUI.lnk" "$INSTDIR\DefenderUI.exe" "" "$INSTDIR\Assets\AppIcon.ico" 0
   
   ; Başlat menüsü kısayolu oluştur
   CreateDirectory "$SMPROGRAMS\DefenderUI"
-  CreateShortCut "$SMPROGRAMS\DefenderUI\DefenderUI.lnk" "$INSTDIR\DefenderUI.exe" "" "$INSTDIR\DefenderUI.exe" 0
+  CreateShortCut "$SMPROGRAMS\DefenderUI\DefenderUI.lnk" "$INSTDIR\DefenderUI.exe" "" "$INSTDIR\Assets\AppIcon.ico" 0
   CreateShortCut "$SMPROGRAMS\DefenderUI\Kaldır.lnk" "$INSTDIR\uninstall.exe" "" "" 0
   
 SectionEnd
