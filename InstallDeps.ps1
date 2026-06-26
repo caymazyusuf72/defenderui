@@ -3,15 +3,16 @@ $ErrorActionPreference = 'Stop'
 function Install-Net9 {
     $netDir = "C:\Program Files\dotnet\shared\Microsoft.WindowsDesktop.App"
     if (Test-Path $netDir) {
-        $dirs = Get-ChildItem -Path $netDir | Where-Object Name -like '9.0.*'
+        # 9.0.17 veya daha üstü kurulu mu kontrol et
+        $dirs = Get-ChildItem -Path $netDir | Where-Object { [version]$_.Name -ge [version]'9.0.17' }
         if ($dirs) {
-            Write-Host ".NET 9 Desktop Runtime zaten kurulu."
+            Write-Host ".NET 9 (>= 9.0.17) Desktop Runtime zaten kurulu."
             return
         }
     }
     
     Write-Host ".NET 9 Desktop Runtime indiriliyor..."
-    $url = "https://download.visualstudio.microsoft.com/download/pr/a75249f6-11f8-4e5c-bd24-11e2f3d6dbf0/35650742f4c28dd60c6d9bf88be33dd7/windowsdesktop-runtime-9.0.0-win-x64.exe"
+    $url = "https://builds.dotnet.microsoft.com/dotnet/WindowsDesktop/9.0.17/windowsdesktop-runtime-9.0.17-win-x64.exe"
     $outPath = Join-Path $env:TEMP "net9-setup.exe"
     Invoke-WebRequest -Uri $url -OutFile $outPath -UseBasicParsing
     
