@@ -1,0 +1,95 @@
+[package]
+name = "hydradragonav"
+version = "0.1.0"
+edition = "2024"
+description = "Unified malware scanning engine — pure-Rust ClamAV-compatible scanner, ML, and YARA-X"
+
+[dependencies]
+clap = { version = "4", features = ["derive", "env"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+thiserror = "2"
+log = "0.4"
+
+# Progess bar
+indicatif = "0.18.4"
+
+# Static analysis
+hydradragonsig = { path = "../hydradragonsig", default-features = false }
+
+# YARA-X
+yara-x = "1.18.0"
+
+# Bloom filter
+fastbloom = { version = "0.17", features = ["serde"] }
+bincode-next = { version = "2.0", features = ["serde"] }
+
+# Hashing
+md-5 = "0.11.0"
+sha2 = "0.11.0"
+hex = "0.4.3"
+
+# ML / Burn
+burn = { version = "0.21", features = ["std", "ndarray", "autodiff"], default-features = false }
+burn-ndarray = "0.21"
+burn-dataset = "0.21"
+
+# Disassembly for PE feature extraction
+capstone = "0.14"
+
+# PE parsing
+goblin = "0.10.5"
+
+# JavaScript parser
+oxc_parser = "0.135"
+oxc_ast = "0.135"
+oxc_allocator = "0.135"
+oxc_span = "0.135"
+
+# Windows registry access
+winreg = "0.56"
+
+# Native Win32/COM APIs for remediation (Service Control Manager, System
+# Restore, Task Scheduler) — no shelling out to sc/schtasks/powershell.
+windows = { version = "0.62", features = [
+    "Win32_Foundation",
+    "Win32_System_Services",
+    "Win32_System_Restore",
+    "Win32_System_TaskScheduler",
+    "Win32_System_Com",
+    "Win32_System_Variant",
+    "Win32_System_Ole",
+    "Win32_System_Diagnostics_ToolHelp",
+    "Win32_System_Diagnostics_Debug",
+    "Win32_System_Threading",
+    "Win32_System_Memory",
+    "Win32_Storage_FileSystem",
+    "Win32_System_Shutdown",
+    "Win32_System_Registry",
+    "Win32_Security",
+    "Win32_Security_Authorization",
+    "Win32_System_LibraryLoader",
+    "Win32_System_IO",
+] }
+
+# Heuristic engine (Unicorn PE unpacking + emulation)
+hydradragonunicorn = { path = "../hydradragonunicorn" }
+
+# Pure-Rust archive/compression extractor (tar, gzip, xz, lzma, 7z)
+hydradragonextractor = { path = "../hydradragonextractor" }
+
+# Pure-Rust ClamAV-compatible non-hash signature loader and scanner
+hydradragonclamav = { path = "../hydradragonclamav" }
+
+# Other
+yaml_serde = "0.10.4"
+toml = "0.5"
+regex = "1.12.2"
+sha1 = "0.11.0"
+tlsh-rs = "0.1.0"
+fuzzyhash = "0.2.2"
+
+[build-dependencies]
+sha2 = "0.11.0"
+winres = "0.1"
+yara-x = "1.18.0"
