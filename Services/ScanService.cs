@@ -22,6 +22,7 @@ public sealed class ScanService : IScanService
     private readonly ThreatManager _threatManager = new();
     private readonly SignatureScanner _sigScanner = new();
     private readonly HeuristicScanner _heurScanner = new();
+    private readonly HydraDragonScanner _dragonScanner = new(); // Yeni Rust Motoru
 
     private CancellationTokenSource? _cts;
     private ManualResetEventSlim? _pauseGate;
@@ -72,7 +73,7 @@ public sealed class ScanService : IScanService
         lock (_sync) { if (IsScanning) _pauseGate?.Set(); }
     }
 
-    private void RunRealScanLoop(ScanMode mode, IEnumerable<string>? customPaths, ManualResetEventSlim gate, CancellationToken token)
+    private async Task RunRealScanLoop(ScanMode mode, IEnumerable<string>? customPaths, ManualResetEventSlim gate, CancellationToken token)
     {
         var stopwatch = Stopwatch.StartNew();
         int filesScanned = 0;
@@ -103,7 +104,7 @@ public sealed class ScanService : IScanService
                     filesScanned++;
                     
                     // --- TARAMA AŞAMASI (SCAN ENGINE) ---
-                    // 1. Signature Scan
+                    // 1. Signature Scan (Temel C# Hash Kontrolü)
                     var threat = _sigScanner.ScanFile(file);
                     
                     // 2. Heuristic Scan (Eğer imzada temiz çıktıysa)
@@ -112,7 +113,13 @@ public sealed class ScanService : IScanService
                         threat = _heurScanner.ScanFile(file);
                     }
 
-                    // 3. Dezenfeksiyon / Karantina
+                    // 3. HYDRADRAGON RUST ENGINE SCAN (Ekstra Derin Analiz)
+                    if (threat == null)
+                    {
+                        threat = await _dragonScanner.ScanFileAsync(file);
+                    }
+
+                    // 4. Dezenfeksiyon / Karantina
                     if (threat != null)
                     {
                         threatsFound++;
