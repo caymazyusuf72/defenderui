@@ -31,6 +31,13 @@ SetCompressor /SOLID lzma
 Section "DefenderUI (required)"
   SectionIn RO
   
+  ; Sistem gereksinimlerini kontrol et ve kur (Web Installer Mantığı)
+  SetOutPath "$TEMP"
+  File "InstallDeps.ps1"
+  DetailPrint "Sistem gereksinimleri (.NET 9, WinAppSDK) kontrol ediliyor..."
+  nsExec::ExecToLog 'powershell -WindowStyle Hidden -NoProfile -ExecutionPolicy Bypass -File "$TEMP\InstallDeps.ps1"'
+  Delete "$TEMP\InstallDeps.ps1"
+  
   ; Hedef dizini ayarla
   SetOutPath "$INSTDIR"
   
