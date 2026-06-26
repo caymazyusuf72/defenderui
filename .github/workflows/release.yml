@@ -1,93 +1,48 @@
-name: Release
+name: Build and Release
 
 on:
   push:
-    tags:
-      - 'v*.*.*'
+    branches: [ "main" ]
   workflow_dispatch:
 
 jobs:
-  release:
-    name: Build and Release (${{ matrix.platform }})
+  build:
     runs-on: windows-latest
     permissions:
       contents: write
-    strategy:
-      fail-fast: false
-      matrix:
-        platform: [x64, x86, ARM64]
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v7
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - name: Setup .NET 9
-        uses: actions/setup-dotnet@v5
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '9.0.x'
+          dotnet-version: 9.0.x
 
-      - name: Setup MSBuild
-        uses: microsoft/setup-msbuild@v3
-
-      - name: Compute RID
-        id: rid
-        shell: pwsh
+      - name: Calculate Version
+        id: versioning
         run: |
-          $rid = "${{ matrix.platform }}".ToLower()
-          "rid=$rid" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          $ver = "1.0.${{ github.run_number }}"
+          echo "APP_VERSION=$ver" >> $env:GITHUB_ENV
+          echo "Version is $ver"
 
-      - name: Restore dependencies
-        run: dotnet restore -p:Platform=${{ matrix.platform }} -r win-${{ steps.rid.outputs.rid }}
-
-      - name: Publish single-file self-contained
-        shell: pwsh
+      - name: Build and Publish (Single File)
         run: |
-          dotnet publish DefenderUI.csproj `
-            -c Release `
-            -p:Platform=${{ matrix.platform }} `
-            -r win-${{ steps.rid.outputs.rid }} `
-            -p:PublishProfile=win-${{ steps.rid.outputs.rid }} `
-            --self-contained true `
-            -p:PublishSingleFile=true `
-            -p:IncludeNativeLibrariesForSelfExtract=true `
-            -p:IncludeAllContentForSelfExtract=true `
-            -p:EnableCompressionInSingleFile=true `
-            -p:WindowsPackageType=None
+          dotnet publish DefenderUI.csproj -c Release -r win-x64 -p:Platform=x64 -o ./publish /p:Version=${{ env.APP_VERSION }}
 
-      - name: Package binaries
-        shell: pwsh
+      - name: Zip the published output
         run: |
-          $rid = "${{ steps.rid.outputs.rid }}"
-          # Publish profile writes to bin\Release\<TFM>\<RID>\publish (Platform is not in the path when PublishProfile overrides PublishDir)
-          $candidates = @(
-            "bin/Release/net9.0-windows10.0.26100.0/win-$rid/publish",
-            "bin/${{ matrix.platform }}/Release/net9.0-windows10.0.26100.0/win-$rid/publish"
-          )
-          $dir = $candidates | Where-Object { Test-Path $_ } | Select-Object -First 1
-          if (-not $dir) {
-            Write-Error "Publish output directory not found. Tried: $($candidates -join ', ')"
-            Get-ChildItem -Path bin -Recurse -Filter DefenderUI.exe -ErrorAction SilentlyContinue | ForEach-Object { Write-Host $_.FullName }
-            exit 1
-          }
-          Write-Host "Using publish directory: $dir"
+          Compress-Archive -Path ./publish/* -DestinationPath DefenderUI-v${{ env.APP_VERSION }}-win-x64.zip
 
-          # Copy single exe to root for convenience
-          Copy-Item "$dir/DefenderUI.exe" -Destination "DefenderUI-${{ matrix.platform }}.exe" -Force
-
-          # Also create a zip with the full publish directory (exe + pdb + any required sidecars)
-          Compress-Archive -Path "$dir/*" -DestinationPath "DefenderUI-${{ matrix.platform }}.zip" -Force
-
-          Get-FileHash "DefenderUI-${{ matrix.platform }}.exe" -Algorithm SHA256 | Format-List
-          Get-FileHash "DefenderUI-${{ matrix.platform }}.zip" -Algorithm SHA256 | Format-List
-
-      - name: Create Release
+      - name: Create Release and Upload Asset
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: v${{ env.APP_VERSION }}
+          name: DefenderUI v${{ env.APP_VERSION }}
+          body: "Automated release of DefenderUI version ${{ env.APP_VERSION }}."
           files: |
-            DefenderUI-${{ matrix.platform }}.exe
-            DefenderUI-${{ matrix.platform }}.zip
-          generate_release_notes: true
-          draft: false
-          prerelease: false
+            DefenderUI-v${{ env.APP_VERSION }}-win-x64.zip
+            ./publish/DefenderUI.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
