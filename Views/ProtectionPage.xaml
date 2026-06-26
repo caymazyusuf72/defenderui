@@ -245,6 +245,7 @@
                             <DataTemplate x:DataType="models:ActivityLogItem">
                                 <controls:ActivityListItem
                                     Glyph="{x:Bind local:ProtectionPage.GetActivityGlyph(Type)}"
+                                    Severity="{x:Bind local:ProtectionPage.GetActivitySeverity(Type)}"
                                     Title="{x:Bind Title}"
                                     Timestamp="{x:Bind local:ProtectionPage.FormatRelativeTime(Timestamp)}" />
                             </DataTemplate>

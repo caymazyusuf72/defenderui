@@ -128,7 +128,7 @@
             <!-- Menu Items -->
             <NavigationView.MenuItems>
                 <NavigationViewItem
-                    Content="Dashboard"
+                    Content="Gösterge Paneli"
                     Tag="dashboard"
                     IsSelected="True"
                     AutomationProperties.Name="Dashboard">
@@ -139,7 +139,7 @@
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem
-                    Content="Scan"
+                    Content="Tarama"
                     Tag="scan"
                     AutomationProperties.Name="Scan">
                     <NavigationViewItem.Icon>
@@ -149,7 +149,7 @@
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem
-                    Content="Protection"
+                    Content="Koruma"
                     Tag="protection"
                     AutomationProperties.Name="Protection">
                     <NavigationViewItem.Icon>
@@ -179,7 +179,7 @@
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem
-                    Content="Quarantine"
+                    Content="Karantina"
                     Tag="quarantine"
                     AutomationProperties.Name="Quarantine">
                     <NavigationViewItem.Icon>
@@ -189,7 +189,7 @@
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem
-                    Content="Reports"
+                    Content="Raporlar"
                     Tag="reports"
                     AutomationProperties.Name="Reports">
                     <NavigationViewItem.Icon>
@@ -209,7 +209,7 @@
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem
-                    Content="Parola Yön."
+                    Content="Parola Yöneticisi"
                     Tag="passwordmanager"
                     AutomationProperties.Name="Password Manager">
                     <NavigationViewItem.Icon>
@@ -229,7 +229,7 @@
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem
-                    Content="Update"
+                    Content="Güncelleme"
                     Tag="update"
                     AutomationProperties.Name="Update">
                     <NavigationViewItem.Icon>
@@ -243,7 +243,7 @@
             <!-- Footer Items -->
             <NavigationView.FooterMenuItems>
                 <NavigationViewItem
-                    Content="Settings"
+                    Content="Ayarlar"
                     Tag="settings"
                     AutomationProperties.Name="Settings">
                     <NavigationViewItem.Icon>

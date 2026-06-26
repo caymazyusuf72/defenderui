@@ -26,7 +26,11 @@
     <Border
         x:Name="RootCard"
         Style="{StaticResource HeroStatusCardStyle}"
-        Padding="0">
+        Padding="0"
+        Translation="0,0,16">
+        <Border.Shadow>
+            <ThemeShadow />
+        </Border.Shadow>
         <Grid>
             <!-- Dekoratif gradient katmanı — içerik arkası -->
             <Border

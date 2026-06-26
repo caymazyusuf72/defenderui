@@ -17,7 +17,10 @@
           • TrendPositive : true → yeşil, false → kırmızı (default true)
     -->
 
-    <Border Style="{StaticResource StatCardStyle}">
+    <Border Style="{StaticResource StatCardStyle}" Translation="0,0,4">
+        <Border.Shadow>
+            <ThemeShadow />
+        </Border.Shadow>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -49,7 +52,9 @@
                 x:Name="ValueText"
                 Grid.Row="1"
                 Text="0"
-                Style="{StaticResource DisplayLargeTextStyle}"
+                Style="{StaticResource DisplayMediumTextStyle}"
+                MaxLines="1"
+                TextTrimming="CharacterEllipsis"
                 Margin="0,8,0,0" />
 
             <!-- Alt: Trend rozeti -->

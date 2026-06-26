@@ -1,4 +1,5 @@
 using System;
+using DefenderUI.Controls;
 using DefenderUI.Models;
 using DefenderUI.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
@@ -41,6 +42,18 @@ public sealed partial class ProtectionPage : Page
         ActivityType.ProtectionDisabled => "\uE7BA",
         ActivityType.Warning => "\uE7BA",
         _ => "\uE946"
+    };
+
+    public static ActivitySeverity GetActivitySeverity(ActivityType type) => type switch
+    {
+        ActivityType.ThreatBlocked => ActivitySeverity.Error,
+        ActivityType.ScanCompleted => ActivitySeverity.Success,
+        ActivityType.DatabaseUpdated => ActivitySeverity.Info,
+        ActivityType.FileQuarantined => ActivitySeverity.Warning,
+        ActivityType.ProtectionEnabled => ActivitySeverity.Success,
+        ActivityType.ProtectionDisabled => ActivitySeverity.Warning,
+        ActivityType.Warning => ActivitySeverity.Warning,
+        _ => ActivitySeverity.Info
     };
 
     public static string FormatRelativeTime(DateTime timestamp)
