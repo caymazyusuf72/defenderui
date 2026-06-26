@@ -27,22 +27,25 @@ jobs:
           echo "APP_VERSION=$ver" >> $env:GITHUB_ENV
           echo "Version is $ver"
 
-      - name: Build and Publish (Single File)
+      - name: Build and Publish (Folder)
         run: |
           dotnet publish DefenderUI.csproj -c Release -r win-x64 -p:Platform=x64 -o ./publish /p:Version=${{ env.APP_VERSION }}
 
-      - name: Zip the published output
+      - name: Install NSIS
+        run: choco install nsis -y
+
+      - name: Create Setup.exe with NSIS
         run: |
-          Compress-Archive -Path ./publish/* -DestinationPath DefenderUI-v${{ env.APP_VERSION }}-win-x64.zip
+          makensis installer.nsi
+          Rename-Item -Path "DefenderUI_Setup.exe" -NewName "DefenderUI_Setup_v${{ env.APP_VERSION }}.exe"
 
       - name: Create Release and Upload Asset
         uses: softprops/action-gh-release@v2
         with:
           tag_name: v${{ env.APP_VERSION }}
           name: DefenderUI v${{ env.APP_VERSION }}
-          body: "Automated release of DefenderUI version ${{ env.APP_VERSION }}."
+          body: "Automated setup release of DefenderUI version ${{ env.APP_VERSION }}."
           files: |
-            DefenderUI-v${{ env.APP_VERSION }}-win-x64.zip
-            ./publish/DefenderUI.exe
+            DefenderUI_Setup_v${{ env.APP_VERSION }}.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
