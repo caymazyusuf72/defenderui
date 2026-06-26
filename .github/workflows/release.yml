@@ -36,7 +36,7 @@ jobs:
 
       - name: Create Setup.exe with NSIS
         run: |
-          makensis installer.nsi
+          & "C:\Program Files (x86)\NSIS\makensis.exe" installer.nsi
           Rename-Item -Path "DefenderUI_Setup.exe" -NewName "DefenderUI_Setup_v${{ env.APP_VERSION }}.exe"
 
       - name: Create Release and Upload Asset
