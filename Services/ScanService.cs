@@ -1,46 +1,27 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using DefenderUI.Models;
+using DefenderUI.Services.Engines;
 
 namespace DefenderUI.Services;
 
 /// <summary>
-/// <see cref="IScanService"/>'in mock asenkron implementasyonu (Faz 4).
-/// Arka planda Task.Run içinde bir simülasyon döngüsü çalıştırır,
-/// ~100ms'de bir <see cref="ProgressChanged"/> tetikler.
+/// Gelişmiş Tarama Motoru. Dosyaları gerçek zamanlı tarar,
+/// İmza (Signature) ve Sezgisel (Heuristic) analiz yapar, 
+/// tehditleri ThreatManager ile temizler.
 /// </summary>
 public sealed class ScanService : IScanService
 {
-    private static readonly string[] MockPaths =
-    [
-        @"C:\Windows\System32\drivers\etc\hosts",
-        @"C:\Windows\System32\ntdll.dll",
-        @"C:\Windows\System32\kernel32.dll",
-        @"C:\Windows\System32\svchost.exe",
-        @"C:\Windows\System32\taskmgr.exe",
-        @"C:\Windows\System32\dxgi.dll",
-        @"C:\Windows\System32\wbem\WmiPrvSE.exe",
-        @"C:\Windows\SysWOW64\msvcp140.dll",
-        @"C:\Windows\Fonts\segoeui.ttf",
-        @"C:\Program Files\Common Files\System\msadc\msadce.dll",
-        @"C:\Program Files\Windows Defender\MpClient.dll",
-        @"C:\Program Files\Internet Explorer\iexplore.exe",
-        @"C:\Program Files\dotnet\dotnet.exe",
-        @"C:\Program Files\WindowsApps\Microsoft.WindowsStore\WinStore.App.exe",
-        @"C:\Program Files (x86)\Microsoft\Edge\msedge.dll",
-        @"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp\helper.lnk",
-        @"C:\Users\Default\AppData\Local\Temp\setup.exe",
-        @"C:\Users\Default\Downloads\document.pdf",
-        @"C:\Users\Default\Documents\report.xlsx",
-        @"C:\Users\Default\Pictures\photo.jpg",
-        @"D:\Backup\system-image.vhd",
-        @"E:\USB\installer.exe"
-    ];
-
     private readonly object _sync = new();
-    private readonly Random _random = new();
+    
+    // Core Engines
+    private readonly ThreatManager _threatManager = new();
+    private readonly SignatureScanner _sigScanner = new();
+    private readonly HeuristicScanner _heurScanner = new();
 
     private CancellationTokenSource? _cts;
     private ManualResetEventSlim? _pauseGate;
@@ -57,11 +38,7 @@ public sealed class ScanService : IScanService
     {
         lock (_sync)
         {
-            if (IsScanning)
-            {
-                return Task.CompletedTask;
-            }
-
+            if (IsScanning) return Task.CompletedTask;
             IsScanning = true;
             CurrentMode = mode;
             _cts = new CancellationTokenSource();
@@ -70,154 +47,94 @@ public sealed class ScanService : IScanService
 
         var token = _cts!.Token;
         var gate = _pauseGate!;
-        var totalSeconds = GetSimulatedDurationSeconds(mode);
 
-        _scanTask = Task.Run(() => RunScanLoop(mode, totalSeconds, gate, token), token);
+        _scanTask = Task.Run(() => RunRealScanLoop(mode, customPaths, gate, token), token);
         return _scanTask;
     }
 
     public void CancelScan()
     {
-        CancellationTokenSource? cts;
-        ManualResetEventSlim? gate;
         lock (_sync)
         {
-            if (!IsScanning)
-            {
-                return;
-            }
-            cts = _cts;
-            gate = _pauseGate;
+            if (!IsScanning) return;
+            _pauseGate?.Set();
+            _cts?.Cancel();
         }
-
-        // Duraklatılmışsa cancel'ın algılanabilmesi için gate'i aç.
-        gate?.Set();
-        cts?.Cancel();
     }
 
     public void PauseScan()
     {
-        lock (_sync)
-        {
-            if (!IsScanning)
-            {
-                return;
-            }
-            _pauseGate?.Reset();
-        }
+        lock (_sync) { if (IsScanning) _pauseGate?.Reset(); }
     }
 
     public void ResumeScan()
     {
-        lock (_sync)
-        {
-            if (!IsScanning)
-            {
-                return;
-            }
-            _pauseGate?.Set();
-        }
+        lock (_sync) { if (IsScanning) _pauseGate?.Set(); }
     }
 
-    // ════════════════════════════════════════════════════════════════════
-
-    private static int GetSimulatedDurationSeconds(ScanMode mode) => mode switch
-    {
-        ScanMode.Quick => 15,
-        ScanMode.Full => 60,
-        ScanMode.Custom => 20,
-        ScanMode.Removable => 10,
-        _ => 15
-    };
-
-    private void RunScanLoop(
-        ScanMode mode,
-        int totalSeconds,
-        ManualResetEventSlim gate,
-        CancellationToken token)
+    private void RunRealScanLoop(ScanMode mode, IEnumerable<string>? customPaths, ManualResetEventSlim gate, CancellationToken token)
     {
         var stopwatch = Stopwatch.StartNew();
-        var totalMs = totalSeconds * 1000d;
-        var tickMs = 100;
-        var filesScanned = 0;
-        var threatsFound = 0;
-        var started = DateTime.Now;
-        var effectiveElapsedMs = 0d; // pause'da donduğu için real elapsed != bu
-
-        // Planlı "sahte" tehdit tespit noktaları
-        var plannedThreatPoints = mode switch
-        {
-            ScanMode.Full => new[] { 22d, 55d, 78d },
-            ScanMode.Quick => new[] { 40d },
-            ScanMode.Custom => new[] { 35d, 70d },
-            ScanMode.Removable => Array.Empty<double>(),
-            _ => Array.Empty<double>()
-        };
-        var threatIndex = 0;
+        int filesScanned = 0;
+        int threatsFound = 0;
+        
+        var targetPaths = GetTargetDirectories(mode, customPaths);
+        var totalEstimatedFiles = EstimateFileCount(mode);
 
         try
         {
-            while (true)
+            foreach (var rootPath in targetPaths)
             {
-                if (token.IsCancellationRequested)
-                {
-                    break;
-                }
+                if (token.IsCancellationRequested) break;
+                if (!Directory.Exists(rootPath) && !File.Exists(rootPath)) continue;
 
-                // Pause gate — beklerken iptal edilebilir.
-                if (!gate.IsSet)
+                // Dosyaları teker teker gez
+                var files = GetFilesSafe(rootPath);
+                foreach (var file in files)
                 {
-                    try
+                    if (token.IsCancellationRequested) break;
+
+                    // Pause kontrolü
+                    if (!gate.IsSet)
                     {
-                        gate.Wait(token);
+                        try { gate.Wait(token); } catch (OperationCanceledException) { break; }
                     }
-                    catch (OperationCanceledException)
+
+                    filesScanned++;
+                    
+                    // --- TARAMA AŞAMASI (SCAN ENGINE) ---
+                    // 1. Signature Scan
+                    var threat = _sigScanner.ScanFile(file);
+                    
+                    // 2. Heuristic Scan (Eğer imzada temiz çıktıysa)
+                    if (threat == null)
                     {
-                        break;
+                        threat = _heurScanner.ScanFile(file);
                     }
-                }
 
-                Thread.Sleep(tickMs);
-                if (token.IsCancellationRequested)
-                {
-                    break;
-                }
+                    // 3. Dezenfeksiyon / Karantina
+                    if (threat != null)
+                    {
+                        threatsFound++;
+                        bool handled = _threatManager.Disinfect(threat);
+                        Debug.WriteLine($"Threat Found: {threat.ThreatName} in {file}. Action: {threat.ActionTaken}");
+                    }
 
-                effectiveElapsedMs += tickMs;
-                var percent = Math.Min(100d, (effectiveElapsedMs / totalMs) * 100d);
-
-                // Dosya sayısı ~ percent ölçeklendir
-                var targetFiles = (int)(percent / 100d * GetTargetFileCount(mode));
-                filesScanned = Math.Max(filesScanned, targetFiles);
-                filesScanned += _random.Next(3, 18);
-
-                var currentPath = MockPaths[_random.Next(MockPaths.Length)];
-
-                // Tehdit tespiti
-                if (threatIndex < plannedThreatPoints.Length &&
-                    percent >= plannedThreatPoints[threatIndex])
-                {
-                    threatsFound++;
-                    threatIndex++;
-                }
-
-                var elapsed = TimeSpan.FromMilliseconds(effectiveElapsedMs);
-                var remainingMs = Math.Max(0, totalMs - effectiveElapsedMs);
-                var remaining = TimeSpan.FromMilliseconds(remainingMs);
-
-                // U25: Event subscriber'lardan sızan exception'lar scan döngüsünü
-                // bozmasın — log'layıp devam et.
-                ProgressChanged?.Invoke(this, new ScanProgressInfo(
-                    PercentComplete: percent,
-                    FilesScanned: filesScanned,
-                    ThreatsFound: threatsFound,
-                    CurrentPath: currentPath,
-                    Elapsed: elapsed,
-                    EstimatedRemaining: remaining));
-
-                if (percent >= 100d)
-                {
-                    break;
+                    // Her 50 dosyada bir arayüzü güncelle (performans için)
+                    if (filesScanned % 50 == 0)
+                    {
+                        var percent = Math.Min(99.0, (double)filesScanned / Math.Max(1, totalEstimatedFiles) * 100.0);
+                        var elapsed = stopwatch.Elapsed;
+                        
+                        ProgressChanged?.Invoke(this, new ScanProgressInfo(
+                            PercentComplete: percent,
+                            FilesScanned: filesScanned,
+                            ThreatsFound: threatsFound,
+                            CurrentPath: file,
+                            Elapsed: elapsed,
+                            EstimatedRemaining: TimeSpan.FromMinutes(2) // Tahmini
+                        ));
+                    }
                 }
             }
 
@@ -225,8 +142,6 @@ public sealed class ScanService : IScanService
 
             if (token.IsCancellationRequested)
             {
-                // K4: Event'i ResetState ÖNCESİ fire et — dinleyiciler hâlâ
-                // "tarama bitiyor" state'ini görebilsin (IsScanning=true).
                 ScanCancelled?.Invoke(this, EventArgs.Empty);
                 ResetState();
                 return;
@@ -236,9 +151,12 @@ public sealed class ScanService : IScanService
                 Mode: mode,
                 FilesScanned: filesScanned,
                 ThreatsFound: threatsFound,
-                Duration: TimeSpan.FromMilliseconds(effectiveElapsedMs),
+                Duration: stopwatch.Elapsed,
                 CompletedAt: DateTime.Now);
 
+            // Son kez %100 fırlat
+            ProgressChanged?.Invoke(this, new ScanProgressInfo(100.0, filesScanned, threatsFound, "Bitti", stopwatch.Elapsed, TimeSpan.Zero));
+            
             ScanCompleted?.Invoke(this, completion);
             ResetState();
         }
@@ -249,14 +167,52 @@ public sealed class ScanService : IScanService
         }
     }
 
-    private static int GetTargetFileCount(ScanMode mode) => mode switch
+    private IEnumerable<string> GetTargetDirectories(ScanMode mode, IEnumerable<string>? customPaths)
     {
-        ScanMode.Quick => 12_500,
-        ScanMode.Full => 250_000,
-        ScanMode.Custom => 45_000,
-        ScanMode.Removable => 6_200,
-        _ => 10_000
+        if (mode == ScanMode.Custom && customPaths != null) return customPaths;
+        
+        return mode switch
+        {
+            ScanMode.Quick => new[] { Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), Environment.GetFolderPath(Environment.SpecialFolder.Windows) },
+            ScanMode.Full => new[] { "C:\\" }, // Tüm C diski
+            ScanMode.Removable => new[] { "D:\\", "E:\\", "F:\\" }, // Basit tahmin
+            _ => new[] { Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) }
+        };
+    }
+
+    private int EstimateFileCount(ScanMode mode) => mode switch
+    {
+        ScanMode.Quick => 50000,
+        ScanMode.Full => 300000,
+        ScanMode.Custom => 10000,
+        _ => 50000
     };
+
+    // İzin verilmeyen klasörlerde çökmeyi önleyen güvenli dosya gezinme algoritması
+    private IEnumerable<string> GetFilesSafe(string path)
+    {
+        var files = new List<string>();
+        if (File.Exists(path))
+        {
+            files.Add(path);
+            return files;
+        }
+
+        try
+        {
+            var enumOptions = new EnumerationOptions 
+            { 
+                IgnoreInaccessible = true, 
+                RecurseSubdirectories = true,
+                ReturnSpecialDirectories = false
+            };
+            return Directory.EnumerateFiles(path, "*.*", enumOptions);
+        }
+        catch 
+        {
+            return Array.Empty<string>();
+        }
+    }
 
     private void ResetState()
     {
@@ -264,14 +220,9 @@ public sealed class ScanService : IScanService
         {
             IsScanning = false;
             CurrentMode = null;
-            // K4: Double-dispose guard — _cts/_pauseGate başka bir akış tarafından
-            // zaten dispose edilmiş olabilir (örn. iptal+tamamlanma yarışı).
-            try { _cts?.Dispose(); }
-            catch (ObjectDisposedException) { /* zaten dispose */ }
+            try { _cts?.Dispose(); } catch (ObjectDisposedException) { }
             _cts = null;
-
-            try { _pauseGate?.Dispose(); }
-            catch (ObjectDisposedException) { /* zaten dispose */ }
+            try { _pauseGate?.Dispose(); } catch (ObjectDisposedException) { }
             _pauseGate = null;
         }
     }
