@@ -207,17 +207,13 @@ public sealed class ScanService : IScanService
 
                 // U25: Event subscriber'lardan sızan exception'lar scan döngüsünü
                 // bozmasın — log'layıp devam et.
-                try
-                {
-                    ProgressChanged?.Invoke(this, new ScanProgressInfo(
-                        PercentComplete: percent,
-                        FilesScanned: filesScanned,
-                        ThreatsFound: threatsFound,
-                        CurrentPath: currentPath,
-                        Elapsed: elapsed,
-                        EstimatedRemaining: remaining));
-                }
-                catch (Exception ex) { Debug.WriteLine(ex); }
+                ProgressChanged?.Invoke(this, new ScanProgressInfo(
+                    PercentComplete: percent,
+                    FilesScanned: filesScanned,
+                    ThreatsFound: threatsFound,
+                    CurrentPath: currentPath,
+                    Elapsed: elapsed,
+                    EstimatedRemaining: remaining));
 
                 if (percent >= 100d)
                 {
@@ -231,8 +227,7 @@ public sealed class ScanService : IScanService
             {
                 // K4: Event'i ResetState ÖNCESİ fire et — dinleyiciler hâlâ
                 // "tarama bitiyor" state'ini görebilsin (IsScanning=true).
-                try { ScanCancelled?.Invoke(this, EventArgs.Empty); }
-                catch (Exception ex) { Debug.WriteLine(ex); }
+                ScanCancelled?.Invoke(this, EventArgs.Empty);
                 ResetState();
                 return;
             }
@@ -244,14 +239,12 @@ public sealed class ScanService : IScanService
                 Duration: TimeSpan.FromMilliseconds(effectiveElapsedMs),
                 CompletedAt: DateTime.Now);
 
-            try { ScanCompleted?.Invoke(this, completion); }
-            catch (Exception ex) { Debug.WriteLine(ex); }
+            ScanCompleted?.Invoke(this, completion);
             ResetState();
         }
         catch (OperationCanceledException)
         {
-            try { ScanCancelled?.Invoke(this, EventArgs.Empty); }
-            catch (Exception ex) { Debug.WriteLine(ex); }
+            ScanCancelled?.Invoke(this, EventArgs.Empty);
             ResetState();
         }
     }
@@ -275,12 +268,10 @@ public sealed class ScanService : IScanService
             // zaten dispose edilmiş olabilir (örn. iptal+tamamlanma yarışı).
             try { _cts?.Dispose(); }
             catch (ObjectDisposedException) { /* zaten dispose */ }
-            catch (Exception ex) { Debug.WriteLine(ex); }
             _cts = null;
 
             try { _pauseGate?.Dispose(); }
             catch (ObjectDisposedException) { /* zaten dispose */ }
-            catch (Exception ex) { Debug.WriteLine(ex); }
             _pauseGate = null;
         }
     }
