@@ -29,7 +29,7 @@ jobs:
 
       - name: Build and Publish (Folder)
         run: |
-          dotnet publish DefenderUI.csproj -c Release -r win-x64 -p:Platform=x64 -o ./publish /p:Version=${{ env.APP_VERSION }}
+          dotnet publish DefenderUI.csproj -c Release -r win-x64 --no-self-contained -p:Platform=x64 -o ./publish /p:Version=${{ env.APP_VERSION }}
 
       - name: Install NSIS
         run: choco install nsis -y

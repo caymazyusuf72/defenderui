@@ -43,6 +43,10 @@ Section "DefenderUI (required)"
   
   ; Publish klasöründeki tüm dosyaları kopyala
   File /r "publish\*.*"
+
+  ; İkon dosyasının eksik olmaması için açıkça kopyala
+  SetOutPath "$INSTDIR\Assets"
+  File "Assets\AppIcon.ico"
   
   ; Kurulum yolunu kayıt defterine yaz
   WriteRegStr HKLM "Software\DefenderUI" "Install_Dir" "$INSTDIR"
