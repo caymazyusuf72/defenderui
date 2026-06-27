@@ -72,8 +72,7 @@ windows = { version = "0.62", features = [
     "Win32_System_IO",
 ] }
 
-# Heuristic engine (Unicorn PE unpacking + emulation)
-hydradragonunicorn = { path = "../hydradragonunicorn" }
+# Heuristic engine removed to avoid LLVM requirement
 
 # Pure-Rust archive/compression extractor (tar, gzip, xz, lzma, 7z)
 hydradragonextractor = { path = "../hydradragonextractor" }

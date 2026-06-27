@@ -1,0 +1,45 @@
+[package]
+name = "hydradragonunicorn"
+version = "0.1.0"
+edition = "2024"
+description = "Heuristic engine for HydraDragon — Unicorn-based PE CPU emulation and behavioral heuristics, ported from TinyAntivirus"
+license = "GPL-2.0-or-later"
+
+[dependencies]
+# CPU emulation (TinyAntivirus used Unicorn for PE unpacking / behavioral analysis)
+unicorn-engine = "2.1.5"
+
+# PE parsing — needs elf32/elf64/endian_fd for goblin::Object enum to be available
+goblin = "0.10.7"
+
+# Bitfield flags for VFS object flags (FsFlags)
+bitflags = "2.13.0"
+
+# Error handling
+thiserror = "2.0.18"
+log = "0.4.32"
+
+# YARA for packer detection (yara-x is the pure-Rust YARA rewrite)
+yara-x = "1.18"
+
+# Capstone disassembler (used in shell / logging)
+capstone = "0.14"
+
+# Terminal colors
+colored = "3.1"
+
+# Serialization/deserialization
+byteorder = "1.5"
+
+# Random number generation (process/thread IDs)
+rand = "0.10"
+
+# Seven-zip archive extraction
+sevenz-rust2 = { version = "0.20", features = ["brotli", "deflate", "lz4", "zstd"] }
+
+# Standalone pure-Rust archive/compression extractor (tar, gzip, xz, lzma)
+hydradragonextractor = { path = "../hydradragonextractor" }
+vmpunpacker = { path = "../vmpunpacker" }
+
+[dev-dependencies]
+tempfile = "3.27.0"
