@@ -55,6 +55,8 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
+                <!-- Windows System Caption Buttons (Min/Max/Close) için boşluk -->
+                <ColumnDefinition Width="140" />
             </Grid.ColumnDefinitions>
 
             <!-- Logo + App Name -->
