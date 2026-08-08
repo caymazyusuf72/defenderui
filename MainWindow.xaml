@@ -7,6 +7,7 @@
     xmlns:local="using:DefenderUI"
     xmlns:controls="using:DefenderUI.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:tb="using:H.NotifyIcon"
     Title="DefenderUI"
     mc:Ignorable="d">
 
@@ -24,6 +25,20 @@
             NOT: ToastHost overlay'i Grid'in en son child'ı olarak aşağıda
             tanımlıdır; böylece z-order olarak shell üzerinde kalır.
         -->
+
+        <tb:TaskbarIcon
+            x:Name="TrayIcon"
+            IconSource="ms-appx:///Assets/AppIcon.ico"
+            ToolTipText="DefenderUI - Koruma Aktif"
+            Grid.Row="0">
+            <tb:TaskbarIcon.ContextFlyout>
+                <MenuFlyout>
+                    <MenuFlyoutItem Text="Göster" Click="MenuShow_Click"/>
+                    <MenuFlyoutSeparator/>
+                    <MenuFlyoutItem Text="Çıkış" Click="MenuExit_Click"/>
+                </MenuFlyout>
+            </tb:TaskbarIcon.ContextFlyout>
+        </tb:TaskbarIcon>
 
         <!-- ═══════════════════════════════════════════════════════════ -->
         <!-- Custom Title Bar                                             -->

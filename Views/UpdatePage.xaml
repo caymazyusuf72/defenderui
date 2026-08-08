@@ -34,7 +34,7 @@
                     Style="{StaticResource DisplayMediumTextStyle}"
                     AutomationProperties.HeadingLevel="Level1" />
                 <TextBlock
-                    Text="Veri tabanı, motor ve uygulama güncellemelerini yönetin"
+                    Text="Veritabanı, motor ve uygulama güncellemelerini yönetin"
                     Style="{StaticResource BodyLargeTextStyle}"
                     Foreground="{ThemeResource TextSecondaryBrush}" />
             </StackPanel>

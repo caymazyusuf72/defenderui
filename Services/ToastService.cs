@@ -1,11 +1,12 @@
 using System;
+using Microsoft.Windows.AppNotifications.Builder;
+using Microsoft.Windows.AppNotifications;
 
 namespace DefenderUI.Services;
 
 /// <summary>
-/// <see cref="IToastService"/>'in varsayılan implementasyonu. Event tabanlı
-/// yayınlayıcı (pub/sub); görsel gösterim host UI (MainWindow vb.)
-/// sorumluluğundadır (Faz 7'de polish edilecek).
+/// <see cref="IToastService"/>'in varsayılan implementasyonu.
+/// Windows 11 yerel Action Center bildirimlerini (Toast) de destekler.
 /// </summary>
 public sealed class ToastService : IToastService
 {
@@ -15,6 +16,24 @@ public sealed class ToastService : IToastService
     {
         ArgumentNullException.ThrowIfNull(toast);
         ToastRequested?.Invoke(this, toast);
+        
+        try
+        {
+            var builder = new AppNotificationBuilder()
+                .AddText(toast.Title);
+
+            if (!string.IsNullOrWhiteSpace(toast.Body))
+            {
+                builder.AddText(toast.Body);
+            }
+
+            var appNotification = builder.BuildNotification();
+            AppNotificationManager.Default.Show(appNotification);
+        }
+        catch
+        {
+            // Sessiz hata yönetimi
+        }
     }
 
     public void Info(string title, string? body = null)

@@ -16,6 +16,8 @@
     <WindowsPackageType>None</WindowsPackageType>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <IsAotCompatible>true</IsAotCompatible>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <!--
       MVVMTK0045: CommunityToolkit.Mvvm AOT-partial-property migration uyarısı.
       Proje WinUI 3 unpackaged + JIT çalışıyor; AOT hedefi yok. Partial property
@@ -55,7 +57,7 @@
     package has not yet been restored.
   -->
   <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
-    <ProjectCapability Include="Msix"/>
+    <ProjectCapability Include="Msix" />
   </ItemGroup>
 
   <!--
@@ -64,6 +66,7 @@
     build için bu pin'ler sürdürülmelidir; bilinçli yükseltme dışında değişmemeli.
   -->
   <ItemGroup>
+    <PackageReference Include="H.NotifyIcon.WinUI" Version="2.1.2" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.28000.1721" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.260317003" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />

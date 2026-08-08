@@ -62,6 +62,9 @@ public sealed partial class MainWindow : Window
         {
             RootGrid.ActualThemeChanged += (_, _) => UpdateTitleBarColors();
         }
+
+        // H.NotifyIcon: X tuşuna basıldığında pencereyi gizle
+        this.Closed += MainWindow_Closed;
     }
 
     /// <summary>
@@ -210,5 +213,24 @@ public sealed partial class MainWindow : Window
     {
         var toast = App.Current.Services.GetService<IToastService>();
         toast?.Info("Bildirimler", "Şu anda yeni bildirim yok.");
+    }
+
+    // ═════════════════════════════════════════════════════════════════
+    // Tray Icon (H.NotifyIcon) Events
+    // ═════════════════════════════════════════════════════════════════
+    private void MainWindow_Closed(object sender, WindowEventArgs args)
+    {
+        args.Handled = true; // Pencerenin yok edilmesini engelle
+        this.AppWindow.Hide(); // Sadece gizle
+    }
+
+    private void MenuShow_Click(object sender, RoutedEventArgs e)
+    {
+        this.AppWindow.Show();
+    }
+
+    private void MenuExit_Click(object sender, RoutedEventArgs e)
+    {
+        Application.Current.Exit();
     }
 }
