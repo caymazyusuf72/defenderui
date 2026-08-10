@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
@@ -129,6 +129,12 @@ public partial class App : Application
         services.AddSingleton<INavigationService, NavigationService>();
         services.AddSingleton<IToastService, ToastService>();
         services.AddSingleton<IScanService, ScanService>();
+        services.AddSingleton<ISettingsService, SettingsService>();
+        services.AddSingleton<IWindowsDefenderService, WindowsDefenderService>();
+        services.AddSingleton<ILocalizationService, LocalizationService>();
+        services.AddSingleton<IFirewallService, FirewallService>();
+        services.AddSingleton<IScheduledScanService, ScheduledScanService>();
+        services.AddSingleton<IUpdateService, UpdateService>();
 
         // ViewModels
         services.AddTransient<DashboardViewModel>();

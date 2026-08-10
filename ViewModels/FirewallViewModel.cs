@@ -15,6 +15,7 @@ namespace DefenderUI.ViewModels;
 public partial class FirewallViewModel : ObservableObject
 {
     private readonly IToastService? _toastService;
+    private readonly IFirewallService? _firewallService;
 
     // ═══ Hero ═══
     [ObservableProperty]
@@ -76,24 +77,37 @@ public partial class FirewallViewModel : ObservableObject
     [ObservableProperty]
     private ObservableCollection<ActivityLogItem> _recentBlocks = new();
 
-    public FirewallViewModel(IToastService? toastService = null)
+    public FirewallViewModel(IToastService? toastService = null, IFirewallService? firewallService = null)
     {
         _toastService = toastService;
+        _firewallService = firewallService;
         LoadData();
     }
 
-    private void LoadData()
+    private async void LoadData()
     {
-        ApplicationRules = new ObservableCollection<FirewallRuleItem>
+        if (_firewallService != null)
         {
-            new() { AppName = "chrome.exe", AppPath = @"C:\Program Files\Google\Chrome\chrome.exe", Action = "İzin Ver", Direction = "Giden", IsEnabled = true, Icon = "\uE774" },
-            new() { AppName = "teams.exe", AppPath = @"C:\Users\Default\AppData\Local\Microsoft\Teams\teams.exe", Action = "İzin Ver", Direction = "Gelen/Giden", IsEnabled = true, Icon = "\uE8F2" },
-            new() { AppName = "svchost.exe", AppPath = @"C:\Windows\System32\svchost.exe", Action = "Engelle", Direction = "Gelen", IsEnabled = true, Icon = "\uE770" },
-            new() { AppName = "outlook.exe", AppPath = @"C:\Program Files\Microsoft Office\root\Office16\outlook.exe", Action = "İzin Ver", Direction = "Giden", IsEnabled = true, Icon = "\uE715" },
-            new() { AppName = "spotify.exe", AppPath = @"C:\Users\Default\AppData\Roaming\Spotify\Spotify.exe", Action = "İzin Ver", Direction = "Giden", IsEnabled = false, Icon = "\uE8D6" },
-            new() { AppName = "unknown_app.exe", AppPath = @"C:\Users\Default\Downloads\unknown_app.exe", Action = "Engelle", Direction = "Gelen/Giden", IsEnabled = true, Icon = "\uE7BA" },
-            new() { AppName = "steam.exe", AppPath = @"C:\Program Files (x86)\Steam\steam.exe", Action = "İzin Ver", Direction = "Gelen/Giden", IsEnabled = true, Icon = "\uE7FC" },
-        };
+            var rules = await _firewallService.GetActiveFirewallRulesAsync();
+            ApplicationRules = new ObservableCollection<FirewallRuleItem>(rules);
+            ActiveRules = rules.Count.ToString();
+
+            var blockedCount = await _firewallService.GetBlockedCountTodayAsync();
+            BlockedToday = blockedCount.ToString();
+        }
+        else
+        {
+            ApplicationRules = new ObservableCollection<FirewallRuleItem>
+            {
+                new() { AppName = "chrome.exe", AppPath = @"C:\Program Files\Google\Chrome\chrome.exe", Action = "İzin Ver", Direction = "Giden", IsEnabled = true, Icon = "\uE774" },
+                new() { AppName = "teams.exe", AppPath = @"C:\Users\Default\AppData\Local\Microsoft\Teams\teams.exe", Action = "İzin Ver", Direction = "Gelen/Giden", IsEnabled = true, Icon = "\uE8F2" },
+                new() { AppName = "svchost.exe", AppPath = @"C:\Windows\System32\svchost.exe", Action = "Engelle", Direction = "Gelen", IsEnabled = true, Icon = "\uE770" },
+                new() { AppName = "outlook.exe", AppPath = @"C:\Program Files\Microsoft Office\root\Office16\outlook.exe", Action = "İzin Ver", Direction = "Giden", IsEnabled = true, Icon = "\uE715" },
+                new() { AppName = "spotify.exe", AppPath = @"C:\Users\Default\AppData\Roaming\Spotify\Spotify.exe", Action = "İzin Ver", Direction = "Giden", IsEnabled = false, Icon = "\uE8D6" },
+                new() { AppName = "unknown_app.exe", AppPath = @"C:\Users\Default\Downloads\unknown_app.exe", Action = "Engelle", Direction = "Gelen/Giden", IsEnabled = true, Icon = "\uE7BA" },
+                new() { AppName = "steam.exe", AppPath = @"C:\Program Files (x86)\Steam\steam.exe", Action = "İzin Ver", Direction = "Gelen/Giden", IsEnabled = true, Icon = "\uE7FC" },
+            };
+        }
 
         RecentBlocks = new ObservableCollection<ActivityLogItem>
         {

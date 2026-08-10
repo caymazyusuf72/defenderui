@@ -215,6 +215,18 @@ public sealed partial class MainWindow : Window
         toast?.Info("Bildirimler", "Şu anda yeni bildirim yok.");
     }
 
+    private void CompactOverlayButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (AppWindow.Presenter is Microsoft.UI.Windowing.CompactOverlayPresenter)
+        {
+            AppWindow.SetPresenter(Microsoft.UI.Windowing.AppWindowPresenterKind.Default);
+        }
+        else
+        {
+            AppWindow.SetPresenter(Microsoft.UI.Windowing.AppWindowPresenterKind.CompactOverlay);
+        }
+    }
+
     // ═════════════════════════════════════════════════════════════════
     // Tray Icon (H.NotifyIcon) Events
     // ═════════════════════════════════════════════════════════════════

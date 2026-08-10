@@ -131,24 +131,50 @@ public partial class DashboardViewModel : ObservableObject
     [ObservableProperty]
     private ObservableCollection<string> _alerts = new();
 
+    private readonly IWindowsDefenderService? _defenderService;
+    private readonly ISettingsService? _settingsService;
+
     // ═════════════════════════════════════════════════════════════════
     // Ctor (INavigationService opsiyonel — Test/Designer için)
     // ═════════════════════════════════════════════════════════════════
-    public DashboardViewModel(MockDataService mockDataService, INavigationService? navigationService = null)
+    public DashboardViewModel(
+        MockDataService mockDataService,
+        INavigationService? navigationService = null,
+        IWindowsDefenderService? defenderService = null,
+        ISettingsService? settingsService = null)
     {
         _mockDataService = mockDataService;
         _navigationService = navigationService;
+        _defenderService = defenderService;
+        _settingsService = settingsService;
         LoadData();
     }
 
-    private void LoadData()
+    private async void LoadData()
     {
-        var status = _mockDataService.GetProtectionStatus();
-        ProtectionState = status.State;
-        OverallStatus = ComputeOverallStatus(status.State);
-        SecurityScore = status.SecurityScore;
-        StatusMessage = status.StatusMessage;
-        StatusDescription = status.Description;
+        if (_settingsService?.CurrentSettings.UseRealDefenderEngine == true && _defenderService != null)
+        {
+            var liveStatus = await _defenderService.GetLiveProtectionStatusAsync();
+            ProtectionState = liveStatus.State;
+            OverallStatus = ComputeOverallStatus(liveStatus.State);
+            SecurityScore = liveStatus.SecurityScore;
+            StatusMessage = liveStatus.StatusMessage;
+            StatusDescription = liveStatus.Description;
+            HeroTitle = liveStatus.StatusMessage;
+            HeroSubTitle = liveStatus.Description;
+
+            var version = await _defenderService.GetAntivirusSignatureVersionAsync();
+            VirusDefinitionVersion = version;
+        }
+        else
+        {
+            var status = _mockDataService.GetProtectionStatus();
+            ProtectionState = status.State;
+            OverallStatus = ComputeOverallStatus(status.State);
+            SecurityScore = status.SecurityScore;
+            StatusMessage = status.StatusMessage;
+            StatusDescription = status.Description;
+        }
 
         var threats = _mockDataService.GetRecentThreats();
         ThreatsDetected = threats.Count;

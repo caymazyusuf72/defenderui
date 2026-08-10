@@ -13,12 +13,11 @@ public partial class SettingsViewModel : ObservableObject
 {
     private readonly MockDataService _mockDataService;
     private readonly IThemeService _themeService;
+    private readonly ISettingsService? _settingsService;
+    private readonly ILocalizationService? _localizationService;
 
-    [ObservableProperty]
-    private ObservableCollection<SettingsCategory> _categories = [];
-
-    [ObservableProperty]
-    private SettingsCategory? _selectedCategory;
+    [ObservableProperty] private ObservableCollection<SettingsCategory> _categories = [];
+    [ObservableProperty] private SettingsCategory? _selectedCategory;
 
     // General
     [ObservableProperty] private bool _startWithWindows = true;
@@ -26,6 +25,7 @@ public partial class SettingsViewModel : ObservableObject
     [ObservableProperty] private bool _showNotifications = true;
     [ObservableProperty] private string _selectedLanguage = "Türkçe";
     [ObservableProperty] private bool _telemetryEnabled;
+    [ObservableProperty] private bool _useRealDefenderEngine;
 
     // Appearance / Theme
     [ObservableProperty] private ElementTheme _selectedElementTheme = ElementTheme.Default;
@@ -62,16 +62,12 @@ public partial class SettingsViewModel : ObservableObject
     [ObservableProperty] private ObservableCollection<string> _excludedFiles = [];
     [ObservableProperty] private ObservableCollection<string> _excludedFolders = [];
 
-    // Legacy (geri uyumluluk için korunuyor)
+    // Legacy / Privacy / About
     [ObservableProperty] private string _selectedTheme = "System";
     [ObservableProperty] private string _accentColor = "Blue";
-
-    // Privacy
     [ObservableProperty] private bool _sendUsageData;
     [ObservableProperty] private bool _sendCrashReports = true;
     [ObservableProperty] private bool _participateInBeta;
-
-    // About
     [ObservableProperty] private string _appVersionInfo = "DefenderUI v1.2.0";
     [ObservableProperty] private string _buildNumber = "Build 2026.04.17.001";
     [ObservableProperty] private string _licenseType = "Premium License";
@@ -87,16 +83,44 @@ public partial class SettingsViewModel : ObservableObject
     public List<string> Themes { get; } = ["System", "Light", "Dark"];
     public List<string> AccentColors { get; } = ["Blue", "Teal", "Green", "Purple"];
 
-    public SettingsViewModel(MockDataService mockDataService, IThemeService themeService)
+    public SettingsViewModel(
+        MockDataService mockDataService,
+        IThemeService themeService,
+        ISettingsService? settingsService = null,
+        ILocalizationService? localizationService = null)
     {
         _mockDataService = mockDataService;
         _themeService = themeService;
+        _settingsService = settingsService;
+        _localizationService = localizationService;
 
         SelectedElementTheme = _themeService.CurrentTheme;
         SyncThemeRadios();
 
         // MotionPreferences ile iki yönlü senkron başlangıçta.
         ReduceMotion = !MotionPreferences.Enabled;
+
+        if (_settingsService != null)
+        {
+            var s = _settingsService.CurrentSettings;
+            SelectedLanguage = s.SelectedLanguage;
+            UseRealDefenderEngine = s.UseRealDefenderEngine;
+            StartWithWindows = s.StartWithWindows;
+            MinimizeToTray = s.MinimizeToTray;
+            ShowNotifications = s.ShowNotifications;
+            TelemetryEnabled = s.TelemetryEnabled;
+            CompactMode = s.CompactMode;
+            RealTimeProtection = s.RealTimeProtection;
+            CloudProtection = s.CloudProtection;
+            AutomaticSampleSubmission = s.AutomaticSampleSubmission;
+            ScanSensitivity = s.ScanSensitivity;
+            ThreatNotifications = s.ThreatNotifications;
+            ScanCompleteNotifications = s.ScanCompleteNotifications;
+            UpdateNotifications = s.UpdateNotifications;
+            SoundAlerts = s.SoundAlerts;
+            ScheduledScanEnabled = s.ScheduledScanEnabled;
+            ScanFrequency = s.ScanFrequency;
+        }
 
         Categories =
         [
@@ -156,6 +180,18 @@ public partial class SettingsViewModel : ObservableObject
     partial void OnReduceMotionChanged(bool value)
     {
         MotionPreferences.Enabled = !value;
+        _settingsService?.UpdateSettings(s => s.ReduceMotion = value);
+    }
+
+    partial void OnUseRealDefenderEngineChanged(bool value)
+    {
+        _settingsService?.UpdateSettings(s => s.UseRealDefenderEngine = value);
+    }
+
+    partial void OnSelectedLanguageChanged(string value)
+    {
+        _localizationService?.SetLanguage(value);
+        _settingsService?.UpdateSettings(s => s.SelectedLanguage = value);
     }
 
     [RelayCommand]

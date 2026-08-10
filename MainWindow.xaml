@@ -122,6 +122,17 @@
                         FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets"
                         FontSize="16" />
                 </Button>
+                <Button
+                    x:Name="CompactOverlayButton"
+                    Style="{StaticResource IconButtonStyle}"
+                    Click="CompactOverlayButton_Click"
+                    ToolTipService.ToolTip="Mini Mod / Mini Mode"
+                    AutomationProperties.Name="Mini Mode">
+                    <FontIcon
+                        Glyph="&#xE8A7;"
+                        FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets"
+                        FontSize="16" />
+                </Button>
             </StackPanel>
         </Grid>
 

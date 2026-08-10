@@ -55,9 +55,12 @@ public partial class UpdateViewModel : ObservableObject
     [ObservableProperty]
     private bool _meteredConnectionUpdate;
 
-    public UpdateViewModel(MockDataService mockDataService)
+    private readonly IUpdateService? _updateService;
+
+    public UpdateViewModel(MockDataService mockDataService, IUpdateService? updateService = null)
     {
         _mockDataService = mockDataService;
+        _updateService = updateService;
         LastUpdateDate = DateTime.Now.AddHours(-8);
         LoadUpdateHistory();
     }
